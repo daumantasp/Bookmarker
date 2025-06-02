@@ -1,3 +1,6 @@
+using Bookmarker.Application.Services;
+using Bookmarker.Domain.Interfaces;
+using Bookmarker.Infrastructure.Repositories.Reddit;
 using FormsApplication = System.Windows.Forms.Application;
 
 namespace Bookmarker
@@ -13,7 +16,12 @@ namespace Bookmarker
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            FormsApplication.Run(new Form1());
+
+            // Manual DI
+            IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository("bookmarks.json");
+            IBookmarkService bookmarkService = new BookmarkService(bookmarkRepository);
+
+            FormsApplication.Run(new Form1(bookmarkService));
         }
     }
 }

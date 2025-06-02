@@ -7,7 +7,7 @@ using Bookmarker.Domain.Models;
 
 namespace Bookmarker.Application.Services
 {
-    internal interface IBookmarkService
+    public interface IBookmarkService
     {
         Task<IEnumerable<Bookmark>> GetAllAsync();
     }
