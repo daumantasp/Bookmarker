@@ -28,23 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
+            buttonLoad = new Button();
             dataGridView1 = new DataGridView();
             labelSearch = new Label();
             textBoxSearch = new TextBox();
             buttonOpenBrowser = new Button();
+            textBoxFileDir = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
-            // button1
+            // buttonLoad
             // 
-            button1.Location = new Point(12, 12);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 0;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += Form1_Load;
+            buttonLoad.Location = new Point(12, 12);
+            buttonLoad.Name = "buttonLoad";
+            buttonLoad.Size = new Size(120, 23);
+            buttonLoad.TabIndex = 0;
+            buttonLoad.Text = "Load";
+            buttonLoad.UseVisualStyleBackColor = true;
+            buttonLoad.Click += Form1_Load;
             // 
             // dataGridView1
             // 
@@ -83,16 +84,24 @@
             buttonOpenBrowser.UseVisualStyleBackColor = true;
             buttonOpenBrowser.Click += buttonOpenBrowser_Click;
             // 
+            // textBoxFileDir
+            // 
+            textBoxFileDir.Location = new Point(138, 13);
+            textBoxFileDir.Name = "textBoxFileDir";
+            textBoxFileDir.Size = new Size(650, 23);
+            textBoxFileDir.TabIndex = 5;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(805, 592);
+            Controls.Add(textBoxFileDir);
             Controls.Add(buttonOpenBrowser);
             Controls.Add(textBoxSearch);
             Controls.Add(labelSearch);
             Controls.Add(dataGridView1);
-            Controls.Add(button1);
+            Controls.Add(buttonLoad);
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
@@ -102,10 +111,11 @@
 
         #endregion
 
-        private Button button1;
+        private Button buttonLoad;
         private DataGridView dataGridView1;
         private Label labelSearch;
         private TextBox textBoxSearch;
         private Button buttonOpenBrowser;
+        private TextBox textBoxFileDir;
     }
 }

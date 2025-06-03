@@ -1,26 +1,62 @@
 using Bookmarker.Application.Services;
+using Bookmarker.Domain.Interfaces;
+using Bookmarker.Infrastructure.Repositories.Reddit;
 using Bookmarker.Presentation.ViewModels;
 
 namespace Bookmarker
 {
     public partial class Form1 : Form
     {
-        private readonly IBookmarkService _bookmarkService;
+        //private readonly IBookmarkService _bookmarkService;
+        private IBookmarkService _bookmarkService;
 
         private int counter = 0;
         private List<BookmarkGridModel> fullBookmarkGrid = new List<BookmarkGridModel>();
         private List<BookmarkGridModel> filteredBookmarkGrid = new List<BookmarkGridModel>();
+        private string defaultFileDir = "bookmarks.json";
 
 
-        public Form1(IBookmarkService bookmarkService)
+        //public Form1(IBookmarkService bookmarkService)
+        //{
+        //    InitializeComponent();
+
+        //    _bookmarkService = bookmarkService;
+        //}
+
+        public Form1()
         {
             InitializeComponent();
-
-            _bookmarkService = bookmarkService;
         }
 
         private async void Form1_Load(object sender, EventArgs e)
         {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+
+                openFileDialog.InitialDirectory = ".\\"; // or set to a specific folder
+                openFileDialog.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = openFileDialog.FileName;
+
+                    textBoxFileDir.Text = filePath;
+
+                    IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(filePath);
+                    _bookmarkService = new BookmarkService(bookmarkRepository);
+
+                    loadData();
+                }
+            }
+
+  
+        }
+
+        private async void loadData()
+        {
+            if (_bookmarkService == null)
+                return;
+
             try
             {
                 var bookmarks = await _bookmarkService.GetAllAsync();

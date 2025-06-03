@@ -18,10 +18,12 @@ namespace Bookmarker
             ApplicationConfiguration.Initialize();
 
             // Manual DI
-            IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository("bookmarks.json");
-            IBookmarkService bookmarkService = new BookmarkService(bookmarkRepository);
+            //IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository("bookmarks.json");
+            //IBookmarkService bookmarkService = new BookmarkService(bookmarkRepository);
 
-            FormsApplication.Run(new Form1(bookmarkService));
+            //FormsApplication.Run(new Form1(bookmarkService));
+
+            FormsApplication.Run(new Form1());
         }
     }
 }
