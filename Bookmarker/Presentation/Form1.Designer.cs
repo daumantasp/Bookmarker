@@ -30,6 +30,8 @@
         {
             button1 = new Button();
             dataGridView1 = new DataGridView();
+            labelSearch = new Label();
+            textBoxSearch = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -51,22 +53,44 @@
             dataGridView1.Size = new Size(776, 397);
             dataGridView1.TabIndex = 1;
             // 
+            // labelSearch
+            // 
+            labelSearch.AutoSize = true;
+            labelSearch.Location = new Point(14, 451);
+            labelSearch.Name = "labelSearch";
+            labelSearch.Size = new Size(45, 15);
+            labelSearch.TabIndex = 2;
+            labelSearch.Text = "Search:";
+            // 
+            // textBoxSearch
+            // 
+            textBoxSearch.Location = new Point(65, 448);
+            textBoxSearch.Name = "textBoxSearch";
+            textBoxSearch.Size = new Size(723, 23);
+            textBoxSearch.TabIndex = 3;
+            textBoxSearch.TextChanged += textBoxSearch_TextChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(805, 592);
+            Controls.Add(textBoxSearch);
+            Controls.Add(labelSearch);
             Controls.Add(dataGridView1);
             Controls.Add(button1);
             Name = "Form1";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private Button button1;
         private DataGridView dataGridView1;
+        private Label labelSearch;
+        private TextBox textBoxSearch;
     }
 }

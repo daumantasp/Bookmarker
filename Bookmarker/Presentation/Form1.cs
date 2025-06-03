@@ -7,6 +7,11 @@ namespace Bookmarker
     {
         private readonly IBookmarkService _bookmarkService;
 
+        private int counter = 0;
+        private List<BookmarkGridModel> fullBookmarkGrid = new List<BookmarkGridModel>();
+        private List<BookmarkGridModel> filteredBookmarkGrid = new List<BookmarkGridModel>();
+
+
         public Form1(IBookmarkService bookmarkService)
         {
             InitializeComponent();
@@ -24,21 +29,41 @@ namespace Bookmarker
                     Console.WriteLine($"Title: {bookmark.Title}, URL: {bookmark.Url}");
                 }
 
-                var id = 0;
-                var viewData = bookmarks.Select(b => new BookmarkGridModel(
-                    ++id, 
-                    b.Title, 
-                    String.Join(", ", b.Tags), 
-                    b.Group, 
-                    b.Type, 
-                    b.Url)
-                ).ToList();
+                counter = 0;
+                fullBookmarkGrid = bookmarks.Select(b => new BookmarkGridModel(
+                                    ++counter,
+                                    b.Title,
+                                    String.Join(", ", b.Tags),
+                                    b.Group,
+                                    b.Type,
+                                    b.Url)
+                                ).ToList();
 
-                dataGridView1.DataSource = viewData;
+                dataGridView1.DataSource = fullBookmarkGrid;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error loading bookmarks: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            var text = textBoxSearch.Text.Trim();
+
+            if (text.Length < 3)
+            {
+                dataGridView1.DataSource = fullBookmarkGrid;
+            }
+            else
+            {
+                filteredBookmarkGrid = fullBookmarkGrid
+                    .Where(b => b.Title.Contains(text, StringComparison.OrdinalIgnoreCase) ||
+                            b.Tags.Contains(text, StringComparison.OrdinalIgnoreCase) ||
+                            b.Group.Contains(text, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+                dataGridView1.DataSource = null;
+                dataGridView1.DataSource = filteredBookmarkGrid;
             }
         }
     }
