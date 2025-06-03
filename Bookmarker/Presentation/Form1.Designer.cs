@@ -32,6 +32,7 @@
             dataGridView1 = new DataGridView();
             labelSearch = new Label();
             textBoxSearch = new TextBox();
+            buttonOpenBrowser = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -50,6 +51,7 @@
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(12, 41);
             dataGridView1.Name = "dataGridView1";
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(776, 397);
             dataGridView1.TabIndex = 1;
             // 
@@ -70,11 +72,22 @@
             textBoxSearch.TabIndex = 3;
             textBoxSearch.TextChanged += textBoxSearch_TextChanged;
             // 
+            // buttonOpenBrowser
+            // 
+            buttonOpenBrowser.Location = new Point(12, 477);
+            buttonOpenBrowser.Name = "buttonOpenBrowser";
+            buttonOpenBrowser.Size = new Size(129, 23);
+            buttonOpenBrowser.TabIndex = 4;
+            buttonOpenBrowser.Text = "Open in Browser";
+            buttonOpenBrowser.UseVisualStyleBackColor = true;
+            buttonOpenBrowser.Click += buttonOpenBrowser_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(805, 592);
+            Controls.Add(buttonOpenBrowser);
             Controls.Add(textBoxSearch);
             Controls.Add(labelSearch);
             Controls.Add(dataGridView1);
@@ -92,5 +105,6 @@
         private DataGridView dataGridView1;
         private Label labelSearch;
         private TextBox textBoxSearch;
+        private Button buttonOpenBrowser;
     }
 }
