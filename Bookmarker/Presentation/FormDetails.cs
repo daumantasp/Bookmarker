@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bookmarker.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,8 +13,12 @@ namespace Bookmarker.Presentation
 {
     public partial class FormDetails : Form
     {
-        public FormDetails()
+        private readonly Bookmark _bookmark;
+
+        public FormDetails(Bookmark bookmark)
         {
+            _bookmark = bookmark;
+
             InitializeComponent();
         }
     }
