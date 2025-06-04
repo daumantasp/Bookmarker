@@ -34,6 +34,7 @@
             textBoxSearch = new TextBox();
             buttonOpenBrowser = new Button();
             textBoxFileDir = new TextBox();
+            buttonAdd = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -91,11 +92,21 @@
             textBoxFileDir.Size = new Size(650, 23);
             textBoxFileDir.TabIndex = 5;
             // 
+            // buttonAdd
+            // 
+            buttonAdd.Location = new Point(147, 477);
+            buttonAdd.Name = "buttonAdd";
+            buttonAdd.Size = new Size(75, 23);
+            buttonAdd.TabIndex = 6;
+            buttonAdd.Text = "Add";
+            buttonAdd.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(805, 592);
+            Controls.Add(buttonAdd);
             Controls.Add(textBoxFileDir);
             Controls.Add(buttonOpenBrowser);
             Controls.Add(textBoxSearch);
@@ -117,5 +128,6 @@
         private TextBox textBoxSearch;
         private Button buttonOpenBrowser;
         private TextBox textBoxFileDir;
+        private Button buttonAdd;
     }
 }
