@@ -10,5 +10,6 @@ namespace Bookmarker.Application.Services
     public interface IBookmarkService
     {
         Task<IEnumerable<Bookmark>> GetAllAsync();
+        Task<IEnumerable<TagData>> GetAllTagDataAsync();
     }
 }

@@ -16,5 +16,31 @@ namespace Bookmarker.Application.Services
         {
             return await _repo.GetAll();
         }
+
+        public async Task<IEnumerable<TagData>> GetAllTagDataAsync()
+        {
+            var bookmarks = await _repo.GetAll();
+
+            var tags = new Dictionary<string, int>();
+
+            foreach (var bookmark in bookmarks)
+            {
+                if (bookmark.Tags == null) continue;
+
+                foreach (var tag in bookmark.Tags)
+                {
+                    if (tags.ContainsKey(tag))
+                    {
+                        tags[tag]++;
+                    }
+                    else
+                    {
+                        tags[tag] = 1;
+                    }
+                }
+            }
+
+            return tags.Select(kvp => new TagData(kvp.Key, kvp.Value)).ToList();
+        }
     }
 }
