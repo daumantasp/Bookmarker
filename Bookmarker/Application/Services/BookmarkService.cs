@@ -17,7 +17,7 @@ namespace Bookmarker.Application.Services
             return await _repo.GetAll();
         }
 
-        public async Task<IEnumerable<TagData>> GetAllTagDataAsync()
+        public async Task<IEnumerable<TagData>> GetAllTagDataAsync(TagsDataOrder order)
         {
             var bookmarks = await _repo.GetAll();
 
@@ -40,7 +40,18 @@ namespace Bookmarker.Application.Services
                 }
             }
 
-            return tags.Select(kvp => new TagData(kvp.Key, kvp.Value)).ToList();
+            var tagData = tags.Select(kvp => new TagData(kvp.Key, kvp.Value));
+
+            if (order == TagsDataOrder.Count)
+            {
+                tagData = tagData.OrderByDescending(td => td.Count);
+            }
+            else
+            {
+                tagData = tagData.OrderBy(td => td.Name);
+            }
+
+            return tagData.ToList();
         }
     }
 }
