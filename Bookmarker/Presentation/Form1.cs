@@ -2,6 +2,7 @@ using Bookmarker.Application.Services;
 using Bookmarker.Domain.Interfaces;
 using Bookmarker.Infrastructure.Repositories.Reddit;
 using Bookmarker.Presentation.ViewModels;
+using Bookmarker.Presentation;
 
 namespace Bookmarker
 {
@@ -49,7 +50,7 @@ namespace Bookmarker
                 }
             }
 
-  
+
         }
 
         private async void loadData()
@@ -111,7 +112,8 @@ namespace Bookmarker
                 var selectedItem = selectedRow.DataBoundItem as BookmarkGridModel;
                 var url = selectedItem.Url;
 
-                if (url != null) {
+                if (url != null)
+                {
                     try
                     {
                         System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
@@ -130,6 +132,12 @@ namespace Bookmarker
                     MessageBox.Show("No URL available for the selected bookmark.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
+        }
+
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
+            var detailsForm = new FormDetails(null);
+            detailsForm.ShowDialog();
         }
     }
 }
