@@ -41,6 +41,11 @@
             textBoxTags = new TextBox();
             buttonSave = new Button();
             buttonCancel = new Button();
+            dataGridViewTagData = new DataGridView();
+            labelTagDataOrder = new Label();
+            radioButtonOrderByName = new RadioButton();
+            radioButtonOrderByCount = new RadioButton();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewTagData).BeginInit();
             SuspendLayout();
             // 
             // labelUrl
@@ -150,11 +155,57 @@
             buttonCancel.Text = "Cancel";
             buttonCancel.UseVisualStyleBackColor = true;
             // 
+            // dataGridViewTagData
+            // 
+            dataGridViewTagData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewTagData.Location = new Point(382, 15);
+            dataGridViewTagData.Name = "dataGridViewTagData";
+            dataGridViewTagData.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewTagData.Size = new Size(240, 368);
+            dataGridViewTagData.TabIndex = 13;
+            // 
+            // labelTagDataOrder
+            // 
+            labelTagDataOrder.AutoSize = true;
+            labelTagDataOrder.Location = new Point(661, 19);
+            labelTagDataOrder.Name = "labelTagDataOrder";
+            labelTagDataOrder.Size = new Size(56, 15);
+            labelTagDataOrder.TabIndex = 14;
+            labelTagDataOrder.Text = "Order By:";
+            // 
+            // radioButtonOrderByName
+            // 
+            radioButtonOrderByName.AutoSize = true;
+            radioButtonOrderByName.Location = new Point(657, 49);
+            radioButtonOrderByName.Name = "radioButtonOrderByName";
+            radioButtonOrderByName.Size = new Size(57, 19);
+            radioButtonOrderByName.TabIndex = 15;
+            radioButtonOrderByName.TabStop = true;
+            radioButtonOrderByName.Text = "Name";
+            radioButtonOrderByName.UseVisualStyleBackColor = true;
+            radioButtonOrderByName.CheckedChanged += radioButtonOrderByName_CheckedChanged;
+            // 
+            // radioButtonOrderByCount
+            // 
+            radioButtonOrderByCount.AutoSize = true;
+            radioButtonOrderByCount.Location = new Point(658, 81);
+            radioButtonOrderByCount.Name = "radioButtonOrderByCount";
+            radioButtonOrderByCount.Size = new Size(58, 19);
+            radioButtonOrderByCount.TabIndex = 16;
+            radioButtonOrderByCount.TabStop = true;
+            radioButtonOrderByCount.Text = "Count";
+            radioButtonOrderByCount.UseVisualStyleBackColor = true;
+            radioButtonOrderByCount.CheckedChanged += radioButtonOrderByCount_CheckedChanged;
+            // 
             // FormDetails
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(radioButtonOrderByCount);
+            Controls.Add(radioButtonOrderByName);
+            Controls.Add(labelTagDataOrder);
+            Controls.Add(dataGridViewTagData);
             Controls.Add(buttonCancel);
             Controls.Add(buttonSave);
             Controls.Add(textBoxTags);
@@ -171,6 +222,7 @@
             Name = "FormDetails";
             Text = "FormDetails";
             Load += FormDetails_Load;
+            ((System.ComponentModel.ISupportInitialize)dataGridViewTagData).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -190,5 +242,9 @@
         private TextBox textBoxTags;
         private Button buttonSave;
         private Button buttonCancel;
+        private DataGridView dataGridViewTagData;
+        private Label labelTagDataOrder;
+        private RadioButton radioButtonOrderByName;
+        private RadioButton radioButtonOrderByCount;
     }
 }

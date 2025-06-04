@@ -1,4 +1,5 @@
-﻿using Bookmarker.Domain.Models;
+﻿using Bookmarker.Application.Services;
+using Bookmarker.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,10 +15,12 @@ namespace Bookmarker.Presentation
     public partial class FormDetails : Form
     {
         private readonly Bookmark _bookmark;
+        private readonly IBookmarkService _bookmarkService;
 
-        public FormDetails(Bookmark bookmark)
+        public FormDetails(Bookmark bookmark, IBookmarkService bookmarkService)
         {
             _bookmark = bookmark;
+            _bookmarkService = bookmarkService;
 
             InitializeComponent();
         }
@@ -36,6 +39,24 @@ namespace Bookmarker.Presentation
             //textBoxTags.Text = string.Join(", ", _bookmark.Tags);
             //textBoxCreatedAt.Text = _bookmark.CreatedAt.ToString("g");
             //textBoxUpdatedAt.Text = _bookmark.UpdatedAt.ToString("g");
+        }
+
+        private async void LoadTagData(TagsDataOrder order)
+        {
+            var tagData = await _bookmarkService.GetAllTagDataAsync(order);
+
+            dataGridViewTagData.DataSource = null;
+            dataGridViewTagData.DataSource = tagData;
+        }
+
+        private void radioButtonOrderByName_CheckedChanged(object sender, EventArgs e)
+        {
+            LoadTagData(TagsDataOrder.Name);
+        }
+
+        private void radioButtonOrderByCount_CheckedChanged(object sender, EventArgs e)
+        {
+            LoadTagData(TagsDataOrder.Count);
         }
     }
 }

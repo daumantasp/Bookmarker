@@ -136,7 +136,7 @@ namespace Bookmarker
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var detailsForm = new FormDetails(null);
+            var detailsForm = new FormDetails(null, _bookmarkService);
             detailsForm.ShowDialog();
         }
     }
