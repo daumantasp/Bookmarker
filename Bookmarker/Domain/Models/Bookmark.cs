@@ -19,5 +19,17 @@ namespace Bookmarker.Domain.Models
         public string Group { get; } = Group;
         public string Url { get; } = Url;
         public string[] Tags { get; } = Tags;
+
+        public Bookmark Clone()
+        {
+            return new Bookmark(
+                Id,
+                Type,
+                Title,
+                Group,
+                Url,
+                Tags.ToArray()
+            );
+        }
     }
 }
