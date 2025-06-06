@@ -29,6 +29,19 @@ namespace Bookmarker
         {
             InitializeComponent();
             _bookmarkParserService = bookmarkParserService;
+
+
+            var fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, defaultFileDir);
+            if (!File.Exists(defaultFileDir))
+            {
+                MessageBox.Show($"Bookmark file '{defaultFileDir}' not found. Please select a valid file.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                textBoxFileDir.Text = fullPath;
+                _bookmarkService = new BookmarkService(new RedditBookmarkRepository(fullPath));
+                loadData();
+            }
         }
 
         private async void Form1_Load(object sender, EventArgs e)
