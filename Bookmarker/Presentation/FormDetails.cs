@@ -14,39 +14,65 @@ namespace Bookmarker.Presentation
 {
     public partial class FormDetails : Form
     {
-        private readonly Bookmark _bookmark;
         private readonly IBookmarkService _bookmarkService;
+        private readonly IBookmarkParserService _bookmarkParserService;
+        private readonly string? _bookmarkId;
 
-        public FormDetails(Bookmark bookmark, IBookmarkService bookmarkService)
+        public FormDetails(
+            IBookmarkService bookmarkService,
+            IBookmarkParserService bookmarkParserService,
+            string? bookmarkId)
         {
-            _bookmark = bookmark;
             _bookmarkService = bookmarkService;
+            _bookmarkParserService = bookmarkParserService;
+            _bookmarkId = bookmarkId;
 
             InitializeComponent();
         }
 
         private void FormDetails_Load(object sender, EventArgs e)
         {
-            if (_bookmark == null)
+            if (!string.IsNullOrEmpty(_bookmarkId)) 
             {
-                MessageBox.Show("Bookmark is null", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                LoadBookmarkData(_bookmarkId);
+            }
+            else 
+            {
+                // If no bookmark ID is provided, clear the fields
+                textBoxId.Clear();
+                textBoxUrl.Clear();
+                textBoxTitle.Clear();
+                textBoxGroup.Clear();
+                //textBoxTags.Clear();
             }
 
-            //textBoxTitle.Text = _bookmark.Title;
-            textBoxUrl.Text = _bookmark.Url;
-            //textBoxDescription.Text = _bookmark.Description;
-            //textBoxTags.Text = string.Join(", ", _bookmark.Tags);
-            //textBoxCreatedAt.Text = _bookmark.CreatedAt.ToString("g");
-            //textBoxUpdatedAt.Text = _bookmark.UpdatedAt.ToString("g");
+            LoadTagData(TagsDataOrder.Name);
         }
 
-        private async void LoadTagData(TagsDataOrder order)
+        private async void LoadBookmarkData(string bookmarkId)
         {
-            var tagData = await _bookmarkService.GetAllTagDataAsync(order);
+            var bookmark = await _bookmarkService.GetByIdAsync(bookmarkId);
 
-            dataGridViewTagData.DataSource = null;
-            dataGridViewTagData.DataSource = tagData;
+            if (bookmark != null) 
+            {
+                textBoxId.Text = bookmark.Id;
+                textBoxUrl.Text = bookmark.Url;
+                textBoxTitle.Text = bookmark.Title;
+                textBoxGroup.Text = bookmark.Group;
+
+                //if (bookmark.Tags != null)
+                //{
+                //    textBoxTags.Text = string.Join(", ", bookmark.Tags);
+                //}
+                //else
+                //{
+                //    textBoxTags.Text = string.Empty;
+                //}
+            }
+            else
+            {
+                MessageBox.Show("Bookmark not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void radioButtonOrderByName_CheckedChanged(object sender, EventArgs e)
@@ -57,6 +83,33 @@ namespace Bookmarker.Presentation
         private void radioButtonOrderByCount_CheckedChanged(object sender, EventArgs e)
         {
             LoadTagData(TagsDataOrder.Count);
+        }
+
+        private async void LoadTagData(TagsDataOrder order)
+        {
+            var tagData = await _bookmarkService.GetAllTagDataAsync(order);
+
+            dataGridViewTagData.DataSource = null;
+            dataGridViewTagData.DataSource = tagData;
+        }
+
+        private void textBoxUrl_Leave(object sender, EventArgs e)
+        {
+            var text = textBoxUrl.Text.Trim();
+
+            var bookmark = _bookmarkParserService.Parse(text);
+            if (bookmark != null)
+            {
+                // Update the form fields with the parsed bookmark data
+                textBoxUrl.Text = bookmark.Url;
+                textBoxId.Text = bookmark.Id;
+                textBoxTitle.Text = bookmark.Title;
+                textBoxGroup.Text = bookmark.Group;
+                //textBoxTitle.Text = bookmark.Title;
+                //textBoxDescription.Text = bookmark.Description;
+                //textBoxTags.Text = string.Join(", ", bookmark.Tags);
+            }
+
         }
     }
 }

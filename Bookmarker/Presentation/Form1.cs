@@ -10,6 +10,7 @@ namespace Bookmarker
     {
         //private readonly IBookmarkService _bookmarkService;
         private IBookmarkService _bookmarkService;
+        private readonly IBookmarkParserService _bookmarkParserService;
 
         private int counter = 0;
         private List<BookmarkGridModel> fullBookmarkGrid = new List<BookmarkGridModel>();
@@ -24,9 +25,10 @@ namespace Bookmarker
         //    _bookmarkService = bookmarkService;
         //}
 
-        public Form1()
+        public Form1(IBookmarkParserService bookmarkParserService)
         {
             InitializeComponent();
+            _bookmarkParserService = bookmarkParserService;
         }
 
         private async void Form1_Load(object sender, EventArgs e)
@@ -69,6 +71,7 @@ namespace Bookmarker
                 counter = 0;
                 fullBookmarkGrid = bookmarks.Select(b => new BookmarkGridModel(
                                     ++counter,
+                                    b.Id,
                                     b.Title,
                                     String.Join(", ", b.Tags),
                                     b.Group,
@@ -136,8 +139,26 @@ namespace Bookmarker
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var detailsForm = new FormDetails(null, _bookmarkService);
+            var detailsForm = new FormDetails(_bookmarkService, _bookmarkParserService, null);
             detailsForm.ShowDialog();
+        }
+
+        private void buttonEdit_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a bookmark to edit.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
+            var selectedRow = dataGridView1.SelectedRows[0];
+            var selectedItem = selectedRow.DataBoundItem as BookmarkGridModel;
+            if (selectedItem != null)
+            {
+                var detailsForm = new FormDetails(_bookmarkService, _bookmarkParserService, selectedItem.Id);
+                detailsForm.ShowDialog();
+            }
         }
     }
 }

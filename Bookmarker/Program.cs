@@ -23,7 +23,7 @@ namespace Bookmarker
 
             //FormsApplication.Run(new Form1(bookmarkService));
 
-            FormsApplication.Run(new Form1());
+            FormsApplication.Run(new Form1(new RedditBookmarkParserService()));
         }
     }
 }

@@ -35,6 +35,7 @@
             buttonOpenBrowser = new Button();
             textBoxFileDir = new TextBox();
             buttonAdd = new Button();
+            buttonEdit = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -102,11 +103,22 @@
             buttonAdd.UseVisualStyleBackColor = true;
             buttonAdd.Click += buttonAdd_Click;
             // 
+            // buttonEdit
+            // 
+            buttonEdit.Location = new Point(231, 478);
+            buttonEdit.Name = "buttonEdit";
+            buttonEdit.Size = new Size(75, 23);
+            buttonEdit.TabIndex = 7;
+            buttonEdit.Text = "Edit";
+            buttonEdit.UseVisualStyleBackColor = true;
+            buttonEdit.Click += buttonEdit_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(805, 592);
+            Controls.Add(buttonEdit);
             Controls.Add(buttonAdd);
             Controls.Add(textBoxFileDir);
             Controls.Add(buttonOpenBrowser);
@@ -130,5 +142,6 @@
         private Button buttonOpenBrowser;
         private TextBox textBoxFileDir;
         private Button buttonAdd;
+        private Button buttonEdit;
     }
 }

@@ -63,6 +63,7 @@
             textBoxUrl.Name = "textBoxUrl";
             textBoxUrl.Size = new Size(100, 23);
             textBoxUrl.TabIndex = 1;
+            textBoxUrl.Leave += textBoxUrl_Leave;
             // 
             // labelType
             // 
@@ -176,6 +177,7 @@
             // radioButtonOrderByName
             // 
             radioButtonOrderByName.AutoSize = true;
+            radioButtonOrderByName.Checked = true;
             radioButtonOrderByName.Location = new Point(657, 49);
             radioButtonOrderByName.Name = "radioButtonOrderByName";
             radioButtonOrderByName.Size = new Size(57, 19);
@@ -192,7 +194,6 @@
             radioButtonOrderByCount.Name = "radioButtonOrderByCount";
             radioButtonOrderByCount.Size = new Size(58, 19);
             radioButtonOrderByCount.TabIndex = 16;
-            radioButtonOrderByCount.TabStop = true;
             radioButtonOrderByCount.Text = "Count";
             radioButtonOrderByCount.UseVisualStyleBackColor = true;
             radioButtonOrderByCount.CheckedChanged += radioButtonOrderByCount_CheckedChanged;
