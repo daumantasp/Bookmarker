@@ -10,5 +10,6 @@ namespace Bookmarker.Domain.Interfaces
     internal interface IBookmarkRepository
     {
         Task<IEnumerable<Bookmark>> GetAll();
+        Task<Bookmark?> GetById(string id);
     }
 }

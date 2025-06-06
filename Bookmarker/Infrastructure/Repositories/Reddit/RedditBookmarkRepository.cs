@@ -38,5 +38,30 @@ namespace Bookmarker.Infrastructure.Repositories.Reddit
             }
 
         }
+
+        public async Task<Bookmark?> GetById(string id)
+        {
+            if (!File.Exists(_filePath))
+                throw new FileNotFoundException("Bookmark file not found.", _filePath);
+
+            try
+            {
+                var json = await File.ReadAllTextAsync(_filePath);
+                var serializerOptions = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                var redditBookmarks = JsonSerializer
+                    .Deserialize<IEnumerable<RedditBookmark>>(json, serializerOptions)
+                    .Select(rb => rb.ToBookmark());
+
+                return redditBookmarks.FirstOrDefault(b => b.Id == id);
+
+            }
+            catch (JsonException ex)
+            {
+                throw new Exception($"Error deserializing josn file: {ex.Message}", ex);
+            }
+        }
     }
 }
