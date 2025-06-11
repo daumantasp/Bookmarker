@@ -65,14 +65,14 @@ namespace Bookmarker.Presentation
                 textBoxGroup.Text = bookmark.Group;
                 radioButtonComment.Checked = bookmark.Type.ToLower() == "comment";
 
-                //if (bookmark.Tags != null)
-                //{
-                //    textBoxTags.Text = string.Join(", ", bookmark.Tags);
-                //}
-                //else
-                //{
-                //    textBoxTags.Text = string.Empty;
-                //}
+                if (bookmark.Tags != null)
+                {
+                    textBoxTags.Text = string.Join(", ", bookmark.Tags.Select(t => "#" + t));
+                }
+                else
+                {
+                    textBoxTags.Text = string.Empty;
+                }
             }
             else
             {
