@@ -51,96 +51,96 @@
             // labelUrl
             // 
             labelUrl.AutoSize = true;
-            labelUrl.Location = new Point(12, 9);
+            labelUrl.Location = new Point(12, 18);
             labelUrl.Name = "labelUrl";
-            labelUrl.Size = new Size(28, 15);
+            labelUrl.Size = new Size(31, 15);
             labelUrl.TabIndex = 0;
-            labelUrl.Text = "URL";
+            labelUrl.Text = "URL:";
             // 
             // textBoxUrl
             // 
-            textBoxUrl.Location = new Point(46, 6);
+            textBoxUrl.Location = new Point(65, 15);
             textBoxUrl.Name = "textBoxUrl";
-            textBoxUrl.Size = new Size(100, 23);
+            textBoxUrl.Size = new Size(293, 23);
             textBoxUrl.TabIndex = 1;
             textBoxUrl.Leave += textBoxUrl_Leave;
             // 
             // labelType
             // 
             labelType.AutoSize = true;
-            labelType.Location = new Point(15, 37);
+            labelType.Location = new Point(12, 63);
             labelType.Name = "labelType";
-            labelType.Size = new Size(32, 15);
+            labelType.Size = new Size(35, 15);
             labelType.TabIndex = 2;
-            labelType.Text = "Type";
+            labelType.Text = "Type:";
             // 
             // labelId
             // 
             labelId.AutoSize = true;
-            labelId.Location = new Point(20, 70);
+            labelId.Location = new Point(12, 108);
             labelId.Name = "labelId";
-            labelId.Size = new Size(18, 15);
+            labelId.Size = new Size(21, 15);
             labelId.TabIndex = 3;
-            labelId.Text = "ID";
+            labelId.Text = "ID:";
             // 
             // labelTitle
             // 
             labelTitle.AutoSize = true;
-            labelTitle.Location = new Point(20, 97);
+            labelTitle.Location = new Point(12, 153);
             labelTitle.Name = "labelTitle";
-            labelTitle.Size = new Size(30, 15);
+            labelTitle.Size = new Size(33, 15);
             labelTitle.TabIndex = 4;
-            labelTitle.Text = "Title";
+            labelTitle.Text = "Title:";
             // 
             // labelGroup
             // 
             labelGroup.AutoSize = true;
-            labelGroup.Location = new Point(21, 138);
+            labelGroup.Location = new Point(12, 198);
             labelGroup.Name = "labelGroup";
-            labelGroup.Size = new Size(40, 15);
+            labelGroup.Size = new Size(43, 15);
             labelGroup.TabIndex = 5;
-            labelGroup.Text = "Group";
+            labelGroup.Text = "Group:";
             // 
             // labelTags
             // 
             labelTags.AutoSize = true;
-            labelTags.Location = new Point(26, 173);
+            labelTags.Location = new Point(12, 243);
             labelTags.Name = "labelTags";
-            labelTags.Size = new Size(31, 15);
+            labelTags.Size = new Size(34, 15);
             labelTags.TabIndex = 6;
-            labelTags.Text = "Tags";
+            labelTags.Text = "Tags:";
             // 
             // textBoxId
             // 
-            textBoxId.Location = new Point(57, 68);
+            textBoxId.Location = new Point(65, 105);
             textBoxId.Name = "textBoxId";
-            textBoxId.Size = new Size(100, 23);
+            textBoxId.Size = new Size(293, 23);
             textBoxId.TabIndex = 7;
             // 
             // textBoxTitle
             // 
-            textBoxTitle.Location = new Point(93, 102);
+            textBoxTitle.Location = new Point(65, 150);
             textBoxTitle.Name = "textBoxTitle";
-            textBoxTitle.Size = new Size(100, 23);
+            textBoxTitle.Size = new Size(293, 23);
             textBoxTitle.TabIndex = 8;
             // 
             // textBoxGroup
             // 
-            textBoxGroup.Location = new Point(90, 142);
+            textBoxGroup.Location = new Point(65, 195);
             textBoxGroup.Name = "textBoxGroup";
-            textBoxGroup.Size = new Size(100, 23);
+            textBoxGroup.Size = new Size(293, 23);
             textBoxGroup.TabIndex = 9;
             // 
             // textBoxTags
             // 
-            textBoxTags.Location = new Point(108, 175);
+            textBoxTags.Location = new Point(65, 240);
             textBoxTags.Name = "textBoxTags";
-            textBoxTags.Size = new Size(100, 23);
+            textBoxTags.Size = new Size(293, 23);
             textBoxTags.TabIndex = 10;
             // 
             // buttonSave
             // 
-            buttonSave.Location = new Point(48, 283);
+            buttonSave.Location = new Point(12, 390);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(75, 23);
             buttonSave.TabIndex = 11;
@@ -149,7 +149,7 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(155, 289);
+            buttonCancel.Location = new Point(105, 390);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(75, 23);
             buttonCancel.TabIndex = 12;
@@ -168,7 +168,7 @@
             // labelTagDataOrder
             // 
             labelTagDataOrder.AutoSize = true;
-            labelTagDataOrder.Location = new Point(661, 19);
+            labelTagDataOrder.Location = new Point(382, 394);
             labelTagDataOrder.Name = "labelTagDataOrder";
             labelTagDataOrder.Size = new Size(56, 15);
             labelTagDataOrder.TabIndex = 14;
@@ -178,7 +178,7 @@
             // 
             radioButtonOrderByName.AutoSize = true;
             radioButtonOrderByName.Checked = true;
-            radioButtonOrderByName.Location = new Point(657, 49);
+            radioButtonOrderByName.Location = new Point(454, 392);
             radioButtonOrderByName.Name = "radioButtonOrderByName";
             radioButtonOrderByName.Size = new Size(57, 19);
             radioButtonOrderByName.TabIndex = 15;
@@ -190,7 +190,7 @@
             // radioButtonOrderByCount
             // 
             radioButtonOrderByCount.AutoSize = true;
-            radioButtonOrderByCount.Location = new Point(658, 81);
+            radioButtonOrderByCount.Location = new Point(531, 392);
             radioButtonOrderByCount.Name = "radioButtonOrderByCount";
             radioButtonOrderByCount.Size = new Size(58, 19);
             radioButtonOrderByCount.TabIndex = 16;
@@ -202,7 +202,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(651, 426);
             Controls.Add(radioButtonOrderByCount);
             Controls.Add(radioButtonOrderByName);
             Controls.Add(labelTagDataOrder);
