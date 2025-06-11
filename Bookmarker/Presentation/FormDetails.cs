@@ -17,6 +17,7 @@ namespace Bookmarker.Presentation
         private readonly IBookmarkService _bookmarkService;
         private readonly IBookmarkParserService _bookmarkParserService;
         private readonly string? _bookmarkId;
+        private string[] tags = Array.Empty<string>();
 
 
         public FormDetails(
@@ -65,6 +66,7 @@ namespace Bookmarker.Presentation
                 textBoxGroup.Text = bookmark.Group;
                 radioButtonComment.Checked = bookmark.Type.ToLower() == "comment";
 
+                tags = bookmark.Tags ?? Array.Empty<string>();
                 if (bookmark.Tags != null)
                 {
                     textBoxTags.Text = string.Join(", ", bookmark.Tags.Select(t => "#" + t));
@@ -96,6 +98,11 @@ namespace Bookmarker.Presentation
 
             dataGridViewTagData.DataSource = null;
             dataGridViewTagData.DataSource = tagData;
+
+            foreach (DataGridViewRow row in dataGridViewTagData.Rows)
+            {
+                row.Selected = tags.Contains(row.Cells["Name"].Value);
+            }
         }
 
         private void textBoxUrl_Leave(object sender, EventArgs e)
