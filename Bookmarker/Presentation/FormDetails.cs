@@ -41,9 +41,11 @@ namespace Bookmarker.Presentation
                 // If no bookmark ID is provided, clear the fields
                 textBoxId.Clear();
                 textBoxUrl.Clear();
+                radioButtonPost.Checked = true; // Default to Post type
+                radioButtonComment.Checked = false; // Uncheck Comment type
                 textBoxTitle.Clear();
                 textBoxGroup.Clear();
-                //textBoxTags.Clear();
+                textBoxTags.Clear();
             }
 
             LoadTagData(TagsDataOrder.Name);
@@ -59,6 +61,17 @@ namespace Bookmarker.Presentation
                 textBoxUrl.Text = bookmark.Url;
                 textBoxTitle.Text = bookmark.Title;
                 textBoxGroup.Text = bookmark.Group;
+
+                if (bookmark.Type.ToLower() == "comment")
+                {
+                    radioButtonPost.Checked = false;
+                    radioButtonComment.Checked = true;
+                }
+                else
+                {
+                    radioButtonPost.Checked = true;
+                    radioButtonComment.Checked = false;
+                }
 
                 //if (bookmark.Tags != null)
                 //{
@@ -105,8 +118,6 @@ namespace Bookmarker.Presentation
                 textBoxId.Text = bookmark.Id;
                 textBoxTitle.Text = bookmark.Title;
                 textBoxGroup.Text = bookmark.Group;
-                //textBoxTitle.Text = bookmark.Title;
-                //textBoxDescription.Text = bookmark.Description;
                 //textBoxTags.Text = string.Join(", ", bookmark.Tags);
             }
 

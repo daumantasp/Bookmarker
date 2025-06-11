@@ -45,6 +45,8 @@
             labelTagDataOrder = new Label();
             radioButtonOrderByName = new RadioButton();
             radioButtonOrderByCount = new RadioButton();
+            radioButtonPost = new RadioButton();
+            radioButtonComment = new RadioButton();
             ((System.ComponentModel.ISupportInitialize)dataGridViewTagData).BeginInit();
             SuspendLayout();
             // 
@@ -198,11 +200,35 @@
             radioButtonOrderByCount.UseVisualStyleBackColor = true;
             radioButtonOrderByCount.CheckedChanged += radioButtonOrderByCount_CheckedChanged;
             // 
+            // radioButtonPost
+            // 
+            radioButtonPost.AutoSize = true;
+            radioButtonPost.Location = new Point(65, 61);
+            radioButtonPost.Name = "radioButtonPost";
+            radioButtonPost.Size = new Size(48, 19);
+            radioButtonPost.TabIndex = 17;
+            radioButtonPost.TabStop = true;
+            radioButtonPost.Text = "Post";
+            radioButtonPost.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonComment
+            // 
+            radioButtonComment.AutoSize = true;
+            radioButtonComment.Location = new Point(140, 61);
+            radioButtonComment.Name = "radioButtonComment";
+            radioButtonComment.Size = new Size(79, 19);
+            radioButtonComment.TabIndex = 18;
+            radioButtonComment.TabStop = true;
+            radioButtonComment.Text = "Comment";
+            radioButtonComment.UseVisualStyleBackColor = true;
+            // 
             // FormDetails
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(651, 426);
+            Controls.Add(radioButtonComment);
+            Controls.Add(radioButtonPost);
             Controls.Add(radioButtonOrderByCount);
             Controls.Add(radioButtonOrderByName);
             Controls.Add(labelTagDataOrder);
@@ -247,5 +273,7 @@
         private Label labelTagDataOrder;
         private RadioButton radioButtonOrderByName;
         private RadioButton radioButtonOrderByCount;
+        private RadioButton radioButtonPost;
+        private RadioButton radioButtonComment;
     }
 }
