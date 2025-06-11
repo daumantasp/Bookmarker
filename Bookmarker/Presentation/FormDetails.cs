@@ -18,6 +18,7 @@ namespace Bookmarker.Presentation
         private readonly IBookmarkParserService _bookmarkParserService;
         private readonly string? _bookmarkId;
 
+
         public FormDetails(
             IBookmarkService bookmarkService,
             IBookmarkParserService bookmarkParserService,
@@ -49,6 +50,7 @@ namespace Bookmarker.Presentation
             }
 
             LoadTagData(TagsDataOrder.Name);
+            radioButtonOrderByName.Checked = true; // Default to order by name
         }
 
         private async void LoadBookmarkData(string bookmarkId)
@@ -61,17 +63,7 @@ namespace Bookmarker.Presentation
                 textBoxUrl.Text = bookmark.Url;
                 textBoxTitle.Text = bookmark.Title;
                 textBoxGroup.Text = bookmark.Group;
-
-                if (bookmark.Type.ToLower() == "comment")
-                {
-                    radioButtonPost.Checked = false;
-                    radioButtonComment.Checked = true;
-                }
-                else
-                {
-                    radioButtonPost.Checked = true;
-                    radioButtonComment.Checked = false;
-                }
+                radioButtonComment.Checked = bookmark.Type.ToLower() == "comment";
 
                 //if (bookmark.Tags != null)
                 //{

@@ -47,7 +47,11 @@
             radioButtonOrderByCount = new RadioButton();
             radioButtonPost = new RadioButton();
             radioButtonComment = new RadioButton();
+            panel1 = new Panel();
+            panel2 = new Panel();
             ((System.ComponentModel.ISupportInitialize)dataGridViewTagData).BeginInit();
+            panel1.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // labelUrl
@@ -181,7 +185,7 @@
             // 
             radioButtonOrderByName.AutoSize = true;
             radioButtonOrderByName.Checked = true;
-            radioButtonOrderByName.Location = new Point(454, 392);
+            radioButtonOrderByName.Location = new Point(3, 3);
             radioButtonOrderByName.Name = "radioButtonOrderByName";
             radioButtonOrderByName.Size = new Size(57, 19);
             radioButtonOrderByName.TabIndex = 15;
@@ -193,7 +197,7 @@
             // radioButtonOrderByCount
             // 
             radioButtonOrderByCount.AutoSize = true;
-            radioButtonOrderByCount.Location = new Point(531, 392);
+            radioButtonOrderByCount.Location = new Point(106, 3);
             radioButtonOrderByCount.Name = "radioButtonOrderByCount";
             radioButtonOrderByCount.Size = new Size(58, 19);
             radioButtonOrderByCount.TabIndex = 16;
@@ -204,7 +208,8 @@
             // radioButtonPost
             // 
             radioButtonPost.AutoSize = true;
-            radioButtonPost.Location = new Point(65, 61);
+            radioButtonPost.Checked = true;
+            radioButtonPost.Location = new Point(3, 6);
             radioButtonPost.Name = "radioButtonPost";
             radioButtonPost.Size = new Size(48, 19);
             radioButtonPost.TabIndex = 17;
@@ -215,23 +220,38 @@
             // radioButtonComment
             // 
             radioButtonComment.AutoSize = true;
-            radioButtonComment.Location = new Point(140, 61);
+            radioButtonComment.Location = new Point(79, 6);
             radioButtonComment.Name = "radioButtonComment";
             radioButtonComment.Size = new Size(79, 19);
             radioButtonComment.TabIndex = 18;
-            radioButtonComment.TabStop = true;
             radioButtonComment.Text = "Comment";
             radioButtonComment.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(radioButtonPost);
+            panel1.Controls.Add(radioButtonComment);
+            panel1.Location = new Point(65, 55);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(293, 44);
+            panel1.TabIndex = 19;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(radioButtonOrderByName);
+            panel2.Controls.Add(radioButtonOrderByCount);
+            panel2.Location = new Point(444, 388);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(187, 25);
+            panel2.TabIndex = 20;
             // 
             // FormDetails
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(651, 426);
-            Controls.Add(radioButtonComment);
-            Controls.Add(radioButtonPost);
-            Controls.Add(radioButtonOrderByCount);
-            Controls.Add(radioButtonOrderByName);
+            Controls.Add(panel2);
+            Controls.Add(panel1);
             Controls.Add(labelTagDataOrder);
             Controls.Add(dataGridViewTagData);
             Controls.Add(buttonCancel);
@@ -251,6 +271,10 @@
             Text = "FormDetails";
             Load += FormDetails_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridViewTagData).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -276,5 +300,7 @@
         private RadioButton radioButtonOrderByCount;
         private RadioButton radioButtonPost;
         private RadioButton radioButtonComment;
+        private Panel panel1;
+        private Panel panel2;
     }
 }
