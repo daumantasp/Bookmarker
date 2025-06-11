@@ -157,6 +157,7 @@
             buttonCancel.TabIndex = 12;
             buttonCancel.Text = "Cancel";
             buttonCancel.UseVisualStyleBackColor = true;
+            buttonCancel.Click += buttonCancel_Click;
             // 
             // dataGridViewTagData
             // 

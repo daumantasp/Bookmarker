@@ -32,11 +32,11 @@ namespace Bookmarker.Presentation
 
         private void FormDetails_Load(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(_bookmarkId)) 
+            if (!string.IsNullOrEmpty(_bookmarkId))
             {
                 LoadBookmarkData(_bookmarkId);
             }
-            else 
+            else
             {
                 // If no bookmark ID is provided, clear the fields
                 textBoxId.Clear();
@@ -55,7 +55,7 @@ namespace Bookmarker.Presentation
         {
             var bookmark = await _bookmarkService.GetByIdAsync(bookmarkId);
 
-            if (bookmark != null) 
+            if (bookmark != null)
             {
                 textBoxId.Text = bookmark.Id;
                 textBoxUrl.Text = bookmark.Url;
@@ -121,6 +121,11 @@ namespace Bookmarker.Presentation
                 //textBoxTags.Text = string.Join(", ", bookmark.Tags);
             }
 
+        }
+
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
