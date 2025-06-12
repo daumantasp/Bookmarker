@@ -12,5 +12,6 @@ namespace Bookmarker.Application.Services
         Task<IEnumerable<Bookmark>> GetAllAsync();
         Task<Bookmark?> GetByIdAsync(string id);
         Task<IEnumerable<TagData>> GetAllTagDataAsync(TagsDataOrder order);
+        Task<IEnumerable<TagData>> GetTagDataAsync(TagsDataOrder order, string filter);
     }
 }

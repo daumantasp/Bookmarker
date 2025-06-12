@@ -58,5 +58,12 @@ namespace Bookmarker.Application.Services
 
             return tagData.ToList();
         }
+
+        public async Task<IEnumerable<TagData>> GetTagDataAsync(TagsDataOrder order, string filter)
+        {
+            var tagData = await GetAllTagDataAsync(order);
+
+            return tagData.Where(td => td.Name.Contains(filter, StringComparison.OrdinalIgnoreCase));
+        }
     }
 }
