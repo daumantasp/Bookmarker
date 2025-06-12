@@ -69,12 +69,12 @@ namespace Bookmarker.Application.Services
 
         private static string ParseTypeFromUrl(string[] partsUrl)
         {
-            var type = "";
+            var type = "post";
 
-            //if (parts.Length > 3)
-            //{
-            //    type = parts[3]; // e.g., "posts", "comments"
-            //}
+            if (partsUrl.Length > 7)
+            {
+                type = "comment";
+            }
 
             return type;
         }
