@@ -17,6 +17,7 @@ namespace Bookmarker.Presentation
         private readonly IBookmarkService _bookmarkService;
         private readonly IBookmarkParserService _bookmarkParserService;
         private readonly string? _bookmarkId;
+        private TagsDataOrder order = TagsDataOrder.Name;
 
         public FormDetails(
             IBookmarkService bookmarkService,
@@ -32,19 +33,11 @@ namespace Bookmarker.Presentation
 
         private void FormDetails_Load(object sender, EventArgs e)
         {
-            LoadTagData(TagsDataOrder.Name);
-
-            if (!string.IsNullOrEmpty(_bookmarkId))
-            {
-                LoadBookmarkData(_bookmarkId);
-            }
-            else
-            {
-                ClearFields();
-            }
+            LoadTagData();
+            LoadBookmarkData();
         }
 
-        private async void LoadTagData(TagsDataOrder order)
+        private async void LoadTagData()
         {
             var tagData = await _bookmarkService.GetAllTagDataAsync(order);
 
@@ -52,9 +45,15 @@ namespace Bookmarker.Presentation
             dataGridViewTagData.DataSource = tagData;
         }
 
-        private async void LoadBookmarkData(string bookmarkId)
+        private async void LoadBookmarkData()
         {
-            var bookmark = await _bookmarkService.GetByIdAsync(bookmarkId);
+            if (string.IsNullOrEmpty(_bookmarkId))
+            {
+                ClearFields();
+                return;
+            }
+
+            var bookmark = await _bookmarkService.GetByIdAsync(_bookmarkId);
 
             if (bookmark != null)
             {
@@ -101,25 +100,21 @@ namespace Bookmarker.Presentation
             }
         }
 
-        private void radioButtonOrderByName_CheckedChanged(object sender, EventArgs e)
-        {
-            LoadTagData(TagsDataOrder.Name);
-        }
-
-        private void radioButtonOrderByCount_CheckedChanged(object sender, EventArgs e)
-        {
-            LoadTagData(TagsDataOrder.Count);
-        }
-
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             Close();
         }
 
+        private void dataGridViewTagData_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var columnName = dataGridViewTagData.Columns[e.ColumnIndex].Name.ToString().ToLower();
+            order = columnName == "name" ? TagsDataOrder.Name : TagsDataOrder.Count;
+            LoadTagData();
+        }
+
         private async void textBoxSearchTags_TextChanged(object sender, EventArgs e)
         {
             var filter = textBoxSearchTags.Text.Trim();
-            var order = radioButtonOrderByName.Checked ? TagsDataOrder.Name : TagsDataOrder.Count;
 
             if (filter.Length > 3)
             {
@@ -130,7 +125,7 @@ namespace Bookmarker.Presentation
             }
             else
             {
-                LoadTagData(order);
+                LoadTagData();
             }
         }
 

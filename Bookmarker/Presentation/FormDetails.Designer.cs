@@ -42,21 +42,15 @@
             buttonSave = new Button();
             buttonCancel = new Button();
             dataGridViewTagData = new DataGridView();
-            labelTagDataOrder = new Label();
-            radioButtonOrderByName = new RadioButton();
-            radioButtonOrderByCount = new RadioButton();
             radioButtonPost = new RadioButton();
             radioButtonComment = new RadioButton();
             panel1 = new Panel();
-            panel2 = new Panel();
             labelSearch = new Label();
             textBoxSearchTags = new TextBox();
             buttonParseUrl = new Button();
             buttonPaste = new Button();
-            buttonEditTags = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridViewTagData).BeginInit();
             panel1.SuspendLayout();
-            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // labelUrl
@@ -171,44 +165,12 @@
             // dataGridViewTagData
             // 
             dataGridViewTagData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewTagData.Location = new Point(382, 55);
+            dataGridViewTagData.Location = new Point(382, 15);
             dataGridViewTagData.Name = "dataGridViewTagData";
             dataGridViewTagData.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewTagData.Size = new Size(240, 328);
+            dataGridViewTagData.Size = new Size(240, 368);
             dataGridViewTagData.TabIndex = 13;
-            // 
-            // labelTagDataOrder
-            // 
-            labelTagDataOrder.AutoSize = true;
-            labelTagDataOrder.Location = new Point(382, 394);
-            labelTagDataOrder.Name = "labelTagDataOrder";
-            labelTagDataOrder.Size = new Size(56, 15);
-            labelTagDataOrder.TabIndex = 14;
-            labelTagDataOrder.Text = "Order By:";
-            // 
-            // radioButtonOrderByName
-            // 
-            radioButtonOrderByName.AutoSize = true;
-            radioButtonOrderByName.Checked = true;
-            radioButtonOrderByName.Location = new Point(3, 3);
-            radioButtonOrderByName.Name = "radioButtonOrderByName";
-            radioButtonOrderByName.Size = new Size(57, 19);
-            radioButtonOrderByName.TabIndex = 15;
-            radioButtonOrderByName.TabStop = true;
-            radioButtonOrderByName.Text = "Name";
-            radioButtonOrderByName.UseVisualStyleBackColor = true;
-            radioButtonOrderByName.CheckedChanged += radioButtonOrderByName_CheckedChanged;
-            // 
-            // radioButtonOrderByCount
-            // 
-            radioButtonOrderByCount.AutoSize = true;
-            radioButtonOrderByCount.Location = new Point(106, 3);
-            radioButtonOrderByCount.Name = "radioButtonOrderByCount";
-            radioButtonOrderByCount.Size = new Size(58, 19);
-            radioButtonOrderByCount.TabIndex = 16;
-            radioButtonOrderByCount.Text = "Count";
-            radioButtonOrderByCount.UseVisualStyleBackColor = true;
-            radioButtonOrderByCount.CheckedChanged += radioButtonOrderByCount_CheckedChanged;
+            dataGridViewTagData.ColumnHeaderMouseClick += dataGridViewTagData_ColumnHeaderMouseClick;
             // 
             // radioButtonPost
             // 
@@ -241,19 +203,10 @@
             panel1.Size = new Size(293, 44);
             panel1.TabIndex = 19;
             // 
-            // panel2
-            // 
-            panel2.Controls.Add(radioButtonOrderByName);
-            panel2.Controls.Add(radioButtonOrderByCount);
-            panel2.Location = new Point(444, 388);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(187, 25);
-            panel2.TabIndex = 20;
-            // 
             // labelSearch
             // 
             labelSearch.AutoSize = true;
-            labelSearch.Location = new Point(382, 18);
+            labelSearch.Location = new Point(382, 393);
             labelSearch.Name = "labelSearch";
             labelSearch.Size = new Size(90, 15);
             labelSearch.TabIndex = 21;
@@ -261,7 +214,7 @@
             // 
             // textBoxSearchTags
             // 
-            textBoxSearchTags.Location = new Point(478, 15);
+            textBoxSearchTags.Location = new Point(478, 390);
             textBoxSearchTags.Name = "textBoxSearchTags";
             textBoxSearchTags.Size = new Size(144, 23);
             textBoxSearchTags.TabIndex = 22;
@@ -287,28 +240,16 @@
             buttonPaste.UseVisualStyleBackColor = true;
             buttonPaste.Click += buttonPaste_Click;
             // 
-            // buttonEditTags
-            // 
-            buttonEditTags.Location = new Point(65, 291);
-            buttonEditTags.Name = "buttonEditTags";
-            buttonEditTags.Size = new Size(75, 23);
-            buttonEditTags.TabIndex = 25;
-            buttonEditTags.Text = "Edit";
-            buttonEditTags.UseVisualStyleBackColor = true;
-            // 
             // FormDetails
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(651, 426);
-            Controls.Add(buttonEditTags);
             Controls.Add(buttonPaste);
             Controls.Add(buttonParseUrl);
             Controls.Add(textBoxSearchTags);
             Controls.Add(labelSearch);
-            Controls.Add(panel2);
             Controls.Add(panel1);
-            Controls.Add(labelTagDataOrder);
             Controls.Add(dataGridViewTagData);
             Controls.Add(buttonCancel);
             Controls.Add(buttonSave);
@@ -329,8 +270,6 @@
             ((System.ComponentModel.ISupportInitialize)dataGridViewTagData).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -351,13 +290,9 @@
         private Button buttonSave;
         private Button buttonCancel;
         private DataGridView dataGridViewTagData;
-        private Label labelTagDataOrder;
-        private RadioButton radioButtonOrderByName;
-        private RadioButton radioButtonOrderByCount;
         private RadioButton radioButtonPost;
         private RadioButton radioButtonComment;
         private Panel panel1;
-        private Panel panel2;
         private Label labelSearch;
         private TextBox textBoxSearchTags;
         private Button buttonParseUrl;
