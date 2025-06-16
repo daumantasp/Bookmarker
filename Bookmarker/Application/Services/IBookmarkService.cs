@@ -14,5 +14,6 @@ namespace Bookmarker.Application.Services
         Task SaveAync(Bookmark bookmark);
         Task<IEnumerable<TagData>> GetAllTagDataAsync(TagsDataOrder order);
         Task<IEnumerable<TagData>> GetTagDataAsync(TagsDataOrder order, string filter);
+        event EventHandler<Bookmark> BookmarkEdited;
     }
 }

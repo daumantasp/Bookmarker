@@ -3,6 +3,7 @@ using Bookmarker.Domain.Interfaces;
 using Bookmarker.Infrastructure.Repositories.Reddit;
 using Bookmarker.Presentation.ViewModels;
 using Bookmarker.Presentation;
+using Bookmarker.Domain.Models;
 
 namespace Bookmarker
 {
@@ -16,14 +17,6 @@ namespace Bookmarker
         private List<BookmarkGridModel> fullBookmarkGrid = new List<BookmarkGridModel>();
         private List<BookmarkGridModel> filteredBookmarkGrid = new List<BookmarkGridModel>();
         private string defaultFileDir = "bookmarks.json";
-
-
-        //public Form1(IBookmarkService bookmarkService)
-        //{
-        //    InitializeComponent();
-
-        //    _bookmarkService = bookmarkService;
-        //}
 
         public Form1(IBookmarkParserService bookmarkParserService)
         {
@@ -40,6 +33,7 @@ namespace Bookmarker
             {
                 textBoxFileDir.Text = fullPath;
                 _bookmarkService = new BookmarkService(new RedditBookmarkRepository(fullPath));
+                _bookmarkService.BookmarkEdited += OnBookmarkEdited;
                 loadData();
             }
         }
@@ -60,6 +54,7 @@ namespace Bookmarker
 
                     IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(filePath);
                     _bookmarkService = new BookmarkService(bookmarkRepository);
+                    _bookmarkService.BookmarkEdited += OnBookmarkEdited;
 
                     loadData();
                 }
@@ -172,6 +167,12 @@ namespace Bookmarker
                 var detailsForm = new FormDetails(_bookmarkService, _bookmarkParserService, selectedItem.Id);
                 detailsForm.ShowDialog();
             }
+        }
+
+        private void OnBookmarkEdited(object sender, Bookmark bookmark)
+        {
+            // Reload the data after a bookmark is edited
+            loadData();
         }
     }
 }

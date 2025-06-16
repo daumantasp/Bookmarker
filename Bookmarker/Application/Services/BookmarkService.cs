@@ -25,6 +25,7 @@ namespace Bookmarker.Application.Services
         public async Task SaveAync(Bookmark bookmark)
         {
             await _repo.Save(bookmark);
+            BookmarkEdited.Invoke(this, bookmark);
         }
 
         public async Task<IEnumerable<TagData>> GetAllTagDataAsync(TagsDataOrder order)
@@ -70,5 +71,7 @@ namespace Bookmarker.Application.Services
 
             return tagData.Where(td => td.Name.Contains(filter, StringComparison.OrdinalIgnoreCase));
         }
+
+        public event EventHandler<Bookmark> BookmarkEdited;
     }
 }
