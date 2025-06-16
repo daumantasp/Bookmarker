@@ -32,12 +32,20 @@ namespace Bookmarker.Presentation
             _bookmarkId = bookmarkId;
 
             InitializeComponent();
+            SetFormStyle();
         }
 
         private void FormDetails_Load(object sender, EventArgs e)
         {
             LoadTagData();
             LoadBookmarkData();
+        }
+
+        private void SetFormStyle()
+        {
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
         }
 
         private async void LoadTagData()
