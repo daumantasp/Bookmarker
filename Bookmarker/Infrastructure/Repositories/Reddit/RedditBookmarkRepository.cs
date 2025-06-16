@@ -81,8 +81,8 @@ namespace Bookmarker.Infrastructure.Repositories.Reddit
                     PropertyNameCaseInsensitive = true
                 };
                 _bookmarks = JsonSerializer
-                    .Deserialize<IEnumerable<RedditBookmark>>(json, serializerOptions)
-                    .Select(rb => rb.ToBookmark());
+                    .Deserialize<IEnumerable<Bookmark>>(json, serializerOptions)
+                    .ToList() ?? Enumerable.Empty<Bookmark>();
             }
             catch (JsonException ex)
             {
@@ -100,13 +100,12 @@ namespace Bookmarker.Infrastructure.Repositories.Reddit
         {
             try
             {
-                var json = JsonSerializer.Serialize(
-                    _bookmarks,
-                    new JsonSerializerOptions
-                    {
-                        WriteIndented = true,
-                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                    });
+                var serializerOptions = new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                    WriteIndented = true
+                };
+                var json = JsonSerializer.Serialize(_bookmarks, serializerOptions);
 
                 await File.WriteAllTextAsync(_filePath, json);
             }
