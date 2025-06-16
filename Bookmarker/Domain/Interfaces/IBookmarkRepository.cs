@@ -11,5 +11,6 @@ namespace Bookmarker.Domain.Interfaces
     {
         Task<IEnumerable<Bookmark>> GetAll();
         Task<Bookmark?> GetById(string id);
+        Task Save(Bookmark newBookmark);
     }
 }

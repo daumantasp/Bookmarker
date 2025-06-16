@@ -22,6 +22,11 @@ namespace Bookmarker.Application.Services
             return await _repo.GetById(id);
         }
 
+        public async Task SaveAync(Bookmark bookmark)
+        {
+            await _repo.Save(bookmark);
+        }
+
         public async Task<IEnumerable<TagData>> GetAllTagDataAsync(TagsDataOrder order)
         {
             var bookmarks = await _repo.GetAll();

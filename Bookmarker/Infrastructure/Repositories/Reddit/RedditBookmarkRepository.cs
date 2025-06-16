@@ -32,6 +32,36 @@ namespace Bookmarker.Infrastructure.Repositories.Reddit
                 .Clone();
         }
 
+        public async Task Save(Bookmark newBookmark)
+        {
+            CheckFileExists();
+
+            await LoadBookmarksIfNeeded();
+
+            var newBookmarks = new List<Bookmark>();
+            var updated = false;
+            for (var i = 0; i < _bookmarks.Count(); i++)
+            {
+                if (_bookmarks.ElementAt(i).Id == newBookmark.Id)
+                {
+                    newBookmarks.Add(newBookmark.Clone());
+                    updated = true;
+                }
+                else
+                {
+                    newBookmarks.Add(_bookmarks.ElementAt(i));
+                }
+            }
+            if (!updated)
+            {
+                newBookmarks.Add(newBookmark.Clone());
+            }
+
+            _bookmarks = newBookmarks;
+            hasChanged = true;
+            await SaveBookmarksToFile();
+        }
+
         private async Task LoadBookmarksIfNeeded()
         {
             if (_bookmarks.Count() == 0 || hasChanged)
@@ -64,6 +94,26 @@ namespace Bookmarker.Infrastructure.Repositories.Reddit
         {
             if (!File.Exists(_filePath))
                 throw new FileNotFoundException("Bookmark file not found.", _filePath);
+        }
+
+        private async Task SaveBookmarksToFile()
+        {
+            try
+            {
+                var json = JsonSerializer.Serialize(
+                    _bookmarks,
+                    new JsonSerializerOptions
+                    {
+                        WriteIndented = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+
+                await File.WriteAllTextAsync(_filePath, json);
+            }
+            catch (JsonException ex)
+            {
+                throw new Exception($"Error serializing bookmarks to json: {ex.Message}", ex);
+            }
         }
     }
 }
