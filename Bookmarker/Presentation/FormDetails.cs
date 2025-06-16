@@ -20,7 +20,7 @@ namespace Bookmarker.Presentation
         private readonly List<string> currentTags = new List<string>();
 
         private TagsDataOrder order = TagsDataOrder.Name;
-        
+
 
         public FormDetails(
             IBookmarkService bookmarkService,
@@ -112,6 +112,23 @@ namespace Bookmarker.Presentation
                 textBoxTitle.Text = bookmark.Title;
                 textBoxGroup.Text = bookmark.Group;
             }
+        }
+
+        private async void buttonSave_Click(object sender, EventArgs e)
+        {
+            var newBookmark = new Bookmark(
+                Id: textBoxId.Text.Trim(),
+                Type: radioButtonPost.Checked ? "post" : "comment",
+                Title: textBoxTitle.Text.Trim(),
+                Group: textBoxGroup.Text.Trim(),
+                Url: textBoxUrl.Text.Trim(),
+                Tags: string.IsNullOrEmpty(textBoxTags.Text) ?
+                    Array.Empty<string>() :
+                    textBoxTags.Text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(t => t.Trim().TrimStart('#')).ToArray()
+            );
+
+            await _bookmarkService.SaveAync(newBookmark);
+            Close();
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
