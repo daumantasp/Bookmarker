@@ -86,7 +86,7 @@ namespace Bookmarker
                                     ++counter,
                                     b.Id,
                                     b.Title,
-                                    String.Join(", ", b.Tags),
+                                    String.Join(", ", b.Tags.Select(t => "#" + t)),
                                     b.Group,
                                     b.Type,
                                     b.Url)
