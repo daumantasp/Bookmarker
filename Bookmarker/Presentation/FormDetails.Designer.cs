@@ -137,10 +137,11 @@
             // 
             // textBoxTags
             // 
-            textBoxTags.Enabled = false;
             textBoxTags.Location = new Point(65, 262);
+            textBoxTags.Multiline = true;
             textBoxTags.Name = "textBoxTags";
-            textBoxTags.Size = new Size(293, 23);
+            textBoxTags.ScrollBars = ScrollBars.Vertical;
+            textBoxTags.Size = new Size(293, 73);
             textBoxTags.TabIndex = 10;
             // 
             // buttonSave
@@ -164,12 +165,14 @@
             // 
             // dataGridViewTagData
             // 
+            dataGridViewTagData.AllowUserToDeleteRows = false;
             dataGridViewTagData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewTagData.Location = new Point(382, 15);
             dataGridViewTagData.Name = "dataGridViewTagData";
             dataGridViewTagData.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewTagData.Size = new Size(240, 368);
             dataGridViewTagData.TabIndex = 13;
+            dataGridViewTagData.CellMouseDoubleClick += dataGridViewTagData_CellMouseDoubleClick;
             dataGridViewTagData.ColumnHeaderMouseClick += dataGridViewTagData_ColumnHeaderMouseClick;
             // 
             // radioButtonPost

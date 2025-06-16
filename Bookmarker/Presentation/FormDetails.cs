@@ -17,7 +17,10 @@ namespace Bookmarker.Presentation
         private readonly IBookmarkService _bookmarkService;
         private readonly IBookmarkParserService _bookmarkParserService;
         private readonly string? _bookmarkId;
+        private readonly List<string> currentTags = new List<string>();
+
         private TagsDataOrder order = TagsDataOrder.Name;
+        
 
         public FormDetails(
             IBookmarkService bookmarkService,
@@ -67,6 +70,9 @@ namespace Bookmarker.Presentation
 
                 if (bookmark.Tags != null)
                 {
+                    currentTags.Clear();
+                    currentTags.AddRange(bookmark.Tags);
+
                     textBoxTags.Text = string.Join(", ", bookmark.Tags.Select(t => "#" + t));
 
                     foreach (DataGridViewRow row in dataGridViewTagData.Rows)
@@ -138,6 +144,22 @@ namespace Bookmarker.Presentation
             textBoxTitle.Clear();
             textBoxGroup.Clear();
             textBoxTags.Clear();
+        }
+
+        private void dataGridViewTagData_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            //if (e.RowIndex < 0 || e.RowIndex >= dataGridViewTagData.Rows.Count)
+            //    return;
+
+            var tagName = dataGridViewTagData.Rows[e.RowIndex].Cells["Name"].Value.ToString();
+
+            if (!string.IsNullOrEmpty(tagName))
+            {
+                if (!currentTags.Contains(tagName))
+                    currentTags.Add(tagName);
+
+                textBoxTags.Text = string.Join(", ", currentTags.Select(t => "#" + t));
+            }
         }
     }
 }
