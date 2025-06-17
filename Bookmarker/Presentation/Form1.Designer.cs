@@ -36,6 +36,7 @@
             textBoxFileDir = new TextBox();
             buttonAdd = new Button();
             buttonEdit = new Button();
+            buttonDelete = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -95,7 +96,7 @@
             // 
             // buttonAdd
             // 
-            buttonAdd.Location = new Point(147, 477);
+            buttonAdd.Location = new Point(147, 478);
             buttonAdd.Name = "buttonAdd";
             buttonAdd.Size = new Size(75, 23);
             buttonAdd.TabIndex = 6;
@@ -105,7 +106,7 @@
             // 
             // buttonEdit
             // 
-            buttonEdit.Location = new Point(231, 478);
+            buttonEdit.Location = new Point(228, 478);
             buttonEdit.Name = "buttonEdit";
             buttonEdit.Size = new Size(75, 23);
             buttonEdit.TabIndex = 7;
@@ -113,11 +114,22 @@
             buttonEdit.UseVisualStyleBackColor = true;
             buttonEdit.Click += buttonEdit_Click;
             // 
+            // buttonDelete
+            // 
+            buttonDelete.Location = new Point(309, 477);
+            buttonDelete.Name = "buttonDelete";
+            buttonDelete.Size = new Size(75, 23);
+            buttonDelete.TabIndex = 8;
+            buttonDelete.Text = "Delete";
+            buttonDelete.UseVisualStyleBackColor = true;
+            buttonDelete.Click += buttonDelete_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(805, 592);
+            Controls.Add(buttonDelete);
             Controls.Add(buttonEdit);
             Controls.Add(buttonAdd);
             Controls.Add(textBoxFileDir);
@@ -143,5 +155,6 @@
         private TextBox textBoxFileDir;
         private Button buttonAdd;
         private Button buttonEdit;
+        private Button buttonDelete;
     }
 }

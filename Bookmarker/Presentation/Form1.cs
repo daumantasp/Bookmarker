@@ -174,5 +174,10 @@ namespace Bookmarker
             // Reload the data after a bookmark is edited
             loadData();
         }
+
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+            // TODO
+        }
     }
 }
