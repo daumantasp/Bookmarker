@@ -20,7 +20,8 @@ namespace Bookmarker.Application.Services
                 ParseTitleFromUrl(partsUrl),
                 ParseGroupFromUrl(partsUrl),
                 url,
-                Array.Empty<string>());
+                Array.Empty<string>(),
+                string.Empty);
         }
 
         private static string[] ParseUrl(string url)

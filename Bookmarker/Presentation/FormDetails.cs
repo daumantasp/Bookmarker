@@ -124,7 +124,8 @@ namespace Bookmarker.Presentation
                 Url: textBoxUrl.Text.Trim(),
                 Tags: string.IsNullOrEmpty(textBoxTags.Text) ?
                     Array.Empty<string>() :
-                    textBoxTags.Text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(t => t.Trim().TrimStart('#')).ToArray()
+                    textBoxTags.Text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(t => t.Trim().TrimStart('#')).ToArray(),
+                Created: ""
             );
 
             await _bookmarkService.SaveAync(newBookmark);

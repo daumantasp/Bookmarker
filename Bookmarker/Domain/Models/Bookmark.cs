@@ -11,7 +11,8 @@ namespace Bookmarker.Domain.Models
                           string Title,
                           string Group,
                           string Url,
-                          string[] Tags)
+                          string[] Tags,
+                          string Created)
     {
         public string Id { get; } = Id;
         public string Type { get; } = Type;
@@ -19,6 +20,7 @@ namespace Bookmarker.Domain.Models
         public string Group { get; } = Group;
         public string Url { get; } = Url;
         public string[] Tags { get; } = Tags;
+        public string Created { get; } = Created;
 
         public Bookmark Clone()
         {
@@ -28,7 +30,8 @@ namespace Bookmarker.Domain.Models
                 Title,
                 Group,
                 Url,
-                Tags.ToArray()
+                Tags.ToArray(),
+                Created
             );
         }
     }
