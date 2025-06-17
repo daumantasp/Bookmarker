@@ -61,6 +61,7 @@ namespace Bookmarker.Presentation
             if (string.IsNullOrEmpty(_bookmarkId))
             {
                 ClearFields();
+                SetTodayDate();
                 return;
             }
 
@@ -125,7 +126,7 @@ namespace Bookmarker.Presentation
                 Tags: string.IsNullOrEmpty(textBoxTags.Text) ?
                     Array.Empty<string>() :
                     textBoxTags.Text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(t => t.Trim().TrimStart('#')).ToArray(),
-                Created: ""
+                Created: string.IsNullOrWhiteSpace(textBoxCreated.Text) ? null : textBoxCreated.Text.Trim()
             );
 
             await _bookmarkService.SaveAync(newBookmark);
@@ -170,6 +171,11 @@ namespace Bookmarker.Presentation
             textBoxTitle.Clear();
             textBoxGroup.Clear();
             textBoxTags.Clear();
+        }
+
+        private void SetTodayDate()
+        {
+            textBoxCreated.Text = DateTime.Now.ToString("yyyy-MM-dd");
         }
 
         private void dataGridViewTagData_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
