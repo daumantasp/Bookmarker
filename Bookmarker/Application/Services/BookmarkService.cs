@@ -25,7 +25,7 @@ namespace Bookmarker.Application.Services
         public async Task SaveAync(Bookmark bookmark)
         {
             await _repo.Save(bookmark);
-            BookmarkEdited.Invoke(this, bookmark);
+            BookmarkAddedOrEdited.Invoke(this, bookmark);
         }
 
         public async Task DeleteByIdAsync(string id)
@@ -78,7 +78,7 @@ namespace Bookmarker.Application.Services
             return tagData.Where(td => td.Name.Contains(filter, StringComparison.OrdinalIgnoreCase));
         }
 
-        public event EventHandler<Bookmark> BookmarkEdited;
+        public event EventHandler<Bookmark> BookmarkAddedOrEdited;
         public event EventHandler<Bookmark> BookmarkDeleted;
     }
 }

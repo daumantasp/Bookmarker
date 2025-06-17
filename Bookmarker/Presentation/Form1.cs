@@ -33,7 +33,7 @@ namespace Bookmarker
             {
                 textBoxFileDir.Text = fullPath;
                 _bookmarkService = new BookmarkService(new RedditBookmarkRepository(fullPath));
-                _bookmarkService.BookmarkEdited += OnBookmarkEdited;
+                _bookmarkService.BookmarkAddedOrEdited += OnBookmarkEdited;
                 _bookmarkService.BookmarkDeleted += OnBookmarkDeleted;
                 loadData();
             }
@@ -55,7 +55,7 @@ namespace Bookmarker
 
                     IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(filePath);
                     _bookmarkService = new BookmarkService(bookmarkRepository);
-                    _bookmarkService.BookmarkEdited += OnBookmarkEdited;
+                    _bookmarkService.BookmarkAddedOrEdited += OnBookmarkEdited;
 
                     loadData();
                 }
