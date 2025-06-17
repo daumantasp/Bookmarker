@@ -85,6 +85,7 @@ namespace Bookmarker
                                     String.Join(", ", b.Tags.Select(t => "#" + t)),
                                     b.Group,
                                     b.Type,
+                                    b.Created ?? "-",
                                     b.Url)
                                 ).ToList();
 

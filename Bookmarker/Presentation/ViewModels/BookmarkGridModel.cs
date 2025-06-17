@@ -13,6 +13,7 @@ namespace Bookmarker.Presentation.ViewModels
         string tags,
         string group,
         string type,
+        string created,
         string url)
     {
         public int RowId { get; } = rowId;
@@ -21,6 +22,7 @@ namespace Bookmarker.Presentation.ViewModels
         public string Tags { get; } = tags;
         public string Group { get; } = group;
         public string Type { get; } = type;
+        public string Created { get; } = created;
         public string Url { get; } = url;
 
     }
