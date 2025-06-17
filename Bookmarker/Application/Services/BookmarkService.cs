@@ -28,6 +28,12 @@ namespace Bookmarker.Application.Services
             BookmarkEdited.Invoke(this, bookmark);
         }
 
+        public async Task DeleteByIdAsync(string id)
+        {
+            await _repo.DeleteById(id);
+            BookmarkDeleted.Invoke(this, null);
+        }
+
         public async Task<IEnumerable<TagData>> GetAllTagDataAsync(TagsDataOrder order)
         {
             var bookmarks = await _repo.GetAll();
@@ -73,5 +79,6 @@ namespace Bookmarker.Application.Services
         }
 
         public event EventHandler<Bookmark> BookmarkEdited;
+        public event EventHandler<Bookmark> BookmarkDeleted;
     }
 }

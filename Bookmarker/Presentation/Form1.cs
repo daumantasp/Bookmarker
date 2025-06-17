@@ -34,6 +34,7 @@ namespace Bookmarker
                 textBoxFileDir.Text = fullPath;
                 _bookmarkService = new BookmarkService(new RedditBookmarkRepository(fullPath));
                 _bookmarkService.BookmarkEdited += OnBookmarkEdited;
+                _bookmarkService.BookmarkDeleted += OnBookmarkDeleted;
                 loadData();
             }
         }
@@ -177,7 +178,33 @@ namespace Bookmarker
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            // TODO
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a bookmark to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            var selectedRow = dataGridView1.SelectedRows[0];
+            var selectedItem = selectedRow.DataBoundItem as BookmarkGridModel;
+            if (selectedItem != null)
+            {
+                var confirmResult = MessageBox.Show(
+                    "Are you sure you want to delete this bookmark?",
+                    "Confirm Delete",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (confirmResult == DialogResult.Yes)
+                {
+                    _bookmarkService.DeleteByIdAsync(selectedItem.Id);
+                }
+            }
+        }
+
+        private void OnBookmarkDeleted(object sender, Bookmark? bookmark)
+        {
+            // Reload the data after a bookmark is edited
+            loadData();
         }
     }
 }

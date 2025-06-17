@@ -12,8 +12,10 @@ namespace Bookmarker.Application.Services
         Task<IEnumerable<Bookmark>> GetAllAsync();
         Task<Bookmark?> GetByIdAsync(string id);
         Task SaveAync(Bookmark bookmark);
+        Task DeleteByIdAsync(string id);
         Task<IEnumerable<TagData>> GetAllTagDataAsync(TagsDataOrder order);
         Task<IEnumerable<TagData>> GetTagDataAsync(TagsDataOrder order, string filter);
         event EventHandler<Bookmark> BookmarkEdited;
+        event EventHandler<Bookmark> BookmarkDeleted;
     }
 }

@@ -62,6 +62,19 @@ namespace Bookmarker.Infrastructure.Repositories.Reddit
             await SaveBookmarksToFile();
         }
 
+        public async Task DeleteById(string id)
+        {
+            CheckFileExists();
+
+            await LoadBookmarksIfNeeded();
+
+            _bookmarks = _bookmarks
+                .Where(b => b.Id != id)
+                .ToList();
+            hasChanged = true;
+            await SaveBookmarksToFile();
+        }
+
         private async Task LoadBookmarksIfNeeded()
         {
             if (_bookmarks.Count() == 0 || hasChanged)
