@@ -49,6 +49,8 @@
             textBoxSearchTags = new TextBox();
             buttonParseUrl = new Button();
             buttonPaste = new Button();
+            label1 = new Label();
+            textBoxCreated = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dataGridViewTagData).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -146,7 +148,7 @@
             // 
             // buttonSave
             // 
-            buttonSave.Location = new Point(12, 390);
+            buttonSave.Location = new Point(12, 406);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(75, 23);
             buttonSave.TabIndex = 11;
@@ -156,7 +158,7 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(105, 390);
+            buttonCancel.Location = new Point(93, 406);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(75, 23);
             buttonCancel.TabIndex = 12;
@@ -244,11 +246,29 @@
             buttonPaste.UseVisualStyleBackColor = true;
             buttonPaste.Click += buttonPaste_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(12, 363);
+            label1.Name = "label1";
+            label1.Size = new Size(51, 15);
+            label1.TabIndex = 25;
+            label1.Text = "Created:";
+            // 
+            // textBoxCreated
+            // 
+            textBoxCreated.Location = new Point(65, 360);
+            textBoxCreated.Name = "textBoxCreated";
+            textBoxCreated.Size = new Size(293, 23);
+            textBoxCreated.TabIndex = 26;
+            // 
             // FormDetails
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(651, 426);
+            ClientSize = new Size(651, 441);
+            Controls.Add(textBoxCreated);
+            Controls.Add(label1);
             Controls.Add(buttonPaste);
             Controls.Add(buttonParseUrl);
             Controls.Add(textBoxSearchTags);
@@ -302,5 +322,7 @@
         private Button buttonParseUrl;
         private Button buttonPaste;
         private Button buttonEditTags;
+        private Label label1;
+        private TextBox textBoxCreated;
     }
 }
