@@ -7,7 +7,7 @@ using Bookmarker.Domain.Models;
 
 namespace Bookmarker
 {
-    public partial class Form1 : Form
+    public partial class FormList : Form
     {
         //private readonly IBookmarkService _bookmarkService;
         private IBookmarkService _bookmarkService;
@@ -17,16 +17,18 @@ namespace Bookmarker
         private List<BookmarkGridModel> fullBookmarkGrid = new List<BookmarkGridModel>();
         private List<BookmarkGridModel> filteredBookmarkGrid = new List<BookmarkGridModel>();
         private string defaultFileDir = "bookmarks.json";
+        private string fullPath = "";
 
-        public Form1(IBookmarkParserService bookmarkParserService)
+        public FormList(IBookmarkParserService bookmarkParserService)
         {
             InitializeComponent();
             _bookmarkParserService = bookmarkParserService;
 
 
-            var fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, defaultFileDir);
+            fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, defaultFileDir);
             if (!File.Exists(defaultFileDir))
             {
+                buttonOpenFile.Enabled = false;
                 MessageBox.Show($"Bookmark file '{defaultFileDir}' not found. Please select a valid file.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
@@ -36,6 +38,7 @@ namespace Bookmarker
                 _bookmarkService.BookmarkAddedOrEdited += OnBookmarkEdited;
                 _bookmarkService.BookmarkDeleted += OnBookmarkDeleted;
                 loadData();
+                buttonOpenFile.Enabled = true;
             }
         }
 
@@ -206,6 +209,48 @@ namespace Bookmarker
         {
             // Reload the data after a bookmark is edited
             loadData();
+        }
+
+        private void buttonOpen_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(fullPath))
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                    {
+                        FileName = fullPath,
+                        UseShellExecute = true
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error opening file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void buttonOpenDir_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(fullPath))
+            {
+                var directoryPath = Path.GetDirectoryName(fullPath);
+                if (directoryPath != null)
+                {
+                    try
+                    {
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                        {
+                            FileName = directoryPath,
+                            UseShellExecute = true
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error opening directory: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Bookmarker
 {
-    partial class Form1
+    partial class FormList
     {
         /// <summary>
         ///  Required designer variable.
@@ -37,6 +37,8 @@
             buttonAdd = new Button();
             buttonEdit = new Button();
             buttonDelete = new Button();
+            buttonOpenFile = new Button();
+            buttonOpenDir = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -52,18 +54,20 @@
             // 
             // dataGridView1
             // 
+            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(12, 41);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(776, 397);
+            dataGridView1.Size = new Size(1155, 745);
             dataGridView1.TabIndex = 1;
             // 
             // labelSearch
             // 
+            labelSearch.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             labelSearch.AutoSize = true;
-            labelSearch.Location = new Point(14, 451);
+            labelSearch.Location = new Point(14, 799);
             labelSearch.Name = "labelSearch";
             labelSearch.Size = new Size(45, 15);
             labelSearch.TabIndex = 2;
@@ -71,15 +75,17 @@
             // 
             // textBoxSearch
             // 
-            textBoxSearch.Location = new Point(65, 448);
+            textBoxSearch.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            textBoxSearch.Location = new Point(65, 796);
             textBoxSearch.Name = "textBoxSearch";
-            textBoxSearch.Size = new Size(723, 23);
+            textBoxSearch.Size = new Size(1102, 23);
             textBoxSearch.TabIndex = 3;
             textBoxSearch.TextChanged += textBoxSearch_TextChanged;
             // 
             // buttonOpenBrowser
             // 
-            buttonOpenBrowser.Location = new Point(12, 477);
+            buttonOpenBrowser.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            buttonOpenBrowser.Location = new Point(12, 826);
             buttonOpenBrowser.Name = "buttonOpenBrowser";
             buttonOpenBrowser.Size = new Size(129, 23);
             buttonOpenBrowser.TabIndex = 4;
@@ -89,14 +95,17 @@
             // 
             // textBoxFileDir
             // 
+            textBoxFileDir.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            textBoxFileDir.Enabled = false;
             textBoxFileDir.Location = new Point(138, 13);
             textBoxFileDir.Name = "textBoxFileDir";
-            textBoxFileDir.Size = new Size(650, 23);
+            textBoxFileDir.Size = new Size(836, 23);
             textBoxFileDir.TabIndex = 5;
             // 
             // buttonAdd
             // 
-            buttonAdd.Location = new Point(147, 478);
+            buttonAdd.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            buttonAdd.Location = new Point(147, 826);
             buttonAdd.Name = "buttonAdd";
             buttonAdd.Size = new Size(75, 23);
             buttonAdd.TabIndex = 6;
@@ -106,7 +115,8 @@
             // 
             // buttonEdit
             // 
-            buttonEdit.Location = new Point(228, 478);
+            buttonEdit.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            buttonEdit.Location = new Point(228, 826);
             buttonEdit.Name = "buttonEdit";
             buttonEdit.Size = new Size(75, 23);
             buttonEdit.TabIndex = 7;
@@ -116,7 +126,8 @@
             // 
             // buttonDelete
             // 
-            buttonDelete.Location = new Point(309, 477);
+            buttonDelete.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            buttonDelete.Location = new Point(309, 826);
             buttonDelete.Name = "buttonDelete";
             buttonDelete.Size = new Size(75, 23);
             buttonDelete.TabIndex = 8;
@@ -124,11 +135,35 @@
             buttonDelete.UseVisualStyleBackColor = true;
             buttonDelete.Click += buttonDelete_Click;
             // 
-            // Form1
+            // buttonOpenFile
+            // 
+            buttonOpenFile.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            buttonOpenFile.Location = new Point(980, 12);
+            buttonOpenFile.Name = "buttonOpenFile";
+            buttonOpenFile.Size = new Size(75, 23);
+            buttonOpenFile.TabIndex = 9;
+            buttonOpenFile.Text = "Open File";
+            buttonOpenFile.UseVisualStyleBackColor = true;
+            buttonOpenFile.Click += buttonOpen_Click;
+            // 
+            // buttonOpenDir
+            // 
+            buttonOpenDir.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            buttonOpenDir.Location = new Point(1061, 13);
+            buttonOpenDir.Name = "buttonOpenDir";
+            buttonOpenDir.Size = new Size(106, 23);
+            buttonOpenDir.TabIndex = 10;
+            buttonOpenDir.Text = "Open Directory";
+            buttonOpenDir.UseVisualStyleBackColor = true;
+            buttonOpenDir.Click += buttonOpenDir_Click;
+            // 
+            // FormList
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(805, 592);
+            ClientSize = new Size(1184, 861);
+            Controls.Add(buttonOpenDir);
+            Controls.Add(buttonOpenFile);
             Controls.Add(buttonDelete);
             Controls.Add(buttonEdit);
             Controls.Add(buttonAdd);
@@ -138,8 +173,9 @@
             Controls.Add(labelSearch);
             Controls.Add(dataGridView1);
             Controls.Add(buttonLoad);
-            Name = "Form1";
-            Text = "Form1";
+            Name = "FormList";
+            Text = "Bookmarker";
+            WindowState = FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -156,5 +192,7 @@
         private Button buttonAdd;
         private Button buttonEdit;
         private Button buttonDelete;
+        private Button buttonOpenFile;
+        private Button buttonOpenDir;
     }
 }
