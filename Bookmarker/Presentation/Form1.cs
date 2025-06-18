@@ -122,6 +122,11 @@ namespace Bookmarker
 
         private void buttonOpenBrowser_Click(object sender, EventArgs e)
         {
+            OpenSelectedUrlInBrowser();
+        }
+
+        private void OpenSelectedUrlInBrowser()
+        {
             if (dataGridView1.SelectedRows.Count > 0)
             {
                 var selectedRow = dataGridView1.SelectedRows[0];
@@ -251,6 +256,11 @@ namespace Bookmarker
                     }
                 }
             }
+        }
+
+        private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            OpenSelectedUrlInBrowser();
         }
     }
 }
