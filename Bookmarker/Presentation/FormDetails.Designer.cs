@@ -289,6 +289,7 @@
             Controls.Add(textBoxUrl);
             Controls.Add(labelUrl);
             Name = "FormDetails";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "FormDetails";
             Load += FormDetails_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridViewTagData).EndInit();
