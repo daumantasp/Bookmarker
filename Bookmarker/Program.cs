@@ -1,4 +1,5 @@
 using Bookmarker.Application.Services;
+using Bookmarker.Application.Services.BookmarkParserService;
 using Bookmarker.Domain.Interfaces;
 using Bookmarker.Infrastructure.Repositories.Reddit;
 using FormsApplication = System.Windows.Forms.Application;

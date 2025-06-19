@@ -1,4 +1,5 @@
-﻿using Bookmarker.Domain.Interfaces;
+﻿using Bookmarker.Domain.Interfaces.Repositories;
+using Bookmarker.Domain.Interfaces.Services;
 using Bookmarker.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -6,39 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bookmarker.Application.Services
+namespace Bookmarker.Application.Services.TagService
 {
-    internal class BookmarkService(IBookmarkRepository repo) : IBookmarkService
+    internal class TagService(IBookmarkRepository repo) : ITagService
     {
         private readonly IBookmarkRepository _repo = repo;
-
-        public async Task<IEnumerable<Bookmark>> GetAllAsync()
-        {
-            return await _repo.GetAllAsync();
-        }
-
-        public async Task<Bookmark?> GetByIdAsync(string id)
-        {
-            return await _repo.GetByIdASync(id);
-        }
-
-        public async Task AddAsync(Bookmark newBookmark)
-        {
-            await _repo.AddAsync(newBookmark);
-            BookmarkAdded.Invoke();
-        }
-
-        public async Task UpdateAsync(Bookmark updatedBookmark)
-        {
-            await _repo.UpdateAsync(updatedBookmark);
-            BookmarkUpdated.Invoke();
-        }
-
-        public async Task DeleteAsync(string id)
-        {
-            await _repo.DeleteAsync(id);
-            BookmarkDeleted.Invoke();
-        }
 
         public async Task<IEnumerable<TagData>> GetAllTagDataAsync(TagsDataOrder order)
         {
@@ -83,9 +56,5 @@ namespace Bookmarker.Application.Services
 
             return tagData.Where(td => td.Name.Contains(filter, StringComparison.OrdinalIgnoreCase));
         }
-
-        public event Action BookmarkAdded;
-        public event Action BookmarkUpdated;
-        public event Action BookmarkDeleted;
     }
 }

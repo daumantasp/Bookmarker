@@ -1,4 +1,4 @@
-﻿namespace Bookmarker.Application.Services
+﻿namespace Bookmarker.Domain.Interfaces.Services
 {
     public enum TagsDataOrder
     {

@@ -1,12 +1,9 @@
-﻿using Bookmarker.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Bookmarker.Domain.Interfaces.Services;
+using Bookmarker.Domain.Models;
 using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
-namespace Bookmarker.Application.Services
+namespace Bookmarker.Application.Services.BookmarkParserService
 {
     internal class RedditBookmarkParserService : IBookmarkParserService
     {

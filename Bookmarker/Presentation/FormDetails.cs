@@ -1,4 +1,4 @@
-﻿using Bookmarker.Application.Services;
+﻿using Bookmarker.Domain.Interfaces.Services;
 using Bookmarker.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -16,6 +16,7 @@ namespace Bookmarker.Presentation
     {
         private readonly IBookmarkService _bookmarkService;
         private readonly IBookmarkParserService _bookmarkParserService;
+        private readonly ITagService _tagService;
         private readonly string? _bookmarkId;
         private readonly List<string> currentTags = new List<string>();
 
@@ -25,10 +26,12 @@ namespace Bookmarker.Presentation
         public FormDetails(
             IBookmarkService bookmarkService,
             IBookmarkParserService bookmarkParserService,
+            ITagService tagService,
             string? bookmarkId)
         {
             _bookmarkService = bookmarkService;
             _bookmarkParserService = bookmarkParserService;
+            _tagService = tagService;
             _bookmarkId = bookmarkId;
 
             InitializeComponent();
@@ -50,7 +53,7 @@ namespace Bookmarker.Presentation
 
         private async void LoadTagData()
         {
-            var tagData = await _bookmarkService.GetAllTagDataAsync(order);
+            var tagData = await _tagService.GetAllTagDataAsync(order);
 
             dataGridViewTagData.DataSource = null;
             dataGridViewTagData.DataSource = tagData;
@@ -159,7 +162,7 @@ namespace Bookmarker.Presentation
 
             if (filter.Length > 3)
             {
-                var tagData = await _bookmarkService.GetTagDataAsync(order, filter);
+                var tagData = await _tagService.GetTagDataAsync(order, filter);
 
                 dataGridViewTagData.DataSource = null;
                 dataGridViewTagData.DataSource = tagData.ToList();

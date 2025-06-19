@@ -1,9 +1,11 @@
-using Bookmarker.Application.Services;
-using Bookmarker.Domain.Interfaces;
 using Bookmarker.Infrastructure.Repositories.Reddit;
 using Bookmarker.Presentation.ViewModels;
 using Bookmarker.Presentation;
 using Bookmarker.Domain.Models;
+using Bookmarker.Application.Services.BookmarkService;
+using Bookmarker.Application.Services.TagService;
+using Bookmarker.Domain.Interfaces.Services;
+using Bookmarker.Domain.Interfaces.Repositories;
 
 namespace Bookmarker
 {
@@ -12,6 +14,7 @@ namespace Bookmarker
         //private readonly IBookmarkService _bookmarkService;
         private IBookmarkService _bookmarkService;
         private readonly IBookmarkParserService _bookmarkParserService;
+        private ITagService _tagService;
 
         private int counter = 0;
         private List<BookmarkGridModel> fullBookmarkGrid = new List<BookmarkGridModel>();
@@ -36,6 +39,7 @@ namespace Bookmarker
                 textBoxFileDir.Text = fullPath;
                 IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(fullPath);
                 _bookmarkService = new BookmarkService(bookmarkRepository);
+                _tagService = new TagService(bookmarkRepository);
 
                 _bookmarkService.BookmarkAdded += OnBookmarkAdded;
                 _bookmarkService.BookmarkUpdated += OnBookmarkUpdated;
@@ -61,6 +65,7 @@ namespace Bookmarker
                     textBoxFileDir.Text = filePath;
                     IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(filePath);
                     _bookmarkService = new BookmarkService(bookmarkRepository);
+                    _tagService = new TagService(bookmarkRepository);
 
                     _bookmarkService.BookmarkAdded += OnBookmarkAdded;
                     _bookmarkService.BookmarkUpdated += OnBookmarkUpdated;
@@ -163,7 +168,10 @@ namespace Bookmarker
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var detailsForm = new FormDetails(_bookmarkService, _bookmarkParserService, null);
+            var detailsForm = new FormDetails(_bookmarkService,
+                                              _bookmarkParserService,
+                                              _tagService,
+                                              null);
             detailsForm.ShowDialog();
         }
 
@@ -180,7 +188,10 @@ namespace Bookmarker
             var selectedItem = selectedRow.DataBoundItem as BookmarkGridModel;
             if (selectedItem != null)
             {
-                var detailsForm = new FormDetails(_bookmarkService, _bookmarkParserService, selectedItem.Id);
+                var detailsForm = new FormDetails(_bookmarkService,
+                                                  _bookmarkParserService,
+                                                  _tagService,
+                                                  selectedItem.Id);
                 detailsForm.ShowDialog();
             }
         }

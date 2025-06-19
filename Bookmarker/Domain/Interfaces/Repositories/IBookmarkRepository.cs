@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bookmarker.Domain.Models;
+﻿using Bookmarker.Domain.Models;
 
-namespace Bookmarker.Domain.Interfaces
+namespace Bookmarker.Domain.Interfaces.Repositories
 {
     internal interface IBookmarkRepository
     {

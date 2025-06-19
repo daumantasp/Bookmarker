@@ -1,4 +1,4 @@
-﻿using Bookmarker.Domain.Interfaces;
+﻿using Bookmarker.Domain.Interfaces.Repositories;
 using Bookmarker.Domain.Models;
 using System.Text.Json;
 
