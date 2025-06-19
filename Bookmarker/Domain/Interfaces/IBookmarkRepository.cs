@@ -9,9 +9,10 @@ namespace Bookmarker.Domain.Interfaces
 {
     internal interface IBookmarkRepository
     {
-        Task<IEnumerable<Bookmark>> GetAll();
-        Task<Bookmark?> GetById(string id);
-        Task Save(Bookmark newBookmark);
-        Task DeleteById(string id);
+        Task<IEnumerable<Bookmark>> GetAllAsync();
+        Task<Bookmark?> GetByIdASync(string id);
+        Task AddAsync(Bookmark newBookmark);
+        Task UpdateAsync(Bookmark updatedBookmark);
+        Task DeleteAsync(string id);
     }
 }

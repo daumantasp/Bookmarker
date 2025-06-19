@@ -24,7 +24,6 @@ namespace Bookmarker
             InitializeComponent();
             _bookmarkParserService = bookmarkParserService;
 
-
             fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, defaultFileDir);
             if (!File.Exists(defaultFileDir))
             {
@@ -33,12 +32,16 @@ namespace Bookmarker
             }
             else
             {
-                textBoxFileDir.Text = fullPath;
-                _bookmarkService = new BookmarkService(new RedditBookmarkRepository(fullPath));
-                _bookmarkService.BookmarkAddedOrEdited += OnBookmarkEdited;
-                _bookmarkService.BookmarkDeleted += OnBookmarkDeleted;
-                loadData();
                 buttonOpenFile.Enabled = true;
+                textBoxFileDir.Text = fullPath;
+                IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(fullPath);
+                _bookmarkService = new BookmarkService(bookmarkRepository);
+
+                _bookmarkService.BookmarkAdded += OnBookmarkAdded;
+                _bookmarkService.BookmarkUpdated += OnBookmarkUpdated;
+                _bookmarkService.BookmarkDeleted += OnBookmarkDeleted;
+
+                loadData();
             }
         }
 
@@ -54,11 +57,14 @@ namespace Bookmarker
                 {
                     string filePath = openFileDialog.FileName;
 
+                    buttonOpenFile.Enabled = true;
                     textBoxFileDir.Text = filePath;
-
                     IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(filePath);
                     _bookmarkService = new BookmarkService(bookmarkRepository);
-                    _bookmarkService.BookmarkAddedOrEdited += OnBookmarkEdited;
+
+                    _bookmarkService.BookmarkAdded += OnBookmarkAdded;
+                    _bookmarkService.BookmarkUpdated += OnBookmarkUpdated;
+                    _bookmarkService.BookmarkDeleted += OnBookmarkDeleted;
 
                     loadData();
                 }
@@ -85,7 +91,7 @@ namespace Bookmarker
                                     ++counter,
                                     b.Id,
                                     b.Title,
-                                    String.Join(", ", b.Tags.Select(t => "#" + t)),
+                                    string.Join(", ", b.Tags.Select(t => "#" + t)),
                                     b.Group,
                                     b.Type,
                                     b.Created ?? "-",
@@ -179,12 +185,6 @@ namespace Bookmarker
             }
         }
 
-        private void OnBookmarkEdited(object sender, Bookmark bookmark)
-        {
-            // Reload the data after a bookmark is edited
-            loadData();
-        }
-
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count == 0)
@@ -205,15 +205,9 @@ namespace Bookmarker
 
                 if (confirmResult == DialogResult.Yes)
                 {
-                    _bookmarkService.DeleteByIdAsync(selectedItem.Id);
+                    _bookmarkService.DeleteAsync(selectedItem.Id);
                 }
             }
-        }
-
-        private void OnBookmarkDeleted(object sender, Bookmark? bookmark)
-        {
-            // Reload the data after a bookmark is edited
-            loadData();
         }
 
         private void buttonOpen_Click(object sender, EventArgs e)
@@ -261,6 +255,21 @@ namespace Bookmarker
         private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             OpenSelectedUrlInBrowser();
+        }
+
+        private void OnBookmarkAdded()
+        {
+            loadData();
+        }
+
+        private void OnBookmarkUpdated()
+        {
+            loadData();
+        }
+
+        private void OnBookmarkDeleted()
+        {
+            loadData();
         }
     }
 }

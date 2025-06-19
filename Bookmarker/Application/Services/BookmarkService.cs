@@ -14,29 +14,35 @@ namespace Bookmarker.Application.Services
 
         public async Task<IEnumerable<Bookmark>> GetAllAsync()
         {
-            return await _repo.GetAll();
+            return await _repo.GetAllAsync();
         }
 
         public async Task<Bookmark?> GetByIdAsync(string id)
         {
-            return await _repo.GetById(id);
+            return await _repo.GetByIdASync(id);
         }
 
-        public async Task SaveAync(Bookmark bookmark)
+        public async Task AddAsync(Bookmark newBookmark)
         {
-            await _repo.Save(bookmark);
-            BookmarkAddedOrEdited.Invoke(this, bookmark);
+            await _repo.AddAsync(newBookmark);
+            BookmarkAdded.Invoke();
         }
 
-        public async Task DeleteByIdAsync(string id)
+        public async Task UpdateAsync(Bookmark updatedBookmark)
         {
-            await _repo.DeleteById(id);
-            BookmarkDeleted.Invoke(this, null);
+            await _repo.UpdateAsync(updatedBookmark);
+            BookmarkUpdated.Invoke();
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+            await _repo.DeleteAsync(id);
+            BookmarkDeleted.Invoke();
         }
 
         public async Task<IEnumerable<TagData>> GetAllTagDataAsync(TagsDataOrder order)
         {
-            var bookmarks = await _repo.GetAll();
+            var bookmarks = await _repo.GetAllAsync();
 
             var tags = new Dictionary<string, int>();
 
@@ -78,7 +84,8 @@ namespace Bookmarker.Application.Services
             return tagData.Where(td => td.Name.Contains(filter, StringComparison.OrdinalIgnoreCase));
         }
 
-        public event EventHandler<Bookmark> BookmarkAddedOrEdited;
-        public event EventHandler<Bookmark> BookmarkDeleted;
+        public event Action BookmarkAdded;
+        public event Action BookmarkUpdated;
+        public event Action BookmarkDeleted;
     }
 }

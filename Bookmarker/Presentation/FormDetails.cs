@@ -117,7 +117,7 @@ namespace Bookmarker.Presentation
 
         private async void buttonSave_Click(object sender, EventArgs e)
         {
-            var newBookmark = new Bookmark(
+            var bookmark = new Bookmark(
                 Id: textBoxId.Text.Trim(),
                 Type: radioButtonPost.Checked ? "post" : "comment",
                 Title: textBoxTitle.Text.Trim(),
@@ -129,7 +129,15 @@ namespace Bookmarker.Presentation
                 Created: string.IsNullOrWhiteSpace(textBoxCreated.Text) ? null : textBoxCreated.Text.Trim()
             );
 
-            await _bookmarkService.SaveAync(newBookmark);
+            if (_bookmarkId == null)
+            {
+                await _bookmarkService.AddAsync(bookmark);
+            }
+            else
+            {
+                await _bookmarkService.UpdateAsync(bookmark);
+            }
+
             Close();
         }
 
