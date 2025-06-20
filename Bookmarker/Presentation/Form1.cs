@@ -6,6 +6,7 @@ using Bookmarker.Application.Services.BookmarkService;
 using Bookmarker.Application.Services.TagService;
 using Bookmarker.Domain.Interfaces.Services;
 using Bookmarker.Domain.Interfaces.Repositories;
+using Bookmarker.Infrastructure.Repositories.Cached;
 
 namespace Bookmarker
 {
@@ -37,7 +38,7 @@ namespace Bookmarker
             {
                 buttonOpenFile.Enabled = true;
                 textBoxFileDir.Text = fullPath;
-                IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(fullPath);
+                IBookmarkRepository bookmarkRepository = new CachedBookmarksRepository(new RedditBookmarkRepository(fullPath));
                 _bookmarkService = new BookmarkService(bookmarkRepository);
                 _tagService = new TagService(bookmarkRepository);
 
@@ -63,7 +64,7 @@ namespace Bookmarker
 
                     buttonOpenFile.Enabled = true;
                     textBoxFileDir.Text = filePath;
-                    IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(filePath);
+                    IBookmarkRepository bookmarkRepository = new CachedBookmarksRepository(new RedditBookmarkRepository(filePath));
                     _bookmarkService = new BookmarkService(bookmarkRepository);
                     _tagService = new TagService(bookmarkRepository);
 
