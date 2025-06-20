@@ -33,8 +33,7 @@ namespace Bookmarker.Infrastructure.Repositories.Reddit
         public async Task<Bookmark?> GetByIdASync(string id)
         {
             return (await GetAllAsync())
-                .FirstOrDefault(b => b.Id == id)?
-                .Clone();
+                .FirstOrDefault(b => b.Id == id);
         }
 
         public async Task AddAsync(Bookmark newBookmark)
@@ -44,14 +43,7 @@ namespace Bookmarker.Infrastructure.Repositories.Reddit
 
             try
             {
-                var serializerOptions = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                    WriteIndented = true
-                };
-                var json = JsonSerializer.Serialize(bookmarks, serializerOptions);
-
-                await File.WriteAllTextAsync(_filePath, json);
+                await SaveBookmarksToJson(bookmarks);
             }
             catch (JsonException ex)
             {
@@ -67,14 +59,7 @@ namespace Bookmarker.Infrastructure.Repositories.Reddit
 
             try
             {
-                var serializerOptions = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                    WriteIndented = true
-                };
-                var json = JsonSerializer.Serialize(bookmarks, serializerOptions);
-
-                await File.WriteAllTextAsync(_filePath, json);
+                await SaveBookmarksToJson(bookmarks);
             }
             catch (JsonException ex)
             {
@@ -88,19 +73,24 @@ namespace Bookmarker.Infrastructure.Repositories.Reddit
 
             try
             {
-                var serializerOptions = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                    WriteIndented = true
-                };
-                var json = JsonSerializer.Serialize(bookmarks, serializerOptions);
-
-                await File.WriteAllTextAsync(_filePath, json);
+                await SaveBookmarksToJson(bookmarks);
             }
             catch (JsonException ex)
             {
                 throw new Exception($"Error serializing bookmarks to json: {ex.Message}", ex);
             }
+        }
+
+        private async Task SaveBookmarksToJson(IEnumerable<Bookmark> bookmarks)
+        {
+            var serializerOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
+            };
+            var json = JsonSerializer.Serialize(bookmarks, serializerOptions);
+
+            await File.WriteAllTextAsync(_filePath, json);
         }
     }
 }
