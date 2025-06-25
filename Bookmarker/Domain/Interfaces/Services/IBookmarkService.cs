@@ -15,8 +15,8 @@ namespace Bookmarker.Domain.Interfaces.Services
         Task UpdateAsync(Bookmark updatedBookmark);
         Task DeleteAsync(string id);
 
-        event Action BookmarkAdded;
-        event Action BookmarkUpdated;
-        event Action BookmarkDeleted;
+        event Action<string> BookmarkAdded;
+        event Action<string> BookmarkUpdated;
+        event Action<string> BookmarkDeleted;
     }
 }

@@ -7,6 +7,8 @@ using Bookmarker.Application.Services.TagService;
 using Bookmarker.Domain.Interfaces.Services;
 using Bookmarker.Domain.Interfaces.Repositories;
 using Bookmarker.Infrastructure.Repositories.Cached;
+using System.ComponentModel;
+using System.Data;
 
 namespace Bookmarker
 {
@@ -18,14 +20,20 @@ namespace Bookmarker
         private ITagService _tagService;
 
         private int counter = 0;
-        private List<BookmarkGridModel> fullBookmarkGrid = new List<BookmarkGridModel>();
         private List<BookmarkGridModel> filteredBookmarkGrid = new List<BookmarkGridModel>();
         private string defaultFileDir = "bookmarks.json";
         private string fullPath = "";
 
+
+        private BindingSource bindingSource = new BindingSource();
+        private BindingList<BookmarkGridModel> bookmarkGridModel;
+        private DataTable dataTable;
+
         public FormList(IBookmarkParserService bookmarkParserService)
         {
             InitializeComponent();
+            SetupDataTable();
+
             _bookmarkParserService = bookmarkParserService;
 
             fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, defaultFileDir);
@@ -46,7 +54,7 @@ namespace Bookmarker
                 _bookmarkService.BookmarkUpdated += OnBookmarkUpdated;
                 _bookmarkService.BookmarkDeleted += OnBookmarkDeleted;
 
-                loadData();
+                LoadAllData();
             }
         }
 
@@ -72,14 +80,25 @@ namespace Bookmarker
                     _bookmarkService.BookmarkUpdated += OnBookmarkUpdated;
                     _bookmarkService.BookmarkDeleted += OnBookmarkDeleted;
 
-                    loadData();
+                    LoadAllData();
                 }
             }
-
-
         }
 
-        private async void loadData()
+        private void SetupDataTable()
+        {
+            dataTable = new DataTable();
+            dataTable.Columns.Add("No", typeof(int));
+            dataTable.Columns.Add("Id", typeof(string));
+            dataTable.Columns.Add("Title", typeof(string));
+            dataTable.Columns.Add("Tags", typeof(string));
+            dataTable.Columns.Add("Group", typeof(string));
+            dataTable.Columns.Add("Type", typeof(string));
+            dataTable.Columns.Add("Created", typeof(string));
+            dataTable.Columns.Add("Url", typeof(string));
+        }
+
+        private async void LoadAllData()
         {
             if (_bookmarkService == null)
                 return;
@@ -87,24 +106,24 @@ namespace Bookmarker
             try
             {
                 var bookmarks = await _bookmarkService.GetAllAsync();
-                foreach (var bookmark in bookmarks)
-                {
-                    Console.WriteLine($"Title: {bookmark.Title}, URL: {bookmark.Url}");
-                }
 
                 counter = 0;
-                fullBookmarkGrid = bookmarks.Select(b => new BookmarkGridModel(
-                                    ++counter,
-                                    b.Id,
-                                    b.Title,
-                                    string.Join(", ", b.Tags.Select(t => "#" + t)),
-                                    b.Group,
-                                    b.Type,
-                                    b.Created ?? "-",
-                                    b.Url)
-                                ).ToList();
+                foreach (var bookmark in bookmarks)
+                {
+                    var bookmarkGridModel = new BookmarkGridModel(++counter, bookmark);
 
-                dataGridView1.DataSource = fullBookmarkGrid;
+                    dataTable.Rows.Add(bookmarkGridModel.RowNo,
+                                       bookmarkGridModel.Id,
+                                       bookmarkGridModel.Title,
+                                       bookmarkGridModel.Tags,
+                                       bookmarkGridModel.Group,
+                                       bookmarkGridModel.Type,
+                                       bookmarkGridModel.Created,
+                                       bookmarkGridModel.Url);
+                }
+
+                bindingSource.DataSource = dataTable;
+                dataGridView1.DataSource = bindingSource;
             }
             catch (Exception ex)
             {
@@ -118,17 +137,13 @@ namespace Bookmarker
 
             if (text.Length < 3)
             {
-                dataGridView1.DataSource = fullBookmarkGrid;
+                bindingSource.Filter = string.Empty;
             }
             else
             {
-                filteredBookmarkGrid = fullBookmarkGrid
-                    .Where(b => b.Title.Contains(text, StringComparison.OrdinalIgnoreCase) ||
-                            b.Tags.Contains(text, StringComparison.OrdinalIgnoreCase) ||
-                            b.Group.Contains(text, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-                dataGridView1.DataSource = null;
-                dataGridView1.DataSource = filteredBookmarkGrid;
+                bindingSource.Filter = string.Format(
+                    "Title LIKE '%{0}%' OR Tags LIKE '%{0}%'",
+                    text.Replace("'", "''"));
             }
         }
 
@@ -139,13 +154,11 @@ namespace Bookmarker
 
         private void OpenSelectedUrlInBrowser()
         {
-            if (dataGridView1.SelectedRows.Count > 0)
+            if (bindingSource.Current is DataRowView selectedItem)
             {
-                var selectedRow = dataGridView1.SelectedRows[0];
-                var selectedItem = selectedRow.DataBoundItem as BookmarkGridModel;
-                var url = selectedItem.Url;
+                var url = selectedItem.Row["Url"].ToString();
 
-                if (url != null)
+                if (!string.IsNullOrWhiteSpace(url))
                 {
                     try
                     {
@@ -184,16 +197,18 @@ namespace Bookmarker
                 return;
             }
 
-
-            var selectedRow = dataGridView1.SelectedRows[0];
-            var selectedItem = selectedRow.DataBoundItem as BookmarkGridModel;
-            if (selectedItem != null)
+            if (bindingSource.Current is DataRowView selectedItem)
             {
-                var detailsForm = new FormDetails(_bookmarkService,
-                                                  _bookmarkParserService,
-                                                  _tagService,
-                                                  selectedItem.Id);
-                detailsForm.ShowDialog();
+                var id = selectedItem.Row["Id"].ToString();
+                if (!string.IsNullOrWhiteSpace(id))
+                {
+                    var detailsForm = new FormDetails(_bookmarkService,
+                              _bookmarkParserService,
+                              _tagService,
+                              id);
+
+                    detailsForm.ShowDialog();
+                }
             }
         }
 
@@ -205,19 +220,21 @@ namespace Bookmarker
                 return;
             }
 
-            var selectedRow = dataGridView1.SelectedRows[0];
-            var selectedItem = selectedRow.DataBoundItem as BookmarkGridModel;
-            if (selectedItem != null)
+            if (bindingSource.Current is DataRowView selectedItem)
             {
-                var confirmResult = MessageBox.Show(
+                var id = selectedItem.Row["Id"].ToString();
+                if (!string.IsNullOrWhiteSpace(id))
+                {
+                    var confirmResult = MessageBox.Show(
                     "Are you sure you want to delete this bookmark?",
                     "Confirm Delete",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
-                if (confirmResult == DialogResult.Yes)
-                {
-                    _bookmarkService.DeleteAsync(selectedItem.Id);
+                    if (confirmResult == DialogResult.Yes)
+                    {
+                        _bookmarkService.DeleteAsync(id);
+                    }
                 }
             }
         }
@@ -269,19 +286,75 @@ namespace Bookmarker
             OpenSelectedUrlInBrowser();
         }
 
-        private void OnBookmarkAdded()
+        private async void OnBookmarkAdded(string id)
         {
-            loadData();
+            var bookmark = await _bookmarkService.GetByIdAsync(id);
+            if (bookmark != null)
+            {
+                var updatedBookmarkGridModel = new BookmarkGridModel(
+                    dataTable.Rows.Count + 1,
+                    bookmark);
+
+                dataTable.Rows.Add(updatedBookmarkGridModel.RowNo,
+                                   updatedBookmarkGridModel.Id,
+                                   updatedBookmarkGridModel.Title,
+                                   updatedBookmarkGridModel.Tags,
+                                   updatedBookmarkGridModel.Group,
+                                   updatedBookmarkGridModel.Type,
+                                   updatedBookmarkGridModel.Created,
+                                   updatedBookmarkGridModel.Url);
+            }
         }
 
-        private void OnBookmarkUpdated()
+        private async void OnBookmarkUpdated(string id)
         {
-            loadData();
+            var bookmark = await _bookmarkService.GetByIdAsync(id);
+            if (bookmark != null)
+            {
+                int index = bindingSource.Find("Id", id);
+
+                if (index >= 0)
+                {
+                    var updatedBookmarkGridModel = new BookmarkGridModel(
+                        index + 1,
+                        bookmark);
+
+                    dataTable.Rows[index]["No"] = updatedBookmarkGridModel.RowNo;
+                    dataTable.Rows[index]["Id"] = updatedBookmarkGridModel.Id;
+                    dataTable.Rows[index]["Title"] = updatedBookmarkGridModel.Title;
+                    dataTable.Rows[index]["Tags"] = updatedBookmarkGridModel.Tags;
+                    dataTable.Rows[index]["Group"] = updatedBookmarkGridModel.Group;
+                    dataTable.Rows[index]["Type"] = updatedBookmarkGridModel.Type;
+                    dataTable.Rows[index]["Created"] = updatedBookmarkGridModel.Created;
+                    dataTable.Rows[index]["Url"] = updatedBookmarkGridModel.Url;
+                }
+            }
         }
 
-        private void OnBookmarkDeleted()
+        private void OnBookmarkDeleted(string id)
         {
-            loadData();
+            dataTable.Rows.RemoveAt(bindingSource.Find("Id", id));
+        }
+
+        private void dataGridView1_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            if (e.Row != null)
+            {
+                var id = e.Row.Cells["Id"]?.Value?.ToString();
+                if (!string.IsNullOrWhiteSpace(id))
+                {
+                    var confirmResult = MessageBox.Show(
+                    "Are you sure you want to delete this bookmark?",
+                    "Confirm Delete",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                    if (confirmResult == DialogResult.Yes)
+                    {
+                        _bookmarkService.DeleteAsync(id);
+                    }
+                }
+            }
         }
     }
 }

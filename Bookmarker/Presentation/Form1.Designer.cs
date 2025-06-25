@@ -54,6 +54,7 @@
             // 
             // dataGridView1
             // 
+            dataGridView1.AllowUserToAddRows = false;
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -64,6 +65,7 @@
             dataGridView1.Size = new Size(1155, 745);
             dataGridView1.TabIndex = 1;
             dataGridView1.CellMouseDoubleClick += dataGridView1_CellMouseDoubleClick;
+            dataGridView1.UserDeletingRow += dataGridView1_UserDeletingRow;
             // 
             // labelSearch
             // 
