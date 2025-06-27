@@ -3,12 +3,12 @@ using Bookmarker.Domain.Models;
 
 namespace Bookmarker.Infrastructure.Repositories.Cached
 {
-    internal class CachedBookmarksRepository : IBookmarkRepository
+    internal class CachedBookmarkRepository : IBookmarkRepository
     {
         private readonly IBookmarkRepository _innerRepository;
         private List<Bookmark>? _cachedBookmarks;
 
-        public CachedBookmarksRepository(IBookmarkRepository innerRepository)
+        public CachedBookmarkRepository(IBookmarkRepository innerRepository)
         {
             _innerRepository = innerRepository;
         }

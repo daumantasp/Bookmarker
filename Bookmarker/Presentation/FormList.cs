@@ -1,91 +1,41 @@
-using Bookmarker.Infrastructure.Repositories.Reddit;
 using Bookmarker.Presentation.ViewModels;
 using Bookmarker.Presentation;
-using Bookmarker.Application.Services.BookmarkService;
-using Bookmarker.Application.Services.TagService;
 using Bookmarker.Domain.Interfaces.Services;
-using Bookmarker.Domain.Interfaces.Repositories;
-using Bookmarker.Infrastructure.Repositories.Cached;
 using System.ComponentModel;
 using System.Data;
+using Bookmarker.Infrastructure.SourceSelector;
 
 namespace Bookmarker
 {
     public partial class FormList : Form
     {
-        private IBookmarkService _bookmarkService;
+        private readonly IBookmarkService _bookmarkService;
         private readonly IBookmarkParserService _bookmarkParserService;
-        private ITagService _tagService;
-
-        private int counter = 0;
-        private List<BookmarkGridModel> filteredBookmarkGrid = new List<BookmarkGridModel>();
-        private string defaultFileDir = "bookmarks.json";
-        private string fullPath = "";
-
+        private readonly ITagService _tagService;
+        private string _sourcePath;
 
         private BindingSource bindingSource = new BindingSource();
-        private BindingList<BookmarkGridModel> bookmarkGridModel;
-        private DataTable dataTable;
+        private DataTable dataTable = new DataTable();
 
-        public FormList(IBookmarkParserService bookmarkParserService)
+        public FormList(
+            IBookmarkService bookmarkService,
+            IBookmarkParserService bookmarkParserService,
+            ITagService tagService,
+            string sourcePath)
         {
-            InitializeComponent();
-            SetupDataTable();
-
+            _bookmarkService = bookmarkService;
             _bookmarkParserService = bookmarkParserService;
+            _tagService = tagService;
+            _sourcePath = sourcePath;
 
-            fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, defaultFileDir);
-            if (!File.Exists(defaultFileDir))
-            {
-                buttonOpenFile.Enabled = false;
-                MessageBox.Show($"Bookmark file '{defaultFileDir}' not found. Please select a valid file.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            else
-            {
-                buttonOpenFile.Enabled = true;
-                textBoxFileDir.Text = fullPath;
-                IBookmarkRepository bookmarkRepository = new CachedBookmarksRepository(new RedditBookmarkRepository(fullPath));
-                _bookmarkService = new BookmarkService(bookmarkRepository);
-                _tagService = new TagService(bookmarkRepository);
-
-                _bookmarkService.BookmarkAdded += OnBookmarkAdded;
-                _bookmarkService.BookmarkUpdated += OnBookmarkUpdated;
-                _bookmarkService.BookmarkDeleted += OnBookmarkDeleted;
-
-                LoadAllBookmarks();
-            }
+            InitializeComponent();
+            SetupUI();
+            SetupEvents();
+            LoadAllBookmarks();
         }
 
-        private async void FormList_Load(object sender, EventArgs e)
+        private void SetupUI()
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-
-                openFileDialog.InitialDirectory = ".\\"; // or set to a specific folder
-                openFileDialog.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
-
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    string filePath = openFileDialog.FileName;
-
-                    buttonOpenFile.Enabled = true;
-                    textBoxFileDir.Text = filePath;
-                    IBookmarkRepository bookmarkRepository = new CachedBookmarksRepository(new RedditBookmarkRepository(filePath));
-                    _bookmarkService = new BookmarkService(bookmarkRepository);
-                    _tagService = new TagService(bookmarkRepository);
-
-                    _bookmarkService.BookmarkAdded += OnBookmarkAdded;
-                    _bookmarkService.BookmarkUpdated += OnBookmarkUpdated;
-                    _bookmarkService.BookmarkDeleted += OnBookmarkDeleted;
-
-                    LoadAllBookmarks();
-                }
-            }
-        }
-
-        private void SetupDataTable()
-        {
-            dataTable = new DataTable();
             dataTable.Columns.Add("No", typeof(int));
             dataTable.Columns.Add("Id", typeof(string));
             dataTable.Columns.Add("Title", typeof(string));
@@ -94,6 +44,15 @@ namespace Bookmarker
             dataTable.Columns.Add("Type", typeof(string));
             dataTable.Columns.Add("Created", typeof(string));
             dataTable.Columns.Add("Url", typeof(string));
+
+            textBoxFileDir.Text = _sourcePath;
+        }
+
+        private void SetupEvents()
+        {
+            _bookmarkService.BookmarkAdded += OnBookmarkAdded;
+            _bookmarkService.BookmarkUpdated += OnBookmarkUpdated;
+            _bookmarkService.BookmarkDeleted += OnBookmarkDeleted;
         }
 
         private async void LoadAllBookmarks()
@@ -105,7 +64,7 @@ namespace Bookmarker
             {
                 var bookmarks = await _bookmarkService.GetAllAsync();
 
-                counter = 0;
+                var counter = 0;
                 foreach (var bookmark in bookmarks)
                 {
                     AddBookmarkGridModelToDataTable(new BookmarkGridModel(++counter, bookmark));
@@ -250,13 +209,13 @@ namespace Bookmarker
 
         private void buttonOpen_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(fullPath))
+            if (!string.IsNullOrWhiteSpace(_sourcePath))
             {
                 try
                 {
                     System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                     {
-                        FileName = fullPath,
+                        FileName = _sourcePath,
                         UseShellExecute = true
                     });
                 }
@@ -269,9 +228,9 @@ namespace Bookmarker
 
         private void buttonOpenDir_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(fullPath))
+            if (!string.IsNullOrWhiteSpace(_sourcePath))
             {
-                var directoryPath = Path.GetDirectoryName(fullPath);
+                var directoryPath = Path.GetDirectoryName(_sourcePath);
                 if (directoryPath != null)
                 {
                     try
@@ -292,6 +251,11 @@ namespace Bookmarker
         private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             OpenSelectedUrlInBrowser();
+        }
+
+        private void buttonLoad_Click(object sender, EventArgs e)
+        {
+            SourceSelector.ShowFileDialog();
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)

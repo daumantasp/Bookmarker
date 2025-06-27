@@ -1,7 +1,11 @@
-using Bookmarker.Application.Services;
 using Bookmarker.Application.Services.BookmarkParserService;
-using Bookmarker.Domain.Interfaces;
+using Bookmarker.Application.Services.BookmarkService;
+using Bookmarker.Application.Services.TagService;
+using Bookmarker.Domain.Interfaces.Repositories;
+using Bookmarker.Domain.Interfaces.Services;
+using Bookmarker.Infrastructure.Repositories.Cached;
 using Bookmarker.Infrastructure.Repositories.Reddit;
+using Bookmarker.Infrastructure.SourceSelector;
 using FormsApplication = System.Windows.Forms.Application;
 
 namespace Bookmarker
@@ -18,13 +22,26 @@ namespace Bookmarker
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            // Manual DI
-            //IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository("bookmarks.json");
-            //IBookmarkService bookmarkService = new BookmarkService(bookmarkRepository);
+            string sourcePath;
+            if (SourceSelector.IsDefaultFileDirExists())
+            {
+                sourcePath = SourceSelector.DefaultPath;
+            }
+            else
+            {
+                sourcePath = SourceSelector.ShowFileDialog() ?? throw new InvalidOperationException("No file selected.");
+            }
 
-            //FormsApplication.Run(new FormList(bookmarkService));
+            IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(sourcePath);
+            IBookmarkRepository cachedBookmarkRepository = new CachedBookmarkRepository(bookmarkRepository);
 
-            FormsApplication.Run(new FormList(new RedditBookmarkParserService()));
+            IBookmarkService bookmarkService = new BookmarkService(cachedBookmarkRepository);
+            IBookmarkParserService bookmarkParserService = new RedditBookmarkParserService();
+
+            ITagService tagService = new TagService(cachedBookmarkRepository);
+            
+            var formList = new FormList(bookmarkService, bookmarkParserService, tagService, sourcePath);
+            FormsApplication.Run(formList);
         }
     }
 }

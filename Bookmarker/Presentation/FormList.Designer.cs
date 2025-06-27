@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            buttonLoad = new Button();
             dataGridView1 = new DataGridView();
             labelSearch = new Label();
             textBoxSearch = new TextBox();
@@ -41,16 +40,6 @@
             buttonOpenDir = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
-            // 
-            // buttonLoad
-            // 
-            buttonLoad.Location = new Point(12, 12);
-            buttonLoad.Name = "buttonLoad";
-            buttonLoad.Size = new Size(120, 23);
-            buttonLoad.TabIndex = 0;
-            buttonLoad.Text = "Load";
-            buttonLoad.UseVisualStyleBackColor = true;
-            buttonLoad.Click += FormList_Load;
             // 
             // dataGridView1
             // 
@@ -102,9 +91,9 @@
             // 
             textBoxFileDir.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             textBoxFileDir.Enabled = false;
-            textBoxFileDir.Location = new Point(138, 13);
+            textBoxFileDir.Location = new Point(14, 13);
             textBoxFileDir.Name = "textBoxFileDir";
-            textBoxFileDir.Size = new Size(836, 23);
+            textBoxFileDir.Size = new Size(960, 23);
             textBoxFileDir.TabIndex = 5;
             // 
             // buttonAdd
@@ -177,7 +166,6 @@
             Controls.Add(textBoxSearch);
             Controls.Add(labelSearch);
             Controls.Add(dataGridView1);
-            Controls.Add(buttonLoad);
             Name = "FormList";
             Text = "Bookmarker";
             WindowState = FormWindowState.Maximized;
@@ -187,8 +175,6 @@
         }
 
         #endregion
-
-        private Button buttonLoad;
         private DataGridView dataGridView1;
         private Label labelSearch;
         private TextBox textBoxSearch;
