@@ -50,7 +50,7 @@
             buttonLoad.TabIndex = 0;
             buttonLoad.Text = "Load";
             buttonLoad.UseVisualStyleBackColor = true;
-            buttonLoad.Click += Form1_Load;
+            buttonLoad.Click += FormList_Load;
             // 
             // dataGridView1
             // 

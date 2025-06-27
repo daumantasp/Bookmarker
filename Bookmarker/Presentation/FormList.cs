@@ -56,7 +56,7 @@ namespace Bookmarker
             }
         }
 
-        private async void Form1_Load(object sender, EventArgs e)
+        private async void FormList_Load(object sender, EventArgs e)
         {
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {

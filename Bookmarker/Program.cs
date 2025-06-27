@@ -22,7 +22,7 @@ namespace Bookmarker
             //IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository("bookmarks.json");
             //IBookmarkService bookmarkService = new BookmarkService(bookmarkRepository);
 
-            //FormsApplication.Run(new Form1(bookmarkService));
+            //FormsApplication.Run(new FormList(bookmarkService));
 
             FormsApplication.Run(new FormList(new RedditBookmarkParserService()));
         }
