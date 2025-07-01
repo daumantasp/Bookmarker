@@ -24,5 +24,22 @@
                     return null;
             }
         }
+
+        public static string? ShowCreateFileDialog()
+        {
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.InitialDirectory = ".\\";
+                saveFileDialog.Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*";
+                saveFileDialog.DefaultExt = "json";
+                saveFileDialog.AddExtension = true;
+                saveFileDialog.FileName = "bookmarks.json";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                    return saveFileDialog.FileName;
+                else
+                    return null;
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@ using Bookmarker.Domain.Interfaces.Repositories;
 using Bookmarker.Domain.Interfaces.Services;
 using Bookmarker.Infrastructure.Repositories.Cached;
 using Bookmarker.Infrastructure.Repositories.Reddit;
-using Bookmarker.Infrastructure.SourceSelector;
+using Bookmarker.Presentation;
 using FormsApplication = System.Windows.Forms.Application;
 
 namespace Bookmarker
@@ -22,26 +22,35 @@ namespace Bookmarker
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
 
-            string sourcePath;
-            if (SourceSelector.IsDefaultFileDirExists())
+            string sourcePath = Properties.Settings.Default.LastUsedPath;
+
+            if (string.IsNullOrEmpty(sourcePath) || !File.Exists(sourcePath))
             {
-                sourcePath = SourceSelector.DefaultPath;
+                using (DialogStart dialogStart = new DialogStart())
+                {
+                    if (dialogStart.ShowDialog() == DialogResult.OK)
+                    {
+                        sourcePath = dialogStart.SourcePath ?? throw new InvalidOperationException("Source path cannot be null.");
+                    }
+                }
             }
-            else
+
+            if (!string.IsNullOrEmpty(sourcePath) && File.Exists(sourcePath))
             {
-                sourcePath = SourceSelector.ShowFileDialog() ?? throw new InvalidOperationException("No file selected.");
+                Properties.Settings.Default.LastUsedPath = sourcePath;
+                Properties.Settings.Default.Save();
+
+                IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(sourcePath);
+                IBookmarkRepository cachedBookmarkRepository = new CachedBookmarkRepository(bookmarkRepository);
+
+                IBookmarkService bookmarkService = new BookmarkService(cachedBookmarkRepository);
+                IBookmarkParserService bookmarkParserService = new RedditBookmarkParserService();
+
+                ITagService tagService = new TagService(cachedBookmarkRepository);
+
+                var formList = new FormList(bookmarkService, bookmarkParserService, tagService, sourcePath);
+                FormsApplication.Run(formList);
             }
-
-            IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(sourcePath);
-            IBookmarkRepository cachedBookmarkRepository = new CachedBookmarkRepository(bookmarkRepository);
-
-            IBookmarkService bookmarkService = new BookmarkService(cachedBookmarkRepository);
-            IBookmarkParserService bookmarkParserService = new RedditBookmarkParserService();
-
-            ITagService tagService = new TagService(cachedBookmarkRepository);
-            
-            var formList = new FormList(bookmarkService, bookmarkParserService, tagService, sourcePath);
-            FormsApplication.Run(formList);
         }
     }
 }
