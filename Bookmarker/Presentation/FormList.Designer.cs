@@ -36,9 +36,14 @@
             buttonAdd = new Button();
             buttonEdit = new Button();
             buttonDelete = new Button();
-            buttonOpenFile = new Button();
-            buttonOpenDir = new Button();
+            menuStrip1 = new MenuStrip();
+            fileToolStripMenuItem = new ToolStripMenuItem();
+            newToolStripMenuItem = new ToolStripMenuItem();
+            browseToolStripMenuItem = new ToolStripMenuItem();
+            openToolStripMenuItem = new ToolStripMenuItem();
+            openDirectoryToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // dataGridView1
@@ -48,11 +53,11 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.EditMode = DataGridViewEditMode.EditProgrammatically;
-            dataGridView1.Location = new Point(12, 41);
+            dataGridView1.Location = new Point(12, 56);
             dataGridView1.MultiSelect = false;
             dataGridView1.Name = "dataGridView1";
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridView1.Size = new Size(1155, 745);
+            dataGridView1.Size = new Size(1155, 730);
             dataGridView1.TabIndex = 1;
             dataGridView1.CellMouseDoubleClick += dataGridView1_CellMouseDoubleClick;
             dataGridView1.UserDeletingRow += dataGridView1_UserDeletingRow;
@@ -91,9 +96,9 @@
             // 
             textBoxFileDir.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             textBoxFileDir.Enabled = false;
-            textBoxFileDir.Location = new Point(14, 13);
+            textBoxFileDir.Location = new Point(14, 27);
             textBoxFileDir.Name = "textBoxFileDir";
-            textBoxFileDir.Size = new Size(960, 23);
+            textBoxFileDir.Size = new Size(1153, 23);
             textBoxFileDir.TabIndex = 5;
             // 
             // buttonAdd
@@ -129,35 +134,54 @@
             buttonDelete.UseVisualStyleBackColor = true;
             buttonDelete.Click += buttonDelete_Click;
             // 
-            // buttonOpenFile
+            // menuStrip1
             // 
-            buttonOpenFile.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonOpenFile.Location = new Point(980, 12);
-            buttonOpenFile.Name = "buttonOpenFile";
-            buttonOpenFile.Size = new Size(75, 23);
-            buttonOpenFile.TabIndex = 9;
-            buttonOpenFile.Text = "Open File";
-            buttonOpenFile.UseVisualStyleBackColor = true;
-            buttonOpenFile.Click += buttonOpen_Click;
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
+            menuStrip1.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(1184, 24);
+            menuStrip1.TabIndex = 9;
+            menuStrip1.Text = "menuStrip1";
             // 
-            // buttonOpenDir
+            // fileToolStripMenuItem
             // 
-            buttonOpenDir.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            buttonOpenDir.Location = new Point(1061, 13);
-            buttonOpenDir.Name = "buttonOpenDir";
-            buttonOpenDir.Size = new Size(106, 23);
-            buttonOpenDir.TabIndex = 10;
-            buttonOpenDir.Text = "Open Directory";
-            buttonOpenDir.UseVisualStyleBackColor = true;
-            buttonOpenDir.Click += buttonOpenDir_Click;
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newToolStripMenuItem, browseToolStripMenuItem, openToolStripMenuItem, openDirectoryToolStripMenuItem });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(37, 20);
+            fileToolStripMenuItem.Text = "File";
+            // 
+            // newToolStripMenuItem
+            // 
+            newToolStripMenuItem.Name = "newToolStripMenuItem";
+            newToolStripMenuItem.Size = new Size(154, 22);
+            newToolStripMenuItem.Text = "New";
+            // 
+            // browseToolStripMenuItem
+            // 
+            browseToolStripMenuItem.Name = "browseToolStripMenuItem";
+            browseToolStripMenuItem.Size = new Size(154, 22);
+            browseToolStripMenuItem.Text = "Browse";
+            // 
+            // openToolStripMenuItem
+            // 
+            openToolStripMenuItem.Name = "openToolStripMenuItem";
+            openToolStripMenuItem.Size = new Size(154, 22);
+            openToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
+            // 
+            // openDirectoryToolStripMenuItem
+            // 
+            openDirectoryToolStripMenuItem.Name = "openDirectoryToolStripMenuItem";
+            openDirectoryToolStripMenuItem.Size = new Size(154, 22);
+            openDirectoryToolStripMenuItem.Text = "Open Directory";
+            openDirectoryToolStripMenuItem.Click += openDirectoryToolStripMenuItem_Click;
             // 
             // FormList
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1184, 861);
-            Controls.Add(buttonOpenDir);
-            Controls.Add(buttonOpenFile);
             Controls.Add(buttonDelete);
             Controls.Add(buttonEdit);
             Controls.Add(buttonAdd);
@@ -166,10 +190,14 @@
             Controls.Add(textBoxSearch);
             Controls.Add(labelSearch);
             Controls.Add(dataGridView1);
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
             Name = "FormList";
             Text = "Bookmarker";
             WindowState = FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -183,7 +211,11 @@
         private Button buttonAdd;
         private Button buttonEdit;
         private Button buttonDelete;
-        private Button buttonOpenFile;
-        private Button buttonOpenDir;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem newToolStripMenuItem;
+        private ToolStripMenuItem browseToolStripMenuItem;
+        private ToolStripMenuItem openToolStripMenuItem;
+        private ToolStripMenuItem openDirectoryToolStripMenuItem;
     }
 }

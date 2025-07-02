@@ -1,9 +1,9 @@
 using Bookmarker.Presentation.ViewModels;
 using Bookmarker.Presentation;
 using Bookmarker.Domain.Interfaces.Services;
-using System.ComponentModel;
 using System.Data;
 using Bookmarker.Infrastructure.SourceSelector;
+using Bookmarker.Presentation.Shared;
 
 namespace Bookmarker
 {
@@ -36,6 +36,8 @@ namespace Bookmarker
 
         private void SetupUI()
         {
+            menuStrip1.Renderer = new ToolStripProfessionalRenderer(new CustomMenuStripColorTable());
+
             dataTable.Columns.Add("No", typeof(int));
             dataTable.Columns.Add("Id", typeof(string));
             dataTable.Columns.Add("Title", typeof(string));
@@ -207,47 +209,6 @@ namespace Bookmarker
             OpenSelectedUrlInBrowser();
         }
 
-        private void buttonOpen_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(_sourcePath))
-            {
-                try
-                {
-                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-                    {
-                        FileName = _sourcePath,
-                        UseShellExecute = true
-                    });
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error opening file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void buttonOpenDir_Click(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(_sourcePath))
-            {
-                var directoryPath = Path.GetDirectoryName(_sourcePath);
-                if (directoryPath != null)
-                {
-                    try
-                    {
-                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-                        {
-                            FileName = directoryPath,
-                            UseShellExecute = true
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Error opening directory: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
         private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             OpenSelectedUrlInBrowser();
@@ -311,6 +272,48 @@ namespace Bookmarker
             {
                 var id = e.Row.Cells["Id"]?.Value?.ToString();
                 ShowBookmarkDeletionConfirmationDialog(id);
+            }
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(_sourcePath))
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                    {
+                        FileName = _sourcePath,
+                        UseShellExecute = true
+                    });
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error opening file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void openDirectoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(_sourcePath))
+            {
+                var directoryPath = Path.GetDirectoryName(_sourcePath);
+                if (directoryPath != null)
+                {
+                    try
+                    {
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                        {
+                            FileName = directoryPath,
+                            UseShellExecute = true
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error opening directory: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
         }
     }
