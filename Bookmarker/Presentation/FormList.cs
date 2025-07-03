@@ -17,6 +17,9 @@ namespace Bookmarker
         private BindingSource bindingSource = new BindingSource();
         private DataTable dataTable = new DataTable();
 
+        public event Action<string> OnSourcePathSelected;
+        public event Action<string> OnNewSourcePathSelected;
+
         public FormList(
             IBookmarkService bookmarkService,
             IBookmarkParserService bookmarkParserService,
@@ -315,6 +318,20 @@ namespace Bookmarker
                     }
                 }
             }
+        }
+
+        private void browseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var newSourcePath = SourceSelector.ShowFileDialog();
+            if (!string.IsNullOrWhiteSpace(newSourcePath) && OnSourcePathSelected != null)
+                OnSourcePathSelected(newSourcePath);
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var newSourcePath = SourceSelector.ShowCreateFileDialog();
+            if (!string.IsNullOrWhiteSpace(newSourcePath) && OnSourcePathSelected != null)
+                OnNewSourcePathSelected(newSourcePath);
         }
     }
 }

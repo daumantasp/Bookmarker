@@ -37,20 +37,49 @@ namespace Bookmarker
 
             if (!string.IsNullOrEmpty(sourcePath) && File.Exists(sourcePath))
             {
-                Properties.Settings.Default.LastUsedPath = sourcePath;
-                Properties.Settings.Default.Save();
-
-                IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(sourcePath);
-                IBookmarkRepository cachedBookmarkRepository = new CachedBookmarkRepository(bookmarkRepository);
-
-                IBookmarkService bookmarkService = new BookmarkService(cachedBookmarkRepository);
-                IBookmarkParserService bookmarkParserService = new RedditBookmarkParserService();
-
-                ITagService tagService = new TagService(cachedBookmarkRepository);
-
-                var formList = new FormList(bookmarkService, bookmarkParserService, tagService, sourcePath);
+                SavePath(sourcePath);
+                var formList = CreateFormList(sourcePath);
                 FormsApplication.Run(formList);
             }
+        }
+
+        private static FormList CreateFormList(string sourcePath)
+        {
+            IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(sourcePath);
+            IBookmarkRepository cachedBookmarkRepository = new CachedBookmarkRepository(bookmarkRepository);
+
+            IBookmarkService bookmarkService = new BookmarkService(cachedBookmarkRepository);
+            IBookmarkParserService bookmarkParserService = new RedditBookmarkParserService();
+
+            ITagService tagService = new TagService(cachedBookmarkRepository);
+
+            var formList = new FormList(bookmarkService, bookmarkParserService, tagService, sourcePath);
+            formList.OnSourcePathSelected += (newSourcePath) =>
+            {
+                if (newSourcePath != null && File.Exists(newSourcePath))
+                {
+                    SavePath(newSourcePath);
+                    CreateFormList(newSourcePath).Show();
+                }
+            };
+            formList.OnNewSourcePathSelected += (newSourcePath) =>
+            {
+                // TODO: Refine
+                if (newSourcePath != null && File.Exists(newSourcePath))
+                {
+                    File.WriteAllText(newSourcePath, "[]");
+                    SavePath(newSourcePath);
+                    CreateFormList(newSourcePath).Show();
+                }
+            };
+
+            return formList;
+        }
+
+        private static void SavePath(string sourcePath)
+        {
+            Properties.Settings.Default.LastUsedPath = sourcePath;
+            Properties.Settings.Default.Save();
         }
     }
 }
