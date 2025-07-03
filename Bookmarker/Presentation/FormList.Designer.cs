@@ -60,6 +60,7 @@
             dataGridView1.Size = new Size(1155, 730);
             dataGridView1.TabIndex = 1;
             dataGridView1.CellMouseDoubleClick += dataGridView1_CellMouseDoubleClick;
+            dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
             dataGridView1.UserDeletingRow += dataGridView1_UserDeletingRow;
             // 
             // labelSearch
@@ -154,28 +155,28 @@
             // newToolStripMenuItem
             // 
             newToolStripMenuItem.Name = "newToolStripMenuItem";
-            newToolStripMenuItem.Size = new Size(180, 22);
+            newToolStripMenuItem.Size = new Size(154, 22);
             newToolStripMenuItem.Text = "New";
             newToolStripMenuItem.Click += newToolStripMenuItem_Click;
             // 
             // browseToolStripMenuItem
             // 
             browseToolStripMenuItem.Name = "browseToolStripMenuItem";
-            browseToolStripMenuItem.Size = new Size(180, 22);
+            browseToolStripMenuItem.Size = new Size(154, 22);
             browseToolStripMenuItem.Text = "Browse";
             browseToolStripMenuItem.Click += browseToolStripMenuItem_Click;
             // 
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Size = new Size(154, 22);
             openToolStripMenuItem.Text = "Open Source";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // openDirectoryToolStripMenuItem
             // 
             openDirectoryToolStripMenuItem.Name = "openDirectoryToolStripMenuItem";
-            openDirectoryToolStripMenuItem.Size = new Size(180, 22);
+            openDirectoryToolStripMenuItem.Size = new Size(154, 22);
             openDirectoryToolStripMenuItem.Text = "Open Directory";
             openDirectoryToolStripMenuItem.Click += openDirectoryToolStripMenuItem_Click;
             // 

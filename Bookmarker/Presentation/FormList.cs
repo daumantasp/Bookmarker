@@ -34,7 +34,7 @@ namespace Bookmarker
             InitializeComponent();
             SetupUI();
             SetupEvents();
-            LoadAllBookmarks();
+            LoadAllBookmarks(() => SetFormTitle());
         }
 
         private void SetupUI()
@@ -60,7 +60,7 @@ namespace Bookmarker
             _bookmarkService.BookmarkDeleted += OnBookmarkDeleted;
         }
 
-        private async void LoadAllBookmarks()
+        private async void LoadAllBookmarks(Action onLoaded)
         {
             if (_bookmarkService == null)
                 return;
@@ -77,6 +77,8 @@ namespace Bookmarker
 
                 bindingSource.DataSource = dataTable;
                 dataGridView1.DataSource = bindingSource;
+
+                onLoaded();
             }
             catch (Exception ex)
             {
@@ -332,6 +334,37 @@ namespace Bookmarker
             var newSourcePath = SourceSelector.ShowCreateFileDialog();
             if (!string.IsNullOrWhiteSpace(newSourcePath) && OnSourcePathSelected != null)
                 OnNewSourcePathSelected(newSourcePath);
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
+        {
+            SetFormTitle();
+        }
+
+        private void SetFormTitle()
+        {
+            if (dataGridView1.SelectedRows.Count > 0)
+            {
+                var selectedRow = dataGridView1.SelectedRows[0];
+                if (selectedRow != null)
+                {
+                    var title = selectedRow.Cells["Title"].Value?.ToString();
+                    var rowNo = selectedRow.Cells["No"].Value?.ToString();
+                    var totalCount = dataGridView1.Rows.Count.ToString();
+                    if (!string.IsNullOrWhiteSpace(title) && !string.IsNullOrWhiteSpace(rowNo))
+                    {
+                        Text = $"Bookmarker - {title} ({rowNo} of {totalCount})";
+                    }
+                    else
+                    {
+                        Text = $"Bookmarker ({totalCount})";
+                    }
+                }
+            }
+            else
+            {
+                Text = "Bookmarker";
+            }
         }
     }
 }
