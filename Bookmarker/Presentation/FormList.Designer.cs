@@ -169,7 +169,7 @@
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
             openToolStripMenuItem.Size = new Size(180, 22);
-            openToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Text = "Open Source";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // openDirectoryToolStripMenuItem
