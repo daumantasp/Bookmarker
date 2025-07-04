@@ -9,9 +9,9 @@ namespace Bookmarker
 {
     public partial class FormList : Form
     {
-        private readonly IBookmarkService _bookmarkService;
-        private readonly IBookmarkParserService _bookmarkParserService;
-        private readonly ITagService _tagService;
+        private IBookmarkService _bookmarkService;
+        private IBookmarkParserService _bookmarkParserService;
+        private ITagService _tagService;
         private string _sourcePath;
 
         private BindingSource bindingSource = new BindingSource();
@@ -20,21 +20,31 @@ namespace Bookmarker
         public event Action<string> OnSourcePathSelected;
         public event Action<string> OnNewSourcePathSelected;
 
-        public FormList(
-            IBookmarkService bookmarkService,
-            IBookmarkParserService bookmarkParserService,
-            ITagService tagService,
-            string sourcePath)
+        public FormList()
         {
+            InitializeComponent();
+            SetupUI();
+        }
+
+        public void LoadSource(string sourcePath,
+                               IBookmarkService bookmarkService,
+                               IBookmarkParserService bookmarkParserService,
+                               ITagService tagService)
+        {
+            ClearBookmarks();
+
+            _sourcePath = sourcePath;
             _bookmarkService = bookmarkService;
             _bookmarkParserService = bookmarkParserService;
             _tagService = tagService;
-            _sourcePath = sourcePath;
 
-            InitializeComponent();
-            SetupUI();
-            SetupEvents();
-            LoadAllBookmarks(() => SetFormTitle());
+            textBoxFileDir.Text = _sourcePath;
+
+            LoadAllBookmarks(() =>
+            {
+                SetFormTitle();
+                SetupEvents();
+            });
         }
 
         private void SetupUI()
@@ -49,8 +59,6 @@ namespace Bookmarker
             dataTable.Columns.Add("Type", typeof(string));
             dataTable.Columns.Add("Created", typeof(string));
             dataTable.Columns.Add("Url", typeof(string));
-
-            textBoxFileDir.Text = _sourcePath;
         }
 
         private void SetupEvents()
@@ -58,6 +66,20 @@ namespace Bookmarker
             _bookmarkService.BookmarkAdded += OnBookmarkAdded;
             _bookmarkService.BookmarkUpdated += OnBookmarkUpdated;
             _bookmarkService.BookmarkDeleted += OnBookmarkDeleted;
+        }
+
+        private void ClearBookmarks()
+        {
+            if (_bookmarkService == null)
+                return;
+
+            _bookmarkService.BookmarkAdded -= OnBookmarkAdded;
+            _bookmarkService.BookmarkUpdated -= OnBookmarkUpdated;
+            _bookmarkService.BookmarkDeleted -= OnBookmarkDeleted;
+
+            bindingSource.DataSource = null;
+            bindingSource.Clear();
+            dataTable.Clear();
         }
 
         private async void LoadAllBookmarks(Action onLoaded)

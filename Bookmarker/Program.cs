@@ -43,6 +43,7 @@ namespace Bookmarker
             }
         }
 
+        // TODO: Refactor
         private static FormList CreateFormList(string sourcePath)
         {
             IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(sourcePath);
@@ -53,13 +54,24 @@ namespace Bookmarker
 
             ITagService tagService = new TagService(cachedBookmarkRepository);
 
-            var formList = new FormList(bookmarkService, bookmarkParserService, tagService, sourcePath);
+            var formList = new FormList();
             formList.OnSourcePathSelected += (newSourcePath) =>
             {
                 if (newSourcePath != null && File.Exists(newSourcePath))
                 {
                     SavePath(newSourcePath);
-                    CreateFormList(newSourcePath).Show();
+
+
+                    IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(newSourcePath);
+                    IBookmarkRepository cachedBookmarkRepository = new CachedBookmarkRepository(bookmarkRepository);
+
+                    IBookmarkService bookmarkService = new BookmarkService(cachedBookmarkRepository);
+                    IBookmarkParserService bookmarkParserService = new RedditBookmarkParserService();
+
+                    ITagService tagService = new TagService(cachedBookmarkRepository);
+
+
+                    formList.LoadSource(newSourcePath, bookmarkService, bookmarkParserService, tagService);
                 }
             };
             formList.OnNewSourcePathSelected += (newSourcePath) =>
@@ -69,9 +81,20 @@ namespace Bookmarker
                 {
                     File.WriteAllText(newSourcePath, "[]");
                     SavePath(newSourcePath);
-                    CreateFormList(newSourcePath).Show();
+
+
+                    IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(newSourcePath);
+                    IBookmarkRepository cachedBookmarkRepository = new CachedBookmarkRepository(bookmarkRepository);
+
+                    IBookmarkService bookmarkService = new BookmarkService(cachedBookmarkRepository);
+                    IBookmarkParserService bookmarkParserService = new RedditBookmarkParserService();
+
+                    ITagService tagService = new TagService(cachedBookmarkRepository);
+
+                    formList.LoadSource(newSourcePath, bookmarkService, bookmarkParserService, tagService);
                 }
             };
+            formList.LoadSource(sourcePath, bookmarkService, bookmarkParserService, tagService);
 
             return formList;
         }
