@@ -2,7 +2,6 @@ using Bookmarker.Application.Services.BookmarkParserService;
 using Bookmarker.Application.Services.BookmarkService;
 using Bookmarker.Application.Services.TagService;
 using Bookmarker.Domain.Interfaces.Repositories;
-using Bookmarker.Domain.Interfaces.Services;
 using Bookmarker.Infrastructure.Repositories.Cached;
 using Bookmarker.Infrastructure.Repositories.Reddit;
 using Bookmarker.Presentation;
@@ -35,68 +34,54 @@ namespace Bookmarker
                 }
             }
 
+            // TODO: Refactor
             if (!string.IsNullOrEmpty(sourcePath) && File.Exists(sourcePath))
             {
                 SavePath(sourcePath);
-                var formList = CreateFormList(sourcePath);
+
+                var formList = new FormList();
+                formList.OnSourcePathSelected += (newSourcePath) =>
+                {
+                    if (newSourcePath != null && File.Exists(newSourcePath))
+                    {
+                        SavePath(newSourcePath);
+                        var newBookmarkRepository = CreateBookmarkRepository(newSourcePath);
+                        formList.LoadSource(
+                            newSourcePath,
+                            new BookmarkService(newBookmarkRepository),
+                            new RedditBookmarkParserService(),
+                            new TagService(newBookmarkRepository)
+                            );
+                    }
+                };
+                formList.OnNewSourcePathSelected += (newSourcePath) =>
+                {
+                    // TODO: Refine
+                    if (newSourcePath != null && File.Exists(newSourcePath))
+                    {
+                        File.WriteAllText(newSourcePath, "[]");
+                        SavePath(newSourcePath);
+
+                        var newBookmarkRepository = CreateBookmarkRepository(newSourcePath);
+                        formList.LoadSource(
+                            newSourcePath,
+                            new BookmarkService(newBookmarkRepository),
+                            new RedditBookmarkParserService(),
+                            new TagService(newBookmarkRepository)
+                            );
+                    }
+                };
+
+                var bookmarkRepository = CreateBookmarkRepository(sourcePath);
+                formList.LoadSource(
+                    sourcePath,
+                    new BookmarkService(bookmarkRepository),
+                    new RedditBookmarkParserService(),
+                    new TagService(bookmarkRepository)
+                    );
+
                 FormsApplication.Run(formList);
             }
-        }
-
-        // TODO: Refactor
-        private static FormList CreateFormList(string sourcePath)
-        {
-            IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(sourcePath);
-            IBookmarkRepository cachedBookmarkRepository = new CachedBookmarkRepository(bookmarkRepository);
-
-            IBookmarkService bookmarkService = new BookmarkService(cachedBookmarkRepository);
-            IBookmarkParserService bookmarkParserService = new RedditBookmarkParserService();
-
-            ITagService tagService = new TagService(cachedBookmarkRepository);
-
-            var formList = new FormList();
-            formList.OnSourcePathSelected += (newSourcePath) =>
-            {
-                if (newSourcePath != null && File.Exists(newSourcePath))
-                {
-                    SavePath(newSourcePath);
-
-
-                    IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(newSourcePath);
-                    IBookmarkRepository cachedBookmarkRepository = new CachedBookmarkRepository(bookmarkRepository);
-
-                    IBookmarkService bookmarkService = new BookmarkService(cachedBookmarkRepository);
-                    IBookmarkParserService bookmarkParserService = new RedditBookmarkParserService();
-
-                    ITagService tagService = new TagService(cachedBookmarkRepository);
-
-
-                    formList.LoadSource(newSourcePath, bookmarkService, bookmarkParserService, tagService);
-                }
-            };
-            formList.OnNewSourcePathSelected += (newSourcePath) =>
-            {
-                // TODO: Refine
-                if (newSourcePath != null && File.Exists(newSourcePath))
-                {
-                    File.WriteAllText(newSourcePath, "[]");
-                    SavePath(newSourcePath);
-
-
-                    IBookmarkRepository bookmarkRepository = new RedditBookmarkRepository(newSourcePath);
-                    IBookmarkRepository cachedBookmarkRepository = new CachedBookmarkRepository(bookmarkRepository);
-
-                    IBookmarkService bookmarkService = new BookmarkService(cachedBookmarkRepository);
-                    IBookmarkParserService bookmarkParserService = new RedditBookmarkParserService();
-
-                    ITagService tagService = new TagService(cachedBookmarkRepository);
-
-                    formList.LoadSource(newSourcePath, bookmarkService, bookmarkParserService, tagService);
-                }
-            };
-            formList.LoadSource(sourcePath, bookmarkService, bookmarkParserService, tagService);
-
-            return formList;
         }
 
         private static void SavePath(string sourcePath)
@@ -104,5 +89,9 @@ namespace Bookmarker
             Properties.Settings.Default.LastUsedPath = sourcePath;
             Properties.Settings.Default.Save();
         }
+
+        private static IBookmarkRepository CreateBookmarkRepository(string sourcePath) =>
+            new CachedBookmarkRepository(new RedditBookmarkRepository(sourcePath));
+
     }
 }
