@@ -51,6 +51,7 @@
             buttonPaste = new Button();
             label1 = new Label();
             textBoxCreated = new TextBox();
+            labelTagsExample = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridViewTagData).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -262,11 +263,22 @@
             textBoxCreated.Size = new Size(293, 23);
             textBoxCreated.TabIndex = 26;
             // 
+            // labelTagsExample
+            // 
+            labelTagsExample.AutoSize = true;
+            labelTagsExample.Font = new Font("Segoe UI", 8.25F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            labelTagsExample.Location = new Point(65, 338);
+            labelTagsExample.Name = "labelTagsExample";
+            labelTagsExample.Size = new Size(135, 13);
+            labelTagsExample.TabIndex = 27;
+            labelTagsExample.Text = "#būstas, #daiktai, #sportas";
+            // 
             // FormDetails
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(651, 441);
+            Controls.Add(labelTagsExample);
             Controls.Add(textBoxCreated);
             Controls.Add(label1);
             Controls.Add(buttonPaste);
@@ -325,5 +337,6 @@
         private Button buttonEditTags;
         private Label label1;
         private TextBox textBoxCreated;
+        private Label labelTagsExample;
     }
 }
