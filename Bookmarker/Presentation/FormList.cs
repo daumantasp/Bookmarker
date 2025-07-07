@@ -39,6 +39,7 @@ namespace Bookmarker
             _tagService = tagService;
 
             textBoxFileDir.Text = _sourcePath;
+            UpdateButtonsState();
 
             LoadAllBookmarks(() =>
             {
@@ -80,6 +81,14 @@ namespace Bookmarker
             bindingSource.DataSource = null;
             bindingSource.Clear();
             dataTable.Clear();
+        }
+
+        private void UpdateButtonsState()
+        {
+            var isSelected = dataGridView1.SelectedRows.Count > 0;
+            buttonOpenBrowser.Enabled = isSelected;
+            buttonEdit.Enabled = isSelected;
+            buttonDelete.Enabled = isSelected;
         }
 
         private async void LoadAllBookmarks(Action onLoaded)
@@ -361,6 +370,7 @@ namespace Bookmarker
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             SetFormTitle();
+            UpdateButtonsState();
         }
 
         private void SetFormTitle()
