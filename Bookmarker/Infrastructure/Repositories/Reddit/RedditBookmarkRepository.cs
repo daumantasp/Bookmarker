@@ -4,15 +4,20 @@ using System.Text.Json;
 
 namespace Bookmarker.Infrastructure.Repositories.Reddit
 {
-    internal class RedditBookmarkRepository(string filePath) : IBookmarkRepository
+    internal class RedditBookmarkRepository : IBookmarkRepository
     {
-        private readonly string _filePath = filePath;
+        private readonly string _filePath;
+
+        public RedditBookmarkRepository(string filePath)
+        {
+            _filePath = filePath;
+
+            if (!File.Exists(_filePath))
+                File.WriteAllText(filePath, "[]");
+        }
 
         public async Task<IEnumerable<Bookmark>> GetAllAsync()
         {
-            if (!File.Exists(_filePath))
-                throw new FileNotFoundException("Bookmark file not found.", _filePath);
-
             try
             {
                 var json = await File.ReadAllTextAsync(_filePath);

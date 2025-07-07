@@ -34,60 +34,33 @@ namespace Bookmarker
                 }
             }
 
-            // TODO: Refactor
-            if (!string.IsNullOrEmpty(sourcePath) && File.Exists(sourcePath))
-            {
-                SavePath(sourcePath);
+            var formList = new FormList();
+            formList.OnSourcePathSelected += (newSourcePath) => LoadFormSource(newSourcePath, formList);
+            formList.OnNewSourcePathSelected += (newSourcePath) => LoadFormSource(newSourcePath, formList);
+            LoadFormSource(sourcePath, formList);
 
-                var formList = new FormList();
-                formList.OnSourcePathSelected += (newSourcePath) =>
-                {
-                    if (newSourcePath != null && File.Exists(newSourcePath))
-                    {
-                        SavePath(newSourcePath);
-                        var newBookmarkRepository = CreateBookmarkRepository(newSourcePath);
-                        formList.LoadSource(
-                            newSourcePath,
-                            new BookmarkService(newBookmarkRepository),
-                            new RedditBookmarkParserService(),
-                            new TagService(newBookmarkRepository)
-                            );
-                    }
-                };
-                formList.OnNewSourcePathSelected += (newSourcePath) =>
-                {
-                    // TODO: Refine
-                    if (newSourcePath != null && File.Exists(newSourcePath))
-                    {
-                        File.WriteAllText(newSourcePath, "[]");
-                        SavePath(newSourcePath);
-
-                        var newBookmarkRepository = CreateBookmarkRepository(newSourcePath);
-                        formList.LoadSource(
-                            newSourcePath,
-                            new BookmarkService(newBookmarkRepository),
-                            new RedditBookmarkParserService(),
-                            new TagService(newBookmarkRepository)
-                            );
-                    }
-                };
-
-                var bookmarkRepository = CreateBookmarkRepository(sourcePath);
-                formList.LoadSource(
-                    sourcePath,
-                    new BookmarkService(bookmarkRepository),
-                    new RedditBookmarkParserService(),
-                    new TagService(bookmarkRepository)
-                    );
-
-                FormsApplication.Run(formList);
-            }
+            FormsApplication.Run(formList);
         }
 
         private static void SavePath(string sourcePath)
         {
             Properties.Settings.Default.LastUsedPath = sourcePath;
             Properties.Settings.Default.Save();
+        }
+
+        private static void LoadFormSource(string sourcePath, FormList formList)
+        {
+            if (!string.IsNullOrWhiteSpace(sourcePath))
+            {
+                var bookmarkRepository = CreateBookmarkRepository(sourcePath);
+                formList.LoadSource(
+                        sourcePath,
+                        new BookmarkService(bookmarkRepository),
+                        new RedditBookmarkParserService(),
+                        new TagService(bookmarkRepository)
+                        );
+                SavePath(sourcePath);
+            }
         }
 
         private static IBookmarkRepository CreateBookmarkRepository(string sourcePath) =>
