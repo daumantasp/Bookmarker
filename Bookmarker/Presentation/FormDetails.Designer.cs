@@ -71,6 +71,7 @@
             textBoxUrl.Name = "textBoxUrl";
             textBoxUrl.Size = new Size(293, 23);
             textBoxUrl.TabIndex = 1;
+            textBoxUrl.Validating += TextBoxUrl_Validating;
             // 
             // labelType
             // 
@@ -123,6 +124,7 @@
             textBoxId.Name = "textBoxId";
             textBoxId.Size = new Size(293, 23);
             textBoxId.TabIndex = 7;
+            textBoxId.Validating += TextBoxId_Validating;
             // 
             // textBoxTitle
             // 
@@ -130,6 +132,7 @@
             textBoxTitle.Name = "textBoxTitle";
             textBoxTitle.Size = new Size(293, 23);
             textBoxTitle.TabIndex = 8;
+            textBoxTitle.Validating += TextBoxTitle_Validating;
             // 
             // textBoxGroup
             // 
@@ -137,6 +140,7 @@
             textBoxGroup.Name = "textBoxGroup";
             textBoxGroup.Size = new Size(293, 23);
             textBoxGroup.TabIndex = 9;
+            textBoxGroup.Validating += TextBoxGroup_Validating;
             // 
             // textBoxTags
             // 
@@ -146,6 +150,7 @@
             textBoxTags.ScrollBars = ScrollBars.Vertical;
             textBoxTags.Size = new Size(293, 73);
             textBoxTags.TabIndex = 10;
+            textBoxTags.Validating += textBoxTags_Validating;
             // 
             // buttonSave
             // 
@@ -262,6 +267,7 @@
             textBoxCreated.Name = "textBoxCreated";
             textBoxCreated.Size = new Size(293, 23);
             textBoxCreated.TabIndex = 26;
+            textBoxCreated.Validating += textBoxCreated_Validating;
             // 
             // labelTagsExample
             // 
