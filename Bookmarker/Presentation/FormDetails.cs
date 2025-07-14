@@ -165,8 +165,15 @@ namespace Bookmarker.Presentation
                 return;
             }
 
+            var id = textBoxId.Text.Trim();
+            if (await _bookmarkService.GetByIdAsync(id) != null)
+            {
+                MessageBox.Show("A bookmark with this ID already exists. Please choose a different ID.", "Duplicate ID", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             var bookmark = new Bookmark(
-                Id: textBoxId.Text.Trim(),
+                Id: id,
                 Type: radioButtonPost.Checked ? "post" : "comment",
                 Title: textBoxTitle.Text.Trim(),
                 Group: textBoxGroup.Text.Trim(),
