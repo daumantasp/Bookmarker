@@ -139,6 +139,7 @@ namespace Bookmarker.Presentation
         private void buttonPaste_Click(object sender, EventArgs e)
         {
             textBoxUrl.Text = Clipboard.GetText().Trim();
+            ValidateUrl();
         }
 
         private void buttonParseUrl_Click(object sender, EventArgs e)
