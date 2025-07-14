@@ -153,6 +153,10 @@ namespace Bookmarker.Presentation
                 textBoxId.Text = bookmark.Id;
                 textBoxTitle.Text = bookmark.Title;
                 textBoxGroup.Text = bookmark.Group;
+                if (bookmark.Type.ToLower() == "comment")
+                    radioButtonComment.Checked = true;
+                else
+                    radioButtonPost.Checked = true;
 
                 ValidateAllFields();
             }
