@@ -42,6 +42,7 @@
             browseToolStripMenuItem = new ToolStripMenuItem();
             openToolStripMenuItem = new ToolStripMenuItem();
             openDirectoryToolStripMenuItem = new ToolStripMenuItem();
+            buttonFilter = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -78,7 +79,7 @@
             textBoxSearch.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             textBoxSearch.Location = new Point(65, 796);
             textBoxSearch.Name = "textBoxSearch";
-            textBoxSearch.Size = new Size(1102, 23);
+            textBoxSearch.Size = new Size(1021, 23);
             textBoxSearch.TabIndex = 3;
             textBoxSearch.TextChanged += textBoxSearch_TextChanged;
             // 
@@ -180,11 +181,23 @@
             openDirectoryToolStripMenuItem.Text = "Open Directory";
             openDirectoryToolStripMenuItem.Click += openDirectoryToolStripMenuItem_Click;
             // 
+            // buttonFilter
+            // 
+            buttonFilter.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            buttonFilter.Location = new Point(1092, 795);
+            buttonFilter.Name = "buttonFilter";
+            buttonFilter.Size = new Size(75, 24);
+            buttonFilter.TabIndex = 10;
+            buttonFilter.Text = "Filter";
+            buttonFilter.UseVisualStyleBackColor = true;
+            buttonFilter.Click += buttonFilter_Click;
+            // 
             // FormList
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1184, 861);
+            Controls.Add(buttonFilter);
             Controls.Add(buttonDelete);
             Controls.Add(buttonEdit);
             Controls.Add(buttonAdd);
@@ -220,5 +233,6 @@
         private ToolStripMenuItem browseToolStripMenuItem;
         private ToolStripMenuItem openToolStripMenuItem;
         private ToolStripMenuItem openDirectoryToolStripMenuItem;
+        private Button buttonFilter;
     }
 }

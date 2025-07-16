@@ -89,6 +89,7 @@ namespace Bookmarker
             buttonOpenBrowser.Enabled = isSelected;
             buttonEdit.Enabled = isSelected;
             buttonDelete.Enabled = isSelected;
+            buttonFilter.Enabled = dataGridView1.Rows.Count > 0;
         }
 
         private async void LoadAllBookmarks(Action onLoaded)
@@ -257,6 +258,7 @@ namespace Bookmarker
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
+            // TODO: move this to a separate method or service
             var detailsForm = new FormDetails(_bookmarkService,
                                               _bookmarkParserService,
                                               _tagService,
@@ -397,6 +399,12 @@ namespace Bookmarker
             {
                 Text = "Bookmarker";
             }
+        }
+
+        private void buttonFilter_Click(object sender, EventArgs e)
+        {
+            var formFilter = new FormFilter();
+            formFilter.ShowDialog();
         }
     }
 }
