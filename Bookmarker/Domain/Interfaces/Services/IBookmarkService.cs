@@ -10,6 +10,7 @@ namespace Bookmarker.Domain.Interfaces.Services
     public interface IBookmarkService
     {
         Task<IEnumerable<Bookmark>> GetAllAsync();
+        Task<IEnumerable<Bookmark>> GetAllAsync(string? title, string? group, string[]? tags);
         Task<Bookmark?> GetByIdAsync(string id);
         Task AddAsync(Bookmark newBookmark);
         Task UpdateAsync(Bookmark updatedBookmark);
