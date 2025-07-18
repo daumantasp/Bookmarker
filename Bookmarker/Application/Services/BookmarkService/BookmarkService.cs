@@ -8,19 +8,19 @@ namespace Bookmarker.Application.Services.BookmarkService
     {
         private readonly IBookmarkRepository _repo = repo;
 
-        public async Task<IEnumerable<Bookmark>> GetAllAsync()
+        public Task<IEnumerable<Bookmark>> GetAllAsync()
         {
-            return await _repo.GetAllAsync();
+            return _repo.GetAllAsync();
         }
 
-        public async Task<IEnumerable<Bookmark>> GetAllAsync(string? title, string? group, string[]? tags)
+        public Task<IEnumerable<Bookmark>> GetAllAsync(string? title, string? group, string[]? tags)
         {
-            return await _repo.GetAllAsync(title, group, tags);
+            return _repo.GetAllAsync(title, group, tags);
         }
 
-        public async Task<Bookmark?> GetByIdAsync(string id)
+        public Task<Bookmark?> GetByIdAsync(string id)
         {
-            return await _repo.GetByIdASync(id);
+            return _repo.GetByIdASync(id);
         }
 
         public async Task AddAsync(Bookmark newBookmark)
