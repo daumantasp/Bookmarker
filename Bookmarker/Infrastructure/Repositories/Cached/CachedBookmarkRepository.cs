@@ -46,6 +46,27 @@ namespace Bookmarker.Infrastructure.Repositories.Cached
             return _cachedBookmarks;
         }
 
+        public async Task<IEnumerable<Bookmark>> GetAllAsync(string? title, string? group, string[]? tags)
+        {
+            var bookmarks = await GetAllAsync();
+            if (!string.IsNullOrEmpty(title))
+            {
+                bookmarks = bookmarks
+                    .Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
+            }
+            if (!string.IsNullOrEmpty(group))
+            {
+                bookmarks = bookmarks
+                    .Where(b => b.Group.Equals(group, StringComparison.OrdinalIgnoreCase));
+            }
+            if (tags != null && tags.Length > 0)
+            {
+                bookmarks = bookmarks
+                    .Where(b => b.Tags.Any(t => tags.Contains(t, StringComparer.OrdinalIgnoreCase)));
+            }
+            return bookmarks;
+        }
+
         public async Task<Bookmark?> GetByIdASync(string id)
         {
             if (_cachedBookmarks?.FirstOrDefault(b => b.Id == id) is Bookmark cachedBookmark)

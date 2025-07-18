@@ -41,6 +41,12 @@ namespace Bookmarker.Infrastructure.Repositories.Reddit
                 .FirstOrDefault(b => b.Id == id);
         }
 
+
+        public Task<IEnumerable<Bookmark>> GetAllAsync(string? title, string? group, string[]? tags)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task AddAsync(Bookmark newBookmark)
         {
             var bookmarks = (await GetAllAsync()).ToList();
