@@ -4,6 +4,7 @@ using Bookmarker.Domain.Interfaces.Services;
 using System.Data;
 using Bookmarker.Infrastructure.SourceSelector;
 using Bookmarker.Presentation.Shared;
+using Bookmarker.Domain.Models;
 
 namespace Bookmarker
 {
@@ -16,6 +17,16 @@ namespace Bookmarker
 
         private BindingSource bindingSource = new BindingSource();
         private DataTable dataTable = new DataTable();
+
+        private string? titleFilter = null;
+        private string? groupFilter = null;
+        private string[]? tagsFilter = null;
+        private bool IsFilterApplied
+        {
+            get => !string.IsNullOrWhiteSpace(titleFilter) 
+                || !string.IsNullOrWhiteSpace(groupFilter) 
+                || (tagsFilter != null && tagsFilter.Length > 0);
+        }
 
         public event Action<string> OnSourcePathSelected;
         public event Action<string> OnNewSourcePathSelected;
@@ -31,17 +42,20 @@ namespace Bookmarker
                                IBookmarkParserService bookmarkParserService,
                                ITagService tagService)
         {
-            ClearBookmarks();
-
             _sourcePath = sourcePath;
             _bookmarkService = bookmarkService;
             _bookmarkParserService = bookmarkParserService;
             _tagService = tagService;
+            textBoxFileDir.Text = sourcePath;
 
-            textBoxFileDir.Text = _sourcePath;
-            UpdateButtonsState();
+            ReloadBookmarks();
+        }
 
-            LoadAllBookmarks(() =>
+        private void ReloadBookmarks()
+        {
+            ClearBookmarks();
+            UpdateUI();
+            LoadBookmarks(() =>
             {
                 SetFormTitle();
                 SetupEvents();
@@ -83,23 +97,33 @@ namespace Bookmarker
             dataTable.Clear();
         }
 
-        private void UpdateButtonsState()
+        private void UpdateUI()
         {
             var isSelected = dataGridView1.SelectedRows.Count > 0;
             buttonOpenBrowser.Enabled = isSelected;
             buttonEdit.Enabled = isSelected;
             buttonDelete.Enabled = isSelected;
-            buttonFilter.Enabled = dataGridView1.Rows.Count > 0;
+
+            labelFilterStatus.Text = IsFilterApplied ? "ON" : "OFF";
+            labelFilterStatus.ForeColor = IsFilterApplied ? Color.Green : Color.Red;
         }
 
-        private async void LoadAllBookmarks(Action onLoaded)
+        private async void LoadBookmarks(Action onLoaded)
         {
             if (_bookmarkService == null)
                 return;
 
             try
             {
-                var bookmarks = await _bookmarkService.GetAllAsync();
+                IEnumerable<Bookmark> bookmarks;
+                if (IsFilterApplied)
+                {
+                    bookmarks = await _bookmarkService.GetAllAsync(titleFilter, groupFilter, tagsFilter);
+                }
+                else
+                {
+                    bookmarks = await _bookmarkService.GetAllAsync();
+                }
 
                 var counter = 0;
                 foreach (var bookmark in bookmarks)
@@ -117,6 +141,7 @@ namespace Bookmarker
                 MessageBox.Show($"Error loading bookmarks: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void OpenSelectedUrlInBrowser()
         {
             if (bindingSource.Current is DataRowView selectedItem)
@@ -304,6 +329,23 @@ namespace Bookmarker
             }
         }
 
+        private void buttonFilter_Click(object sender, EventArgs e)
+        {
+            using (var formFilter = new FormFilter(_tagService, titleFilter, groupFilter, (string[]?)tagsFilter?.Clone()))
+            {
+                var dialogResult = formFilter.ShowDialog();
+
+                if (dialogResult == DialogResult.OK)
+                {
+                    titleFilter = formFilter.Title;
+                    groupFilter = formFilter.Group;
+                    tagsFilter = formFilter.Tags;
+
+                    ReloadBookmarks();
+                }
+            }
+        }
+
         private void dataGridView1_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
         {
             if (e.Row != null)
@@ -372,7 +414,7 @@ namespace Bookmarker
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             SetFormTitle();
-            UpdateButtonsState();
+            UpdateUI();
         }
 
         private void SetFormTitle()
@@ -399,12 +441,6 @@ namespace Bookmarker
             {
                 Text = "Bookmarker";
             }
-        }
-
-        private void buttonFilter_Click(object sender, EventArgs e)
-        {
-            var formFilter = new FormFilter();
-            formFilter.ShowDialog();
         }
     }
 }
