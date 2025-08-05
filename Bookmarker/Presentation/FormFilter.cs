@@ -14,24 +14,30 @@ namespace Bookmarker.Presentation
     public partial class FormFilter : Form
     {
         private readonly ITagService _tagService;
+        private readonly IGroupService _groupService;
 
         private string? _title = null;
-        private string? _group = null;
+        private List<string> _groups;
         private List<string> _tags;
 
         public string? Title { get => _title; }
 
-        public string? Group { get => _group; }
+        public string[]? Groups { get => _groups.ToArray(); }
         public string[]? Tags { get => _tags.ToArray(); }
 
-        public FormFilter(ITagService tagService, string? title, string? group, string[]? tags)
+        public FormFilter(ITagService tagService,
+                          IGroupService groupService,
+                          string? title,
+                          string[]? groups,
+                          string[]? tags)
         {
             InitializeComponent();
 
             _tagService = tagService;
+            _groupService = groupService;
 
             _title = title;
-            _group = group;
+            _groups = new List<string>(groups ?? []);
             _tags = new List<string>(tags ?? []);
 
             SetTitle();
@@ -51,15 +57,13 @@ namespace Bookmarker.Presentation
             }
         }
 
-        private void SetGroup()
+        private async void SetGroup()
         {
-            if (_group != null)
+            var groupData = await _groupService.GetAllGroupDataAsync(GroupsDataOrder.Name);
+
+            foreach (var group in groupData)
             {
-                textBoxGroup.Text = _group;
-            }
-            else
-            {
-                textBoxGroup.Text = string.Empty;
+                checkedListBoxGroups.Items.Add(group.Name, _groups.Contains(group.Name));
             }
         }
 
@@ -94,8 +98,34 @@ namespace Bookmarker.Presentation
                     }
                 }
             }
+        }
 
-            labelFilterStatus.Text = $"Filtering by: {string.Join(", ", _tags)}";
+        private void checkedListBoxGroups_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            var group = checkedListBoxGroups.Items[e.Index].ToString();
+
+            if (group != null)
+            {
+                if (e.NewValue == CheckState.Checked)
+                {
+                    if (!_groups.Contains(group))
+                    {
+                        _groups.Add(group);
+                    }
+                }
+                else
+                {
+                    if (_groups.Contains(group))
+                    {
+                        _groups.Remove(group);
+                    }
+                }
+            }
+        }
+
+        private void textBoxTitle_TextChanged(object sender, EventArgs e)
+        {
+            _title = textBoxTitle.Text.Trim();
         }
 
         private void buttonApply_Click(object sender, EventArgs e)
@@ -110,25 +140,20 @@ namespace Bookmarker.Presentation
             Close();
         }
 
-        private void textBoxTitle_TextChanged(object sender, EventArgs e)
-        {
-            _title = textBoxTitle.Text.Trim();
-        }
-
-        private void textBoxGroup_TextChanged(object sender, EventArgs e)
-        {
-            _group = textBoxGroup.Text.Trim();
-        }
-
         private void buttonClear_Click(object sender, EventArgs e)
         {
             textBoxTitle.Text = string.Empty;
-            textBoxGroup.Text = string.Empty;
 
             _tags.Clear();
             for (int i = 0; i < checkedListBoxTags.Items.Count; i++)
             {
                 checkedListBoxTags.SetItemChecked(i, false);
+            }
+
+            _groups.Clear();
+            for (int i = 0; i < checkedListBoxGroups.Items.Count; i++)
+            {
+                checkedListBoxGroups.SetItemChecked(i, false);
             }
         }
     }

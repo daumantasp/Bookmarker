@@ -43,7 +43,6 @@
             openToolStripMenuItem = new ToolStripMenuItem();
             openDirectoryToolStripMenuItem = new ToolStripMenuItem();
             buttonFilter = new Button();
-            labelFilterStatus = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -193,22 +192,11 @@
             buttonFilter.UseVisualStyleBackColor = true;
             buttonFilter.Click += buttonFilter_Click;
             // 
-            // labelFilterStatus
-            // 
-            labelFilterStatus.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            labelFilterStatus.AutoSize = true;
-            labelFilterStatus.Location = new Point(1129, 830);
-            labelFilterStatus.Name = "labelFilterStatus";
-            labelFilterStatus.Size = new Size(28, 15);
-            labelFilterStatus.TabIndex = 11;
-            labelFilterStatus.Text = "OFF";
-            // 
             // FormList
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1184, 861);
-            Controls.Add(labelFilterStatus);
             Controls.Add(buttonFilter);
             Controls.Add(buttonDelete);
             Controls.Add(buttonEdit);
@@ -246,6 +234,5 @@
         private ToolStripMenuItem openToolStripMenuItem;
         private ToolStripMenuItem openDirectoryToolStripMenuItem;
         private Button buttonFilter;
-        private Label labelFilterStatus;
     }
 }

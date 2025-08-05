@@ -13,18 +13,19 @@ namespace Bookmarker
         private IBookmarkService _bookmarkService;
         private IBookmarkParserService _bookmarkParserService;
         private ITagService _tagService;
+        private IGroupService _groupService;
         private string _sourcePath;
 
         private BindingSource bindingSource = new BindingSource();
         private DataTable dataTable = new DataTable();
 
         private string? titleFilter = null;
-        private string? groupFilter = null;
+        private string[]? groupsFilter = null;
         private string[]? tagsFilter = null;
         private bool IsFilterApplied
         {
             get => !string.IsNullOrWhiteSpace(titleFilter) 
-                || !string.IsNullOrWhiteSpace(groupFilter) 
+                || (groupsFilter != null && groupsFilter.Length > 0)
                 || (tagsFilter != null && tagsFilter.Length > 0);
         }
 
@@ -40,12 +41,14 @@ namespace Bookmarker
         public void LoadSource(string sourcePath,
                                IBookmarkService bookmarkService,
                                IBookmarkParserService bookmarkParserService,
-                               ITagService tagService)
+                               ITagService tagService,
+                               IGroupService groupService)
         {
             _sourcePath = sourcePath;
             _bookmarkService = bookmarkService;
             _bookmarkParserService = bookmarkParserService;
             _tagService = tagService;
+            _groupService = groupService;
             textBoxFileDir.Text = sourcePath;
 
             ReloadBookmarks();
@@ -104,8 +107,7 @@ namespace Bookmarker
             buttonEdit.Enabled = isSelected;
             buttonDelete.Enabled = isSelected;
 
-            labelFilterStatus.Text = IsFilterApplied ? "ON" : "OFF";
-            labelFilterStatus.ForeColor = IsFilterApplied ? Color.Green : Color.Red;
+            buttonFilter.BackColor = IsFilterApplied ? Color.LightGreen : SystemColors.ControlLightLight;
         }
 
         private async void LoadBookmarks(Action onLoaded)
@@ -118,7 +120,7 @@ namespace Bookmarker
                 IEnumerable<Bookmark> bookmarks;
                 if (IsFilterApplied)
                 {
-                    bookmarks = await _bookmarkService.GetAllAsync(titleFilter, groupFilter, tagsFilter);
+                    bookmarks = await _bookmarkService.GetAllAsync(titleFilter, groupsFilter, tagsFilter);
                 }
                 else
                 {
@@ -331,14 +333,18 @@ namespace Bookmarker
 
         private void buttonFilter_Click(object sender, EventArgs e)
         {
-            using (var formFilter = new FormFilter(_tagService, titleFilter, groupFilter, (string[]?)tagsFilter?.Clone()))
+            using (var formFilter = new FormFilter(_tagService,
+                                                   _groupService,
+                                                   titleFilter,
+                                                   (string[]?)groupsFilter?.Clone(),
+                                                   (string[]?)tagsFilter?.Clone()))
             {
                 var dialogResult = formFilter.ShowDialog();
 
                 if (dialogResult == DialogResult.OK)
                 {
                     titleFilter = formFilter.Title;
-                    groupFilter = formFilter.Group;
+                    groupsFilter = formFilter.Groups;
                     tagsFilter = formFilter.Tags;
 
                     ReloadBookmarks();

@@ -1,5 +1,6 @@
 using Bookmarker.Application.Services.BookmarkParserService;
 using Bookmarker.Application.Services.BookmarkService;
+using Bookmarker.Application.Services.GroupService;
 using Bookmarker.Application.Services.TagService;
 using Bookmarker.Domain.Interfaces.Repositories;
 using Bookmarker.Infrastructure.Repositories.Cached;
@@ -57,7 +58,8 @@ namespace Bookmarker
                         sourcePath,
                         new BookmarkService(bookmarkRepository),
                         new RedditBookmarkParserService(),
-                        new TagService(bookmarkRepository)
+                        new TagService(bookmarkRepository),
+                        new GroupService(bookmarkRepository)
                         );
                 SavePath(sourcePath);
             }
