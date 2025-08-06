@@ -17,10 +17,12 @@ namespace Bookmarker.Presentation
         private readonly IGroupService _groupService;
 
         private string? _title = null;
+        private string? _type = null;
         private List<string> _groups;
         private List<string> _tags;
 
         public string? Title { get => _title; }
+        public string? Type { get => _type; }
 
         public string[]? Groups { get => _groups.ToArray(); }
         public string[]? Tags { get => _tags.ToArray(); }
@@ -28,6 +30,7 @@ namespace Bookmarker.Presentation
         public FormFilter(ITagService tagService,
                           IGroupService groupService,
                           string? title,
+                          string? type,
                           string[]? groups,
                           string[]? tags)
         {
@@ -37,10 +40,12 @@ namespace Bookmarker.Presentation
             _groupService = groupService;
 
             _title = title;
+            _type = type;
             _groups = new List<string>(groups ?? []);
             _tags = new List<string>(tags ?? []);
 
             SetTitle();
+            SetType();
             SetGroup();
             SetTags();
         }
@@ -74,6 +79,25 @@ namespace Bookmarker.Presentation
             foreach (var tag in tagData)
             {
                 checkedListBoxTags.Items.Add(tag.Name, _tags.Contains(tag.Name));
+            }
+        }
+
+        private void SetType()
+        {
+            if (string.IsNullOrEmpty(_type))
+            {
+                checkBoxComment.Checked = true;
+                checkBoxPost.Checked = true;
+            }
+            if (_type == "Comment")
+            {
+                checkBoxComment.Checked = true;
+                checkBoxPost.Checked = false;
+            }
+            if (_type == "Post")
+            {
+                checkBoxComment.Checked = false;
+                checkBoxPost.Checked = true;
             }
         }
 
@@ -140,6 +164,34 @@ namespace Bookmarker.Presentation
             Close();
         }
 
+        private void checkBoxPost_CheckedChanged(object sender, EventArgs e)
+        {
+            TypeCheckboxChanged();
+
+
+        }
+
+        private void checkBoxComment_CheckedChanged(object sender, EventArgs e)
+        {
+            TypeCheckboxChanged();
+        }
+
+        private void TypeCheckboxChanged()
+        {
+            if (checkBoxPost.Checked && !checkBoxComment.Checked)
+            {
+                _type = "Post";
+            }
+            if (checkBoxComment.Checked && !checkBoxPost.Checked)
+            {
+                _type = "Comment";
+            }
+            if (checkBoxPost.Checked && checkBoxComment.Checked)
+            {
+                _type = null;
+            }
+        }
+
         private void buttonClear_Click(object sender, EventArgs e)
         {
             textBoxTitle.Text = string.Empty;
@@ -155,6 +207,10 @@ namespace Bookmarker.Presentation
             {
                 checkedListBoxGroups.SetItemChecked(i, false);
             }
+
+            _type = null;
+            checkBoxPost.Checked = true;
+            checkBoxComment.Checked = true;
         }
     }
 }

@@ -13,9 +13,9 @@ namespace Bookmarker.Application.Services.BookmarkService
             return _repo.GetAllAsync();
         }
 
-        public Task<IEnumerable<Bookmark>> GetAllAsync(string? title, string[]? groups, string[]? tags)
+        public Task<IEnumerable<Bookmark>> GetAllAsync(string? title, string? type, string[]? groups, string[]? tags)
         {
-            return _repo.GetAllAsync(title, groups, tags);
+            return _repo.GetAllAsync(title, type, groups, tags);
         }
 
         public Task<Bookmark?> GetByIdAsync(string id)

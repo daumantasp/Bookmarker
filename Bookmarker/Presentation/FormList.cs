@@ -20,11 +20,13 @@ namespace Bookmarker
         private DataTable dataTable = new DataTable();
 
         private string? titleFilter = null;
+        private string? typeFilter = null;
         private string[]? groupsFilter = null;
         private string[]? tagsFilter = null;
         private bool IsFilterApplied
         {
             get => !string.IsNullOrWhiteSpace(titleFilter) 
+                || !string.IsNullOrWhiteSpace(typeFilter)
                 || (groupsFilter != null && groupsFilter.Length > 0)
                 || (tagsFilter != null && tagsFilter.Length > 0);
         }
@@ -120,7 +122,7 @@ namespace Bookmarker
                 IEnumerable<Bookmark> bookmarks;
                 if (IsFilterApplied)
                 {
-                    bookmarks = await _bookmarkService.GetAllAsync(titleFilter, groupsFilter, tagsFilter);
+                    bookmarks = await _bookmarkService.GetAllAsync(titleFilter, typeFilter, groupsFilter, tagsFilter);
                 }
                 else
                 {
@@ -336,6 +338,7 @@ namespace Bookmarker
             using (var formFilter = new FormFilter(_tagService,
                                                    _groupService,
                                                    titleFilter,
+                                                   typeFilter,
                                                    (string[]?)groupsFilter?.Clone(),
                                                    (string[]?)tagsFilter?.Clone()))
             {
@@ -344,6 +347,7 @@ namespace Bookmarker
                 if (dialogResult == DialogResult.OK)
                 {
                     titleFilter = formFilter.Title;
+                    typeFilter = formFilter.Type;
                     groupsFilter = formFilter.Groups;
                     tagsFilter = formFilter.Tags;
 

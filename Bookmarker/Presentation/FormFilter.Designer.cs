@@ -37,12 +37,15 @@
             buttonClear = new Button();
             labelFilterByGroups = new Label();
             checkedListBoxGroups = new CheckedListBox();
+            labelFilterByType = new Label();
+            checkBoxPost = new CheckBox();
+            checkBoxComment = new CheckBox();
             SuspendLayout();
             // 
             // labelFilterByTag
             // 
             labelFilterByTag.AutoSize = true;
-            labelFilterByTag.Location = new Point(14, 71);
+            labelFilterByTag.Location = new Point(14, 130);
             labelFilterByTag.Name = "labelFilterByTag";
             labelFilterByTag.Size = new Size(34, 15);
             labelFilterByTag.TabIndex = 0;
@@ -52,7 +55,7 @@
             // 
             checkedListBoxTags.CheckOnClick = true;
             checkedListBoxTags.FormattingEnabled = true;
-            checkedListBoxTags.Location = new Point(14, 89);
+            checkedListBoxTags.Location = new Point(14, 148);
             checkedListBoxTags.Name = "checkedListBoxTags";
             checkedListBoxTags.Size = new Size(166, 220);
             checkedListBoxTags.TabIndex = 1;
@@ -60,7 +63,7 @@
             // 
             // buttonApply
             // 
-            buttonApply.Location = new Point(15, 339);
+            buttonApply.Location = new Point(15, 398);
             buttonApply.Name = "buttonApply";
             buttonApply.Size = new Size(75, 23);
             buttonApply.TabIndex = 2;
@@ -70,7 +73,7 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(290, 339);
+            buttonCancel.Location = new Point(290, 398);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(75, 23);
             buttonCancel.TabIndex = 3;
@@ -97,7 +100,7 @@
             // 
             // buttonClear
             // 
-            buttonClear.Location = new Point(96, 339);
+            buttonClear.Location = new Point(96, 398);
             buttonClear.Name = "buttonClear";
             buttonClear.Size = new Size(75, 23);
             buttonClear.TabIndex = 8;
@@ -108,7 +111,7 @@
             // labelFilterByGroups
             // 
             labelFilterByGroups.AutoSize = true;
-            labelFilterByGroups.Location = new Point(204, 71);
+            labelFilterByGroups.Location = new Point(204, 130);
             labelFilterByGroups.Name = "labelFilterByGroups";
             labelFilterByGroups.Size = new Size(48, 15);
             labelFilterByGroups.TabIndex = 6;
@@ -117,17 +120,51 @@
             // checkedListBoxGroups
             // 
             checkedListBoxGroups.FormattingEnabled = true;
-            checkedListBoxGroups.Location = new Point(204, 89);
+            checkedListBoxGroups.Location = new Point(204, 148);
             checkedListBoxGroups.Name = "checkedListBoxGroups";
             checkedListBoxGroups.Size = new Size(161, 220);
             checkedListBoxGroups.TabIndex = 9;
             checkedListBoxGroups.ItemCheck += checkedListBoxGroups_ItemCheck;
             // 
+            // labelFilterByType
+            // 
+            labelFilterByType.AutoSize = true;
+            labelFilterByType.Location = new Point(15, 70);
+            labelFilterByType.Name = "labelFilterByType";
+            labelFilterByType.Size = new Size(35, 15);
+            labelFilterByType.TabIndex = 10;
+            labelFilterByType.Text = "Type:";
+            // 
+            // checkBoxPost
+            // 
+            checkBoxPost.AutoSize = true;
+            checkBoxPost.Location = new Point(15, 88);
+            checkBoxPost.Name = "checkBoxPost";
+            checkBoxPost.Size = new Size(49, 19);
+            checkBoxPost.TabIndex = 11;
+            checkBoxPost.Text = "Post";
+            checkBoxPost.UseVisualStyleBackColor = true;
+            checkBoxPost.CheckedChanged += checkBoxPost_CheckedChanged;
+            // 
+            // checkBoxComment
+            // 
+            checkBoxComment.AutoSize = true;
+            checkBoxComment.Location = new Point(82, 88);
+            checkBoxComment.Name = "checkBoxComment";
+            checkBoxComment.Size = new Size(80, 19);
+            checkBoxComment.TabIndex = 12;
+            checkBoxComment.Text = "Comment";
+            checkBoxComment.UseVisualStyleBackColor = true;
+            checkBoxComment.CheckedChanged += checkBoxComment_CheckedChanged;
+            // 
             // FormFilter
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(385, 374);
+            ClientSize = new Size(385, 432);
+            Controls.Add(checkBoxComment);
+            Controls.Add(checkBoxPost);
+            Controls.Add(labelFilterByType);
             Controls.Add(checkedListBoxGroups);
             Controls.Add(buttonClear);
             Controls.Add(labelFilterByGroups);
@@ -157,5 +194,8 @@
         private Button buttonClear;
         private Label labelFilterByGroups;
         private CheckedListBox checkedListBoxGroups;
+        private Label labelFilterByType;
+        private CheckBox checkBoxPost;
+        private CheckBox checkBoxComment;
     }
 }

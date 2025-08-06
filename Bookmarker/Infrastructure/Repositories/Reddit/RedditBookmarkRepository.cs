@@ -42,7 +42,7 @@ namespace Bookmarker.Infrastructure.Repositories.Reddit
         }
 
 
-        public Task<IEnumerable<Bookmark>> GetAllAsync(string? title, string[]? groups, string[]? tags)
+        public Task<IEnumerable<Bookmark>> GetAllAsync(string? title, string? type, string[]? groups, string[]? tags)
         {
             throw new NotImplementedException();
         }
