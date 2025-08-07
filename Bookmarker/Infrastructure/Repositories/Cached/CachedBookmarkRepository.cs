@@ -46,7 +46,7 @@ namespace Bookmarker.Infrastructure.Repositories.Cached
             return _cachedBookmarks;
         }
 
-        public async Task<IEnumerable<Bookmark>> GetAllAsync(string? title, string? type, string[]? groups, string[]? tags)
+        public async Task<IEnumerable<Bookmark>> GetAllAsync(string? title, string? type, string[]? groups, string[]? tags, DateTime? from, DateTime? to)
         {
             var bookmarks = await GetAllAsync();
             if (!string.IsNullOrEmpty(title))
@@ -68,6 +68,25 @@ namespace Bookmarker.Infrastructure.Repositories.Cached
             {
                 bookmarks = bookmarks
                     .Where(b => b.Tags.Any(t => tags.Contains(t, StringComparer.OrdinalIgnoreCase)));
+            }
+            if (from.HasValue)
+            {
+                // TODO: consider using DateTime instead of string for Created property in Bookmark
+                bookmarks = bookmarks
+                    .Where(b => {
+                        DateTime createdAt;
+                        DateTime.TryParseExact(b.Created, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out createdAt);
+                        return createdAt >= from.Value;
+                    });
+            }
+            if (to.HasValue)
+            {
+                bookmarks = bookmarks
+                    .Where(b => {
+                        DateTime createdAt;
+                        DateTime.TryParseExact(b.Created, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out createdAt);
+                        return createdAt >= to.Value;
+                    });
             }
             return bookmarks;
         }

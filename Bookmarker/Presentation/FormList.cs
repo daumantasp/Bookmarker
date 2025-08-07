@@ -127,7 +127,7 @@ namespace Bookmarker
                 IEnumerable<Bookmark> bookmarks;
                 if (IsFilterApplied)
                 {
-                    bookmarks = await _bookmarkService.GetAllAsync(titleFilter, typeFilter, groupsFilter, tagsFilter);
+                    bookmarks = await _bookmarkService.GetAllAsync(titleFilter, typeFilter, groupsFilter, tagsFilter, from, to);
                 }
                 else
                 {
