@@ -28,8 +28,8 @@ namespace Bookmarker.Presentation
 
         public string[]? Groups { get => _groups.ToArray(); }
         public string[]? Tags { get => _tags.ToArray(); }
-        public DateTime? From { get => _from; }
-        public DateTime? To { get => _to; }
+        public DateTime? From { get => checkBoxFrom.Enabled ? _from : null; }
+        public DateTime? To { get => checkBoxTo.Enabled ? _to : null; }
 
         public FormFilter(ITagService tagService,
                           IGroupService groupService,
@@ -268,12 +268,10 @@ namespace Bookmarker.Presentation
             if (checkBoxFrom.Checked)
             {
                 dateTimePickerFrom.Enabled = true;
-                _from = dateTimePickerFrom.Value.Date;
             }
             else
             {
                 dateTimePickerFrom.Enabled = false;
-                _from = null;
             }
         }
 
@@ -282,12 +280,10 @@ namespace Bookmarker.Presentation
             if (checkBoxTo.Checked)
             {
                 dateTimePickerTo.Enabled = true;
-                _to = dateTimePickerTo.Value.Date;
             }
             else
             {
                 dateTimePickerTo.Enabled = false;
-                _to = null;
             }
         }
 
