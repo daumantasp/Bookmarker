@@ -85,7 +85,7 @@ namespace Bookmarker.Infrastructure.Repositories.Cached
                     .Where(b => {
                         DateTime createdAt;
                         DateTime.TryParseExact(b.Created, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out createdAt);
-                        return createdAt >= to.Value;
+                        return createdAt <= to.Value;
                     });
             }
             return bookmarks;
