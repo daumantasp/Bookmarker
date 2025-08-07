@@ -28,8 +28,8 @@ namespace Bookmarker.Presentation
 
         public string[]? Groups { get => _groups.ToArray(); }
         public string[]? Tags { get => _tags.ToArray(); }
-        public DateTime? From { get => checkBoxFrom.Enabled ? _from : null; }
-        public DateTime? To { get => checkBoxTo.Enabled ? _to : null; }
+        public DateTime? From { get => checkBoxFrom.Checked ? _from : null; }
+        public DateTime? To { get => checkBoxTo.Checked ? _to : null; }
 
         public FormFilter(ITagService tagService,
                           IGroupService groupService,
