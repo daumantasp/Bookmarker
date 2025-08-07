@@ -20,19 +20,25 @@ namespace Bookmarker.Presentation
         private string? _type = null;
         private List<string> _groups;
         private List<string> _tags;
+        private DateTime? _from = null;
+        private DateTime? _to = null;
 
         public string? Title { get => _title; }
         public string? Type { get => _type; }
 
         public string[]? Groups { get => _groups.ToArray(); }
         public string[]? Tags { get => _tags.ToArray(); }
+        public DateTime? From { get => _from; }
+        public DateTime? To { get => _to; }
 
         public FormFilter(ITagService tagService,
                           IGroupService groupService,
                           string? title,
                           string? type,
                           string[]? groups,
-                          string[]? tags)
+                          string[]? tags,
+                          DateTime? from,
+                          DateTime? to)
         {
             InitializeComponent();
 
@@ -43,11 +49,15 @@ namespace Bookmarker.Presentation
             _type = type;
             _groups = new List<string>(groups ?? []);
             _tags = new List<string>(tags ?? []);
+            _from = from;
+            _to = to;
 
             SetTitle();
             SetType();
             SetGroup();
             SetTags();
+            SetFrom();
+            SetTo();
         }
 
         private void SetTitle()
@@ -99,6 +109,38 @@ namespace Bookmarker.Presentation
                 checkBoxComment.Checked = false;
                 checkBoxPost.Checked = true;
             }
+        }
+
+        private void SetFrom()
+        {
+            if (_from.HasValue)
+            {
+                checkBoxFrom.Checked = true;
+                dateTimePickerFrom.Value = _from.Value;
+                dateTimePickerFrom.Enabled = true;
+            }
+            else
+            {
+                checkBoxFrom.Checked = false;
+                dateTimePickerFrom.Enabled = false;
+            }
+            dateTimePickerFrom.MaxDate = DateTime.Now.Date;
+        }
+
+        private void SetTo()
+        {
+            if (_to.HasValue)
+            {
+                checkBoxTo.Checked = true;
+                dateTimePickerTo.Value = _to.Value;
+                dateTimePickerTo.Enabled = true;
+            }
+            else
+            {
+                checkBoxTo.Checked = false;
+                dateTimePickerTo.Enabled = false;
+            }
+            dateTimePickerFrom.MaxDate = DateTime.Now.Date;
         }
 
         private void checkedListBoxTags_ItemCheck(object sender, ItemCheckEventArgs e)
@@ -211,6 +253,52 @@ namespace Bookmarker.Presentation
             _type = null;
             checkBoxPost.Checked = true;
             checkBoxComment.Checked = true;
+
+            _from = null;
+            checkBoxFrom.Checked = false;
+            dateTimePickerFrom.Enabled = false;
+
+            _to = null;
+            checkBoxTo.Checked = false;
+            dateTimePickerTo.Enabled = false;
+        }
+
+        private void checkBoxFrom_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxFrom.Checked)
+            {
+                dateTimePickerFrom.Enabled = true;
+                _from = dateTimePickerFrom.Value.Date;
+            }
+            else
+            {
+                dateTimePickerFrom.Enabled = false;
+                _from = null;
+            }
+        }
+
+        private void checkBoxTo_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxTo.Checked)
+            {
+                dateTimePickerTo.Enabled = true;
+                _to = dateTimePickerTo.Value.Date;
+            }
+            else
+            {
+                dateTimePickerTo.Enabled = false;
+                _to = null;
+            }
+        }
+
+        private void dateTimePickerFrom_ValueChanged(object sender, EventArgs e)
+        {
+            _from = dateTimePickerFrom.Value.Date;
+        }
+
+        private void dateTimePickerTo_ValueChanged(object sender, EventArgs e)
+        {
+            _to = dateTimePickerTo.Value.Date;
         }
     }
 }

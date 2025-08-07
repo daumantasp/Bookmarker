@@ -40,6 +40,10 @@
             labelFilterByType = new Label();
             checkBoxPost = new CheckBox();
             checkBoxComment = new CheckBox();
+            dateTimePickerFrom = new DateTimePicker();
+            dateTimePickerTo = new DateTimePicker();
+            checkBoxFrom = new CheckBox();
+            checkBoxTo = new CheckBox();
             SuspendLayout();
             // 
             // labelFilterByTag
@@ -63,7 +67,7 @@
             // 
             // buttonApply
             // 
-            buttonApply.Location = new Point(15, 398);
+            buttonApply.Location = new Point(15, 538);
             buttonApply.Name = "buttonApply";
             buttonApply.Size = new Size(75, 23);
             buttonApply.TabIndex = 2;
@@ -73,7 +77,7 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(290, 398);
+            buttonCancel.Location = new Point(290, 538);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(75, 23);
             buttonCancel.TabIndex = 3;
@@ -100,7 +104,7 @@
             // 
             // buttonClear
             // 
-            buttonClear.Location = new Point(96, 398);
+            buttonClear.Location = new Point(96, 538);
             buttonClear.Name = "buttonClear";
             buttonClear.Size = new Size(75, 23);
             buttonClear.TabIndex = 8;
@@ -157,11 +161,55 @@
             checkBoxComment.UseVisualStyleBackColor = true;
             checkBoxComment.CheckedChanged += checkBoxComment_CheckedChanged;
             // 
+            // dateTimePickerFrom
+            // 
+            dateTimePickerFrom.Format = DateTimePickerFormat.Custom;
+            dateTimePickerFrom.Location = new Point(14, 410);
+            dateTimePickerFrom.Name = "dateTimePickerFrom";
+            dateTimePickerFrom.Size = new Size(351, 23);
+            dateTimePickerFrom.TabIndex = 14;
+            dateTimePickerFrom.ValueChanged += dateTimePickerFrom_ValueChanged;
+            // 
+            // dateTimePickerTo
+            // 
+            dateTimePickerTo.Format = DateTimePickerFormat.Custom;
+            dateTimePickerTo.Location = new Point(14, 481);
+            dateTimePickerTo.Name = "dateTimePickerTo";
+            dateTimePickerTo.Size = new Size(350, 23);
+            dateTimePickerTo.TabIndex = 16;
+            dateTimePickerTo.ValueChanged += dateTimePickerTo_ValueChanged;
+            // 
+            // checkBoxFrom
+            // 
+            checkBoxFrom.AutoSize = true;
+            checkBoxFrom.Location = new Point(15, 385);
+            checkBoxFrom.Name = "checkBoxFrom";
+            checkBoxFrom.Size = new Size(57, 19);
+            checkBoxFrom.TabIndex = 17;
+            checkBoxFrom.Text = "From:";
+            checkBoxFrom.UseVisualStyleBackColor = true;
+            checkBoxFrom.CheckedChanged += checkBoxFrom_CheckedChanged;
+            // 
+            // checkBoxTo
+            // 
+            checkBoxTo.AutoSize = true;
+            checkBoxTo.Location = new Point(14, 456);
+            checkBoxTo.Name = "checkBoxTo";
+            checkBoxTo.Size = new Size(42, 19);
+            checkBoxTo.TabIndex = 18;
+            checkBoxTo.Text = "To:";
+            checkBoxTo.UseVisualStyleBackColor = true;
+            checkBoxTo.CheckedChanged += checkBoxTo_CheckedChanged;
+            // 
             // FormFilter
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(385, 432);
+            ClientSize = new Size(375, 573);
+            Controls.Add(checkBoxTo);
+            Controls.Add(checkBoxFrom);
+            Controls.Add(dateTimePickerTo);
+            Controls.Add(dateTimePickerFrom);
             Controls.Add(checkBoxComment);
             Controls.Add(checkBoxPost);
             Controls.Add(labelFilterByType);
@@ -174,6 +222,7 @@
             Controls.Add(buttonApply);
             Controls.Add(checkedListBoxTags);
             Controls.Add(labelFilterByTag);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "FormFilter";
@@ -197,5 +246,9 @@
         private Label labelFilterByType;
         private CheckBox checkBoxPost;
         private CheckBox checkBoxComment;
+        private DateTimePicker dateTimePickerFrom;
+        private DateTimePicker dateTimePickerTo;
+        private CheckBox checkBoxFrom;
+        private CheckBox checkBoxTo;
     }
 }

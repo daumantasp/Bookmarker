@@ -23,12 +23,17 @@ namespace Bookmarker
         private string? typeFilter = null;
         private string[]? groupsFilter = null;
         private string[]? tagsFilter = null;
+        private DateTime? from = null;
+        private DateTime? to = null;
+
         private bool IsFilterApplied
         {
-            get => !string.IsNullOrWhiteSpace(titleFilter) 
+            get => !string.IsNullOrWhiteSpace(titleFilter)
                 || !string.IsNullOrWhiteSpace(typeFilter)
                 || (groupsFilter != null && groupsFilter.Length > 0)
-                || (tagsFilter != null && tagsFilter.Length > 0);
+                || (tagsFilter != null && tagsFilter.Length > 0)
+                || from.HasValue
+                || to.HasValue;
         }
 
         public event Action<string> OnSourcePathSelected;
@@ -340,7 +345,9 @@ namespace Bookmarker
                                                    titleFilter,
                                                    typeFilter,
                                                    (string[]?)groupsFilter?.Clone(),
-                                                   (string[]?)tagsFilter?.Clone()))
+                                                   (string[]?)tagsFilter?.Clone(),
+                                                   from,
+                                                   to))
             {
                 var dialogResult = formFilter.ShowDialog();
 
@@ -350,6 +357,8 @@ namespace Bookmarker
                     typeFilter = formFilter.Type;
                     groupsFilter = formFilter.Groups;
                     tagsFilter = formFilter.Tags;
+                    from = formFilter.From;
+                    to = formFilter.To;
 
                     ReloadBookmarks();
                 }
