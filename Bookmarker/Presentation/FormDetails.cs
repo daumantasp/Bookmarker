@@ -174,7 +174,7 @@ namespace Bookmarker.Presentation
             }
 
             var id = textBoxId.Text.Trim();
-            if (await _bookmarkService.GetByIdAsync(id) != null)
+            if (_bookmarkId == null && await _bookmarkService.GetByIdAsync(id) != null)
             {
                 MessageBox.Show("A bookmark with this ID already exists. Please choose a different ID.", "Duplicate ID", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
