@@ -37,9 +37,6 @@
             buttonClear = new Button();
             labelFilterByGroups = new Label();
             checkedListBoxGroups = new CheckedListBox();
-            labelFilterByType = new Label();
-            checkBoxPost = new CheckBox();
-            checkBoxComment = new CheckBox();
             dateTimePickerFrom = new DateTimePicker();
             dateTimePickerTo = new DateTimePicker();
             checkBoxFrom = new CheckBox();
@@ -49,6 +46,9 @@
             buttonThisWeek = new Button();
             buttonThisMonth = new Button();
             buttonThisYear = new Button();
+            checkBoxType = new CheckBox();
+            radioButtonPost = new RadioButton();
+            radioButtonComment = new RadioButton();
             SuspendLayout();
             // 
             // labelFilterByTag
@@ -134,37 +134,6 @@
             checkedListBoxGroups.Size = new Size(161, 220);
             checkedListBoxGroups.TabIndex = 9;
             checkedListBoxGroups.ItemCheck += checkedListBoxGroups_ItemCheck;
-            // 
-            // labelFilterByType
-            // 
-            labelFilterByType.AutoSize = true;
-            labelFilterByType.Location = new Point(15, 70);
-            labelFilterByType.Name = "labelFilterByType";
-            labelFilterByType.Size = new Size(35, 15);
-            labelFilterByType.TabIndex = 10;
-            labelFilterByType.Text = "Type:";
-            // 
-            // checkBoxPost
-            // 
-            checkBoxPost.AutoSize = true;
-            checkBoxPost.Location = new Point(15, 88);
-            checkBoxPost.Name = "checkBoxPost";
-            checkBoxPost.Size = new Size(49, 19);
-            checkBoxPost.TabIndex = 11;
-            checkBoxPost.Text = "Post";
-            checkBoxPost.UseVisualStyleBackColor = true;
-            checkBoxPost.CheckedChanged += checkBoxPost_CheckedChanged;
-            // 
-            // checkBoxComment
-            // 
-            checkBoxComment.AutoSize = true;
-            checkBoxComment.Location = new Point(82, 88);
-            checkBoxComment.Name = "checkBoxComment";
-            checkBoxComment.Size = new Size(80, 19);
-            checkBoxComment.TabIndex = 12;
-            checkBoxComment.Text = "Comment";
-            checkBoxComment.UseVisualStyleBackColor = true;
-            checkBoxComment.CheckedChanged += checkBoxComment_CheckedChanged;
             // 
             // dateTimePickerFrom
             // 
@@ -256,11 +225,49 @@
             buttonThisYear.UseVisualStyleBackColor = true;
             buttonThisYear.Click += buttonThisYear_Click;
             // 
+            // checkBoxType
+            // 
+            checkBoxType.AutoSize = true;
+            checkBoxType.Location = new Point(15, 63);
+            checkBoxType.Name = "checkBoxType";
+            checkBoxType.Size = new Size(54, 19);
+            checkBoxType.TabIndex = 24;
+            checkBoxType.Text = "Type:";
+            checkBoxType.UseVisualStyleBackColor = true;
+            checkBoxType.CheckedChanged += checkBoxType_CheckedChanged;
+            // 
+            // radioButtonPost
+            // 
+            radioButtonPost.AutoSize = true;
+            radioButtonPost.Location = new Point(21, 88);
+            radioButtonPost.Name = "radioButtonPost";
+            radioButtonPost.Size = new Size(48, 19);
+            radioButtonPost.TabIndex = 25;
+            radioButtonPost.TabStop = true;
+            radioButtonPost.Text = "Post";
+            radioButtonPost.UseVisualStyleBackColor = true;
+            radioButtonPost.CheckedChanged += radioButtonPost_CheckedChanged;
+            // 
+            // radioButtonComment
+            // 
+            radioButtonComment.AutoSize = true;
+            radioButtonComment.Location = new Point(101, 88);
+            radioButtonComment.Name = "radioButtonComment";
+            radioButtonComment.Size = new Size(79, 19);
+            radioButtonComment.TabIndex = 26;
+            radioButtonComment.TabStop = true;
+            radioButtonComment.Text = "Comment";
+            radioButtonComment.UseVisualStyleBackColor = true;
+            radioButtonComment.CheckedChanged += radioButtonComment_CheckedChanged;
+            // 
             // FormFilter
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(375, 624);
+            Controls.Add(radioButtonComment);
+            Controls.Add(radioButtonPost);
+            Controls.Add(checkBoxType);
             Controls.Add(buttonThisYear);
             Controls.Add(buttonThisMonth);
             Controls.Add(buttonThisWeek);
@@ -270,9 +277,6 @@
             Controls.Add(checkBoxFrom);
             Controls.Add(dateTimePickerTo);
             Controls.Add(dateTimePickerFrom);
-            Controls.Add(checkBoxComment);
-            Controls.Add(checkBoxPost);
-            Controls.Add(labelFilterByType);
             Controls.Add(checkedListBoxGroups);
             Controls.Add(buttonClear);
             Controls.Add(labelFilterByGroups);
@@ -303,9 +307,6 @@
         private Button buttonClear;
         private Label labelFilterByGroups;
         private CheckedListBox checkedListBoxGroups;
-        private Label labelFilterByType;
-        private CheckBox checkBoxPost;
-        private CheckBox checkBoxComment;
         private DateTimePicker dateTimePickerFrom;
         private DateTimePicker dateTimePickerTo;
         private CheckBox checkBoxFrom;
@@ -315,5 +316,8 @@
         private Button buttonThisWeek;
         private Button buttonThisMonth;
         private Button buttonThisYear;
+        private CheckBox checkBoxType;
+        private RadioButton radioButtonPost;
+        private RadioButton radioButtonComment;
     }
 }

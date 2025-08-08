@@ -24,7 +24,7 @@ namespace Bookmarker.Presentation
         private DateTime? _to = null;
 
         public string? Title { get => _title; }
-        public string? Type { get => _type; }
+        public string? Type { get => checkBoxType.Checked ? _type : null; }
 
         public string[]? Groups { get => _groups.ToArray(); }
         public string[]? Tags { get => _tags.ToArray(); }
@@ -96,18 +96,27 @@ namespace Bookmarker.Presentation
         {
             if (string.IsNullOrEmpty(_type))
             {
-                checkBoxComment.Checked = true;
-                checkBoxPost.Checked = true;
+                checkBoxType.Checked = false;
+                radioButtonPost.Enabled = false;
+                radioButtonComment.Enabled = false;
             }
-            if (_type == "Comment")
+            else
             {
-                checkBoxComment.Checked = true;
-                checkBoxPost.Checked = false;
+                checkBoxType.Checked = true;
+                radioButtonPost.Enabled = true;
+                radioButtonComment.Enabled = true;
             }
             if (_type == "Post")
             {
-                checkBoxComment.Checked = false;
-                checkBoxPost.Checked = true;
+                radioButtonPost.Checked = true;
+            }
+            else if (_type == "Comment")
+            {
+                radioButtonComment.Checked = true;
+            }
+            else
+            {
+                radioButtonPost.Checked = true;
             }
         }
 
@@ -206,34 +215,6 @@ namespace Bookmarker.Presentation
             Close();
         }
 
-        private void checkBoxPost_CheckedChanged(object sender, EventArgs e)
-        {
-            TypeCheckboxChanged();
-
-
-        }
-
-        private void checkBoxComment_CheckedChanged(object sender, EventArgs e)
-        {
-            TypeCheckboxChanged();
-        }
-
-        private void TypeCheckboxChanged()
-        {
-            if (checkBoxPost.Checked && !checkBoxComment.Checked)
-            {
-                _type = "Post";
-            }
-            if (checkBoxComment.Checked && !checkBoxPost.Checked)
-            {
-                _type = "Comment";
-            }
-            if (checkBoxPost.Checked && checkBoxComment.Checked)
-            {
-                _type = null;
-            }
-        }
-
         private void buttonClear_Click(object sender, EventArgs e)
         {
             textBoxTitle.Text = string.Empty;
@@ -251,8 +232,10 @@ namespace Bookmarker.Presentation
             }
 
             _type = null;
-            checkBoxPost.Checked = true;
-            checkBoxComment.Checked = true;
+            checkBoxType.Checked = false;
+            radioButtonPost.Enabled = false;
+            radioButtonComment.Enabled = false;
+            radioButtonPost.Checked = true;
 
             _from = null;
             checkBoxFrom.Checked = false;
@@ -355,6 +338,28 @@ namespace Bookmarker.Presentation
             _to = today;
             checkBoxFrom.Checked = true;
             checkBoxTo.Checked = true;
+        }
+
+        private void checkBoxType_CheckedChanged(object sender, EventArgs e)
+        {
+            radioButtonPost.Enabled = checkBoxType.Checked;
+            radioButtonComment.Enabled = checkBoxType.Checked;
+        }
+
+        private void radioButtonPost_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButtonPost.Checked)
+            {
+                _type = "Post";
+            }
+        }
+
+        private void radioButtonComment_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButtonComment.Checked) 
+            {
+                _type = "Comment";
+            }
         }
     }
 }
