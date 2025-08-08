@@ -50,8 +50,8 @@
             buttonParseUrl = new Button();
             buttonPaste = new Button();
             label1 = new Label();
-            textBoxCreated = new TextBox();
             labelTagsExample = new Label();
+            dateTimePickerCreated = new DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)dataGridViewTagData).BeginInit();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -261,14 +261,6 @@
             label1.TabIndex = 25;
             label1.Text = "Created:";
             // 
-            // textBoxCreated
-            // 
-            textBoxCreated.Location = new Point(65, 360);
-            textBoxCreated.Name = "textBoxCreated";
-            textBoxCreated.Size = new Size(293, 23);
-            textBoxCreated.TabIndex = 26;
-            textBoxCreated.Validating += textBoxCreated_Validating;
-            // 
             // labelTagsExample
             // 
             labelTagsExample.AutoSize = true;
@@ -279,13 +271,21 @@
             labelTagsExample.TabIndex = 27;
             labelTagsExample.Text = "#būstas, #daiktai, #sportas";
             // 
+            // dateTimePickerCreated
+            // 
+            dateTimePickerCreated.Format = DateTimePickerFormat.Short;
+            dateTimePickerCreated.Location = new Point(65, 360);
+            dateTimePickerCreated.Name = "dateTimePickerCreated";
+            dateTimePickerCreated.Size = new Size(293, 23);
+            dateTimePickerCreated.TabIndex = 28;
+            // 
             // FormDetails
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(651, 441);
+            Controls.Add(dateTimePickerCreated);
             Controls.Add(labelTagsExample);
-            Controls.Add(textBoxCreated);
             Controls.Add(label1);
             Controls.Add(buttonPaste);
             Controls.Add(buttonParseUrl);
@@ -342,7 +342,7 @@
         private Button buttonPaste;
         private Button buttonEditTags;
         private Label label1;
-        private TextBox textBoxCreated;
         private Label labelTagsExample;
+        private DateTimePicker dateTimePickerCreated;
     }
 }

@@ -40,6 +40,8 @@ namespace Bookmarker.Presentation
             InitializeComponent();
             SetFormStyle();
             SetValidators();
+            // TODO: refactor
+            dateTimePickerCreated.MaxDate = DateTime.Today.AddDays(1).AddMilliseconds(-1.0d);
         }
 
         private void FormDetails_Load(object sender, EventArgs e)
@@ -84,7 +86,8 @@ namespace Bookmarker.Presentation
                 textBoxTitle.Text = bookmark.Title;
                 textBoxGroup.Text = bookmark.Group;
                 radioButtonComment.Checked = bookmark.Type.ToLower() == "comment";
-                textBoxCreated.Text = bookmark.Created;
+                // TODO: consider use DateTime in model instead of string
+                dateTimePickerCreated.Value = DateTime.TryParse(bookmark.Created, out DateTime createdDate) ? createdDate : DateTime.Now;
 
                 if (bookmark.Tags != null)
                 {
@@ -131,8 +134,8 @@ namespace Bookmarker.Presentation
                 new ControlValidator<string>(textBoxTags, new TagsValidator(), "Invalid tags format. Use #tag1, #tag2, ..."),
             ]);
             createdValidators.AddRange([
-                new ControlValidator<string>(textBoxCreated, new RequiredValidator(), "Created date cannot be empty."),
-                new ControlValidator<string>(textBoxCreated, new DateValidator(), "Invalid date. Use yyyy-MM-dd format.")
+                new ControlValidator<string>(dateTimePickerCreated, new RequiredValidator(), "Created date cannot be empty."),
+                new ControlValidator<string>(dateTimePickerCreated, new DateValidator(), "Invalid date. Use yyyy-MM-dd format.")
             ]);
         }
 
@@ -186,7 +189,7 @@ namespace Bookmarker.Presentation
                 Tags: string.IsNullOrEmpty(textBoxTags.Text) ?
                     Array.Empty<string>() :
                     textBoxTags.Text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(t => t.Trim().TrimStart('#')).ToArray(),
-                Created: string.IsNullOrWhiteSpace(textBoxCreated.Text) ? null : textBoxCreated.Text.Trim()
+                Created: string.IsNullOrWhiteSpace(dateTimePickerCreated.Text) ? null : dateTimePickerCreated.Text.Trim()
             );
 
             if (_bookmarkId == null)
@@ -243,7 +246,7 @@ namespace Bookmarker.Presentation
 
         private void SetTodayDate()
         {
-            textBoxCreated.Text = DateTime.Now.ToString("yyyy-MM-dd");
+            dateTimePickerCreated.Value = DateTime.Now;
         }
 
         private void dataGridViewTagData_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -309,7 +312,7 @@ namespace Bookmarker.Presentation
         private bool ValidateTitle() => ValidateControl(textBoxTitle, titleValidators);
         private bool ValidateGroup() => ValidateControl(textBoxGroup, groupValidators);
         private bool ValidateTags() => ValidateControl(textBoxTags, tagsValidators);
-        private bool ValidateCreated() => ValidateControl(textBoxCreated, createdValidators);
+        private bool ValidateCreated() => ValidateControl(dateTimePickerCreated, createdValidators);
         private bool ValidateControl(Control control, IEnumerable<IControlValidator<string>> validators)
         {
             foreach (var validator in validators)
