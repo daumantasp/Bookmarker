@@ -257,10 +257,12 @@ namespace Bookmarker.Presentation
             _from = null;
             checkBoxFrom.Checked = false;
             dateTimePickerFrom.Enabled = false;
+            dateTimePickerFrom.Value = DateTime.Now.Date;
 
             _to = null;
             checkBoxTo.Checked = false;
             dateTimePickerTo.Enabled = false;
+            dateTimePickerTo.Value = DateTime.Now.Date;
         }
 
         private void checkBoxFrom_CheckedChanged(object sender, EventArgs e)
@@ -295,6 +297,64 @@ namespace Bookmarker.Presentation
         private void dateTimePickerTo_ValueChanged(object sender, EventArgs e)
         {
             _to = dateTimePickerTo.Value.Date;
+        }
+
+        private void buttonToday_Click(object sender, EventArgs e)
+        {
+            var today = DateTime.Now.Date;
+            dateTimePickerFrom.Value = today;
+            dateTimePickerTo.Value = today;
+            _from = today;
+            _to = today;
+            checkBoxFrom.Checked = true;
+            checkBoxTo.Checked = true;
+        }
+
+        private void buttonYesterday_Click(object sender, EventArgs e)
+        {
+            var yesterday = DateTime.Now.Date.AddDays(-1);
+            dateTimePickerFrom.Value = yesterday;
+            dateTimePickerTo.Value = yesterday;
+            _from = yesterday;
+            _to = yesterday;
+            checkBoxFrom.Checked = true;
+            checkBoxTo.Checked = true;
+        }
+
+        private void buttonThisWeek_Click(object sender, EventArgs e)
+        {
+            var dayOfWeek = DateTime.Now.Date.AddDays(-(int)DateTime.Now.DayOfWeek + 1);
+            var today = DateTime.Now.Date;
+            dateTimePickerFrom.Value = dayOfWeek;
+            dateTimePickerTo.Value = today;
+            _from = dayOfWeek;
+            _to = today;
+            checkBoxFrom.Checked = true;
+            checkBoxTo.Checked = true;
+        }
+
+        private void buttonThisMonth_Click(object sender, EventArgs e)
+        {
+            var startOfTheMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            var today = DateTime.Now.Date;
+            dateTimePickerFrom.Value = startOfTheMonth;
+            dateTimePickerTo.Value = today;
+            _from = startOfTheMonth;
+            _to = today;
+            checkBoxFrom.Checked = true;
+            checkBoxTo.Checked = true;
+        }
+
+        private void buttonThisYear_Click(object sender, EventArgs e)
+        {
+            var startOfTheYear = new DateTime(DateTime.Now.Year, 1, 1);
+            var today = DateTime.Now.Date;
+            dateTimePickerFrom.Value = startOfTheYear;
+            dateTimePickerTo.Value = today;
+            _from = startOfTheYear;
+            _to = today;
+            checkBoxFrom.Checked = true;
+            checkBoxTo.Checked = true;
         }
     }
 }

@@ -44,6 +44,11 @@
             dateTimePickerTo = new DateTimePicker();
             checkBoxFrom = new CheckBox();
             checkBoxTo = new CheckBox();
+            buttonToday = new Button();
+            buttonYesterday = new Button();
+            buttonThisWeek = new Button();
+            buttonThisMonth = new Button();
+            buttonThisYear = new Button();
             SuspendLayout();
             // 
             // labelFilterByTag
@@ -67,7 +72,7 @@
             // 
             // buttonApply
             // 
-            buttonApply.Location = new Point(15, 538);
+            buttonApply.Location = new Point(15, 589);
             buttonApply.Name = "buttonApply";
             buttonApply.Size = new Size(75, 23);
             buttonApply.TabIndex = 2;
@@ -77,7 +82,7 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(290, 538);
+            buttonCancel.Location = new Point(290, 589);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(75, 23);
             buttonCancel.TabIndex = 3;
@@ -104,7 +109,7 @@
             // 
             // buttonClear
             // 
-            buttonClear.Location = new Point(96, 538);
+            buttonClear.Location = new Point(96, 589);
             buttonClear.Name = "buttonClear";
             buttonClear.Size = new Size(75, 23);
             buttonClear.TabIndex = 8;
@@ -201,11 +206,66 @@
             checkBoxTo.UseVisualStyleBackColor = true;
             checkBoxTo.CheckedChanged += checkBoxTo_CheckedChanged;
             // 
+            // buttonToday
+            // 
+            buttonToday.Location = new Point(12, 510);
+            buttonToday.Name = "buttonToday";
+            buttonToday.Size = new Size(52, 23);
+            buttonToday.TabIndex = 19;
+            buttonToday.Text = "Today";
+            buttonToday.UseVisualStyleBackColor = true;
+            buttonToday.Click += buttonToday_Click;
+            // 
+            // buttonYesterday
+            // 
+            buttonYesterday.Location = new Point(70, 510);
+            buttonYesterday.Name = "buttonYesterday";
+            buttonYesterday.Size = new Size(66, 23);
+            buttonYesterday.TabIndex = 20;
+            buttonYesterday.Text = "Yesterday";
+            buttonYesterday.UseVisualStyleBackColor = true;
+            buttonYesterday.Click += buttonYesterday_Click;
+            // 
+            // buttonThisWeek
+            // 
+            buttonThisWeek.Location = new Point(142, 510);
+            buttonThisWeek.Name = "buttonThisWeek";
+            buttonThisWeek.Size = new Size(69, 23);
+            buttonThisWeek.TabIndex = 21;
+            buttonThisWeek.Text = "This Week";
+            buttonThisWeek.UseVisualStyleBackColor = true;
+            buttonThisWeek.Click += buttonThisWeek_Click;
+            // 
+            // buttonThisMonth
+            // 
+            buttonThisMonth.Location = new Point(217, 510);
+            buttonThisMonth.Name = "buttonThisMonth";
+            buttonThisMonth.Size = new Size(77, 23);
+            buttonThisMonth.TabIndex = 22;
+            buttonThisMonth.Text = "This Month";
+            buttonThisMonth.UseVisualStyleBackColor = true;
+            buttonThisMonth.Click += buttonThisMonth_Click;
+            // 
+            // buttonThisYear
+            // 
+            buttonThisYear.Location = new Point(300, 510);
+            buttonThisYear.Name = "buttonThisYear";
+            buttonThisYear.Size = new Size(65, 23);
+            buttonThisYear.TabIndex = 23;
+            buttonThisYear.Text = "This Year";
+            buttonThisYear.UseVisualStyleBackColor = true;
+            buttonThisYear.Click += buttonThisYear_Click;
+            // 
             // FormFilter
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(375, 573);
+            ClientSize = new Size(375, 624);
+            Controls.Add(buttonThisYear);
+            Controls.Add(buttonThisMonth);
+            Controls.Add(buttonThisWeek);
+            Controls.Add(buttonYesterday);
+            Controls.Add(buttonToday);
             Controls.Add(checkBoxTo);
             Controls.Add(checkBoxFrom);
             Controls.Add(dateTimePickerTo);
@@ -250,5 +310,10 @@
         private DateTimePicker dateTimePickerTo;
         private CheckBox checkBoxFrom;
         private CheckBox checkBoxTo;
+        private Button buttonToday;
+        private Button buttonYesterday;
+        private Button buttonThisWeek;
+        private Button buttonThisMonth;
+        private Button buttonThisYear;
     }
 }
