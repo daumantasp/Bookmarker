@@ -54,7 +54,7 @@
             // labelFilterByTag
             // 
             labelFilterByTag.AutoSize = true;
-            labelFilterByTag.Location = new Point(14, 130);
+            labelFilterByTag.Location = new Point(198, 130);
             labelFilterByTag.Name = "labelFilterByTag";
             labelFilterByTag.Size = new Size(34, 15);
             labelFilterByTag.TabIndex = 0;
@@ -64,7 +64,7 @@
             // 
             checkedListBoxTags.CheckOnClick = true;
             checkedListBoxTags.FormattingEnabled = true;
-            checkedListBoxTags.Location = new Point(14, 148);
+            checkedListBoxTags.Location = new Point(198, 148);
             checkedListBoxTags.Name = "checkedListBoxTags";
             checkedListBoxTags.Size = new Size(166, 220);
             checkedListBoxTags.TabIndex = 1;
@@ -120,7 +120,7 @@
             // labelFilterByGroups
             // 
             labelFilterByGroups.AutoSize = true;
-            labelFilterByGroups.Location = new Point(204, 130);
+            labelFilterByGroups.Location = new Point(15, 130);
             labelFilterByGroups.Name = "labelFilterByGroups";
             labelFilterByGroups.Size = new Size(48, 15);
             labelFilterByGroups.TabIndex = 6;
@@ -129,7 +129,7 @@
             // checkedListBoxGroups
             // 
             checkedListBoxGroups.FormattingEnabled = true;
-            checkedListBoxGroups.Location = new Point(204, 148);
+            checkedListBoxGroups.Location = new Point(15, 148);
             checkedListBoxGroups.Name = "checkedListBoxGroups";
             checkedListBoxGroups.Size = new Size(161, 220);
             checkedListBoxGroups.TabIndex = 9;
@@ -264,7 +264,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(375, 624);
+            ClientSize = new Size(379, 624);
             Controls.Add(radioButtonComment);
             Controls.Add(radioButtonPost);
             Controls.Add(checkBoxType);
