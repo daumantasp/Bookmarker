@@ -19,7 +19,7 @@ namespace Bookmarker.Presentation.ViewModels
             string.Join(", ", bookmark.Tags.Select(t => "#" + t)),
             bookmark.Group,
             bookmark.Type,
-            bookmark.Created ?? "-",
+            bookmark.Created.ToString(Constants.DateFormat),
             bookmark.Url)
         { }
 

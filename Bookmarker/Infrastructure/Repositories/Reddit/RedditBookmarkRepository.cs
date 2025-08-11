@@ -1,5 +1,6 @@
 ﻿using Bookmarker.Domain.Interfaces.Repositories;
 using Bookmarker.Domain.Models;
+using Bookmarker.Infrastructure.Data;
 using System.Text.Json;
 
 namespace Bookmarker.Infrastructure.Repositories.Reddit
@@ -26,7 +27,8 @@ namespace Bookmarker.Infrastructure.Repositories.Reddit
                     PropertyNameCaseInsensitive = true
                 };
                 return JsonSerializer
-                    .Deserialize<IEnumerable<Bookmark>>(json, serializerOptions)
+                    .Deserialize<IEnumerable<BookmarkDto>>(json, serializerOptions)
+                    .Select(BookmarkMapper.ToDomain)
                     .ToList() ?? Enumerable.Empty<Bookmark>();
             }
             catch (JsonException ex)
@@ -94,12 +96,16 @@ namespace Bookmarker.Infrastructure.Repositories.Reddit
 
         private async Task SaveBookmarksToJson(IEnumerable<Bookmark> bookmarks)
         {
+            var dtoList = bookmarks
+                .Select(BookmarkMapper.ToDto)
+                .ToList();
+
             var serializerOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 WriteIndented = true
             };
-            var json = JsonSerializer.Serialize(bookmarks, serializerOptions);
+            var json = JsonSerializer.Serialize(dtoList, serializerOptions);
 
             await File.WriteAllTextAsync(_filePath, json);
         }

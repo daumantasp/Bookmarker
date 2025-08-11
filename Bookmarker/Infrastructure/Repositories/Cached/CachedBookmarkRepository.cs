@@ -71,22 +71,13 @@ namespace Bookmarker.Infrastructure.Repositories.Cached
             }
             if (from.HasValue)
             {
-                // TODO: consider using DateTime instead of string for Created property in Bookmark
                 bookmarks = bookmarks
-                    .Where(b => {
-                        DateTime createdAt;
-                        DateTime.TryParseExact(b.Created, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out createdAt);
-                        return createdAt >= from.Value;
-                    });
+                    .Where(b => b.Created >= from.Value);
             }
             if (to.HasValue)
             {
                 bookmarks = bookmarks
-                    .Where(b => {
-                        DateTime createdAt;
-                        DateTime.TryParseExact(b.Created, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out createdAt);
-                        return createdAt <= to.Value;
-                    });
+                    .Where(b => b.Created <= to.Value);
             }
             return bookmarks;
         }

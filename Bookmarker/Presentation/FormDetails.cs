@@ -86,8 +86,7 @@ namespace Bookmarker.Presentation
                 textBoxTitle.Text = bookmark.Title;
                 textBoxGroup.Text = bookmark.Group;
                 radioButtonComment.Checked = bookmark.Type.ToLower() == "comment";
-                // TODO: consider use DateTime in model instead of string
-                dateTimePickerCreated.Value = DateTime.TryParse(bookmark.Created, out DateTime createdDate) ? createdDate : DateTime.Now;
+                dateTimePickerCreated.Value = bookmark.Created;
 
                 if (bookmark.Tags != null)
                 {
@@ -134,8 +133,7 @@ namespace Bookmarker.Presentation
                 new ControlValidator<string>(textBoxTags, new TagsValidator(), "Invalid tags format. Use #tag1, #tag2, ..."),
             ]);
             createdValidators.AddRange([
-                new ControlValidator<string>(dateTimePickerCreated, new RequiredValidator(), "Created date cannot be empty."),
-                new ControlValidator<string>(dateTimePickerCreated, new DateValidator(), "Invalid date. Use yyyy-MM-dd format.")
+                new ControlValidator<string>(dateTimePickerCreated, new RequiredValidator(), "Created date cannot be empty.")
             ]);
         }
 
@@ -189,7 +187,7 @@ namespace Bookmarker.Presentation
                 Tags: string.IsNullOrEmpty(textBoxTags.Text) ?
                     Array.Empty<string>() :
                     textBoxTags.Text.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(t => t.Trim().TrimStart('#')).ToArray(),
-                Created: string.IsNullOrWhiteSpace(dateTimePickerCreated.Text) ? null : dateTimePickerCreated.Text.Trim()
+                Created: dateTimePickerCreated.Value
             );
 
             if (_bookmarkId == null)

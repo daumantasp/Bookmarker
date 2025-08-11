@@ -18,7 +18,7 @@ namespace Bookmarker.Application.Services.BookmarkParserService
                 ParseGroupFromUrl(partsUrl),
                 url,
                 Array.Empty<string>(),
-                string.Empty);
+                DateTime.Now);
         }
 
         private static string[] ParseUrl(string url)
