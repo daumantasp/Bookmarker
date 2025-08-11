@@ -149,7 +149,7 @@ namespace Bookmarker.Presentation
                 checkBoxTo.Checked = false;
                 dateTimePickerTo.Enabled = false;
             }
-            dateTimePickerFrom.MaxDate = DateTime.Now.Date;
+            dateTimePickerTo.MaxDate = DateTime.Now.Date;
         }
 
         private void checkedListBoxTags_ItemCheck(object sender, ItemCheckEventArgs e)
