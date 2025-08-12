@@ -54,7 +54,7 @@
             // labelFilterByTag
             // 
             labelFilterByTag.AutoSize = true;
-            labelFilterByTag.Location = new Point(198, 130);
+            labelFilterByTag.Location = new Point(207, 130);
             labelFilterByTag.Name = "labelFilterByTag";
             labelFilterByTag.Size = new Size(34, 15);
             labelFilterByTag.TabIndex = 0;
@@ -64,7 +64,7 @@
             // 
             checkedListBoxTags.CheckOnClick = true;
             checkedListBoxTags.FormattingEnabled = true;
-            checkedListBoxTags.Location = new Point(198, 148);
+            checkedListBoxTags.Location = new Point(207, 148);
             checkedListBoxTags.Name = "checkedListBoxTags";
             checkedListBoxTags.Size = new Size(166, 220);
             checkedListBoxTags.TabIndex = 1;
@@ -72,7 +72,7 @@
             // 
             // buttonApply
             // 
-            buttonApply.Location = new Point(15, 589);
+            buttonApply.Location = new Point(12, 589);
             buttonApply.Name = "buttonApply";
             buttonApply.Size = new Size(75, 23);
             buttonApply.TabIndex = 2;
@@ -82,7 +82,7 @@
             // 
             // buttonCancel
             // 
-            buttonCancel.Location = new Point(290, 589);
+            buttonCancel.Location = new Point(299, 589);
             buttonCancel.Name = "buttonCancel";
             buttonCancel.Size = new Size(75, 23);
             buttonCancel.TabIndex = 3;
@@ -93,7 +93,7 @@
             // labelFilterByTitle
             // 
             labelFilterByTitle.AutoSize = true;
-            labelFilterByTitle.Location = new Point(14, 9);
+            labelFilterByTitle.Location = new Point(23, 9);
             labelFilterByTitle.Name = "labelFilterByTitle";
             labelFilterByTitle.Size = new Size(33, 15);
             labelFilterByTitle.TabIndex = 4;
@@ -101,7 +101,7 @@
             // 
             // textBoxTitle
             // 
-            textBoxTitle.Location = new Point(14, 27);
+            textBoxTitle.Location = new Point(23, 27);
             textBoxTitle.Name = "textBoxTitle";
             textBoxTitle.Size = new Size(351, 23);
             textBoxTitle.TabIndex = 5;
@@ -109,7 +109,7 @@
             // 
             // buttonClear
             // 
-            buttonClear.Location = new Point(96, 589);
+            buttonClear.Location = new Point(93, 589);
             buttonClear.Name = "buttonClear";
             buttonClear.Size = new Size(75, 23);
             buttonClear.TabIndex = 8;
@@ -120,7 +120,7 @@
             // labelFilterByGroups
             // 
             labelFilterByGroups.AutoSize = true;
-            labelFilterByGroups.Location = new Point(15, 130);
+            labelFilterByGroups.Location = new Point(24, 130);
             labelFilterByGroups.Name = "labelFilterByGroups";
             labelFilterByGroups.Size = new Size(48, 15);
             labelFilterByGroups.TabIndex = 6;
@@ -129,7 +129,7 @@
             // checkedListBoxGroups
             // 
             checkedListBoxGroups.FormattingEnabled = true;
-            checkedListBoxGroups.Location = new Point(15, 148);
+            checkedListBoxGroups.Location = new Point(24, 148);
             checkedListBoxGroups.Name = "checkedListBoxGroups";
             checkedListBoxGroups.Size = new Size(161, 220);
             checkedListBoxGroups.TabIndex = 9;
@@ -138,25 +138,27 @@
             // dateTimePickerFrom
             // 
             dateTimePickerFrom.Format = DateTimePickerFormat.Custom;
-            dateTimePickerFrom.Location = new Point(14, 410);
+            dateTimePickerFrom.Location = new Point(23, 410);
             dateTimePickerFrom.Name = "dateTimePickerFrom";
             dateTimePickerFrom.Size = new Size(351, 23);
             dateTimePickerFrom.TabIndex = 14;
             dateTimePickerFrom.ValueChanged += dateTimePickerFrom_ValueChanged;
+            dateTimePickerFrom.Validating += dateTimePickerFrom_Validating;
             // 
             // dateTimePickerTo
             // 
             dateTimePickerTo.Format = DateTimePickerFormat.Custom;
-            dateTimePickerTo.Location = new Point(14, 481);
+            dateTimePickerTo.Location = new Point(23, 481);
             dateTimePickerTo.Name = "dateTimePickerTo";
             dateTimePickerTo.Size = new Size(350, 23);
             dateTimePickerTo.TabIndex = 16;
             dateTimePickerTo.ValueChanged += dateTimePickerTo_ValueChanged;
+            dateTimePickerTo.Validating += dateTimePickerTo_Validating;
             // 
             // checkBoxFrom
             // 
             checkBoxFrom.AutoSize = true;
-            checkBoxFrom.Location = new Point(15, 385);
+            checkBoxFrom.Location = new Point(24, 385);
             checkBoxFrom.Name = "checkBoxFrom";
             checkBoxFrom.Size = new Size(57, 19);
             checkBoxFrom.TabIndex = 17;
@@ -167,7 +169,7 @@
             // checkBoxTo
             // 
             checkBoxTo.AutoSize = true;
-            checkBoxTo.Location = new Point(14, 456);
+            checkBoxTo.Location = new Point(23, 456);
             checkBoxTo.Name = "checkBoxTo";
             checkBoxTo.Size = new Size(42, 19);
             checkBoxTo.TabIndex = 18;
@@ -177,7 +179,7 @@
             // 
             // buttonToday
             // 
-            buttonToday.Location = new Point(12, 510);
+            buttonToday.Location = new Point(21, 510);
             buttonToday.Name = "buttonToday";
             buttonToday.Size = new Size(52, 23);
             buttonToday.TabIndex = 19;
@@ -187,7 +189,7 @@
             // 
             // buttonYesterday
             // 
-            buttonYesterday.Location = new Point(70, 510);
+            buttonYesterday.Location = new Point(79, 510);
             buttonYesterday.Name = "buttonYesterday";
             buttonYesterday.Size = new Size(66, 23);
             buttonYesterday.TabIndex = 20;
@@ -197,7 +199,7 @@
             // 
             // buttonThisWeek
             // 
-            buttonThisWeek.Location = new Point(142, 510);
+            buttonThisWeek.Location = new Point(151, 510);
             buttonThisWeek.Name = "buttonThisWeek";
             buttonThisWeek.Size = new Size(69, 23);
             buttonThisWeek.TabIndex = 21;
@@ -207,7 +209,7 @@
             // 
             // buttonThisMonth
             // 
-            buttonThisMonth.Location = new Point(217, 510);
+            buttonThisMonth.Location = new Point(226, 510);
             buttonThisMonth.Name = "buttonThisMonth";
             buttonThisMonth.Size = new Size(77, 23);
             buttonThisMonth.TabIndex = 22;
@@ -217,7 +219,7 @@
             // 
             // buttonThisYear
             // 
-            buttonThisYear.Location = new Point(300, 510);
+            buttonThisYear.Location = new Point(309, 510);
             buttonThisYear.Name = "buttonThisYear";
             buttonThisYear.Size = new Size(65, 23);
             buttonThisYear.TabIndex = 23;
@@ -228,7 +230,7 @@
             // checkBoxType
             // 
             checkBoxType.AutoSize = true;
-            checkBoxType.Location = new Point(15, 63);
+            checkBoxType.Location = new Point(24, 63);
             checkBoxType.Name = "checkBoxType";
             checkBoxType.Size = new Size(54, 19);
             checkBoxType.TabIndex = 24;
@@ -239,7 +241,7 @@
             // radioButtonPost
             // 
             radioButtonPost.AutoSize = true;
-            radioButtonPost.Location = new Point(21, 88);
+            radioButtonPost.Location = new Point(30, 88);
             radioButtonPost.Name = "radioButtonPost";
             radioButtonPost.Size = new Size(48, 19);
             radioButtonPost.TabIndex = 25;
@@ -251,7 +253,7 @@
             // radioButtonComment
             // 
             radioButtonComment.AutoSize = true;
-            radioButtonComment.Location = new Point(101, 88);
+            radioButtonComment.Location = new Point(110, 88);
             radioButtonComment.Name = "radioButtonComment";
             radioButtonComment.Size = new Size(79, 19);
             radioButtonComment.TabIndex = 26;
@@ -264,7 +266,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(379, 624);
+            ClientSize = new Size(397, 624);
             Controls.Add(radioButtonComment);
             Controls.Add(radioButtonPost);
             Controls.Add(checkBoxType);

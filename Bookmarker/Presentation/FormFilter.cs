@@ -1,4 +1,6 @@
-﻿using Bookmarker.Domain.Interfaces.Services;
+﻿using Bookmarker.Application.Validators;
+using Bookmarker.Domain.Interfaces.Services;
+using Bookmarker.Domain.Interfaces.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,6 +33,9 @@ namespace Bookmarker.Presentation
         public DateTime? From { get => checkBoxFrom.Checked ? _from : null; }
         public DateTime? To { get => checkBoxTo.Checked ? _to : null; }
 
+        private IControlValidator<DateTime, DateTime> fromDateValidator;
+        private ErrorProvider errorProvider = new ErrorProvider();
+
         public FormFilter(ITagService tagService,
                           IGroupService groupService,
                           string? title,
@@ -58,6 +63,7 @@ namespace Bookmarker.Presentation
             SetTags();
             SetFrom();
             SetTo();
+            SetValidators();
         }
 
         private void SetTitle()
@@ -152,6 +158,15 @@ namespace Bookmarker.Presentation
             dateTimePickerTo.MaxDate = DateTime.Now.Date;
         }
 
+        private void SetValidators()
+        {
+            fromDateValidator = new ControlValidator<DateTime, DateTime>(
+                dateTimePickerFrom,
+                new DateRangeValidator(),
+                "The 'From' date must be earlier than or equal to the 'To' date."
+            );
+        }
+
         private void checkedListBoxTags_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             var tag = checkedListBoxTags.Items[e.Index].ToString();
@@ -205,6 +220,12 @@ namespace Bookmarker.Presentation
 
         private void buttonApply_Click(object sender, EventArgs e)
         {
+            if (!ValidateFromDate())
+            {
+                MessageBox.Show("Please correct the errors in the form.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -275,11 +296,13 @@ namespace Bookmarker.Presentation
         private void dateTimePickerFrom_ValueChanged(object sender, EventArgs e)
         {
             _from = dateTimePickerFrom.Value.Date;
+            ValidateFromDate();
         }
 
         private void dateTimePickerTo_ValueChanged(object sender, EventArgs e)
         {
             _to = dateTimePickerTo.Value.Date;
+            ValidateFromDate();
         }
 
         private void buttonToday_Click(object sender, EventArgs e)
@@ -356,10 +379,40 @@ namespace Bookmarker.Presentation
 
         private void radioButtonComment_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButtonComment.Checked) 
+            if (radioButtonComment.Checked)
             {
                 _type = "Comment";
             }
+        }
+
+        private bool ValidateFromDate()
+        {
+            if (fromDateValidator == null) return true;
+
+            if (checkBoxFrom.Checked && checkBoxTo.Checked)
+            {
+                if (_from != null && _to != null && _from.HasValue && _to.HasValue)
+                {
+                    var validationResult = fromDateValidator.Validate(_from.Value, _to.Value);
+                    if (!validationResult.IsValid)
+                    {
+                        errorProvider.SetError(dateTimePickerTo, validationResult.ErrorMessage);
+                        return false;
+                    }
+                }
+            }
+            errorProvider.SetError(dateTimePickerTo, string.Empty);
+            return true;
+        }
+
+        private void dateTimePickerFrom_Validating(object sender, CancelEventArgs e)
+        {
+            ValidateFromDate();
+        }
+
+        private void dateTimePickerTo_Validating(object sender, CancelEventArgs e)
+        {
+            ValidateFromDate();
         }
     }
 }
