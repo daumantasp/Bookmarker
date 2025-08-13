@@ -436,6 +436,11 @@ namespace Bookmarker
             UpdateUI();
         }
 
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Bookmarker 2025\nVersion 1.0\nAny suggestions or feedback? Email me daumantasp@gmail.com", "About Bookmarker", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         private void SetFormTitle()
         {
             if (dataGridView1.SelectedRows.Count > 0)

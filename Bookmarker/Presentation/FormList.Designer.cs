@@ -43,6 +43,7 @@
             openToolStripMenuItem = new ToolStripMenuItem();
             openDirectoryToolStripMenuItem = new ToolStripMenuItem();
             buttonFilter = new Button();
+            aboutToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -138,7 +139,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, aboutToolStripMenuItem });
             menuStrip1.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
@@ -156,28 +157,28 @@
             // newToolStripMenuItem
             // 
             newToolStripMenuItem.Name = "newToolStripMenuItem";
-            newToolStripMenuItem.Size = new Size(154, 22);
+            newToolStripMenuItem.Size = new Size(180, 22);
             newToolStripMenuItem.Text = "New";
             newToolStripMenuItem.Click += newToolStripMenuItem_Click;
             // 
             // browseToolStripMenuItem
             // 
             browseToolStripMenuItem.Name = "browseToolStripMenuItem";
-            browseToolStripMenuItem.Size = new Size(154, 22);
+            browseToolStripMenuItem.Size = new Size(180, 22);
             browseToolStripMenuItem.Text = "Browse";
             browseToolStripMenuItem.Click += browseToolStripMenuItem_Click;
             // 
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(154, 22);
+            openToolStripMenuItem.Size = new Size(180, 22);
             openToolStripMenuItem.Text = "Open Source";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // openDirectoryToolStripMenuItem
             // 
             openDirectoryToolStripMenuItem.Name = "openDirectoryToolStripMenuItem";
-            openDirectoryToolStripMenuItem.Size = new Size(154, 22);
+            openDirectoryToolStripMenuItem.Size = new Size(180, 22);
             openDirectoryToolStripMenuItem.Text = "Open Directory";
             openDirectoryToolStripMenuItem.Click += openDirectoryToolStripMenuItem_Click;
             // 
@@ -191,6 +192,13 @@
             buttonFilter.Text = "Filter";
             buttonFilter.UseVisualStyleBackColor = true;
             buttonFilter.Click += buttonFilter_Click;
+            // 
+            // aboutToolStripMenuItem
+            // 
+            aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            aboutToolStripMenuItem.Size = new Size(52, 20);
+            aboutToolStripMenuItem.Text = "About";
+            aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
             // FormList
             // 
@@ -234,5 +242,6 @@
         private ToolStripMenuItem openToolStripMenuItem;
         private ToolStripMenuItem openDirectoryToolStripMenuItem;
         private Button buttonFilter;
+        private ToolStripMenuItem aboutToolStripMenuItem;
     }
 }
