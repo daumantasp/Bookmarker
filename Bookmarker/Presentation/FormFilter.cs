@@ -1,6 +1,7 @@
 ﻿using Bookmarker.Application.Validators;
 using Bookmarker.Domain.Interfaces.Services;
 using Bookmarker.Domain.Interfaces.Validation;
+using Bookmarker.Domain.Interfaces.Validators;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,8 +34,10 @@ namespace Bookmarker.Presentation
         public DateTime? From { get => checkBoxFrom.Checked ? _from : null; }
         public DateTime? To { get => checkBoxTo.Checked ? _to : null; }
 
-        private IControlValidator<DateTime, DateTime> fromDateValidator;
         private ErrorProvider errorProvider = new ErrorProvider();
+
+        private List<IControlValidator<string>> titleValidators = new List<IControlValidator<string>>();
+        private IControlValidator<DateTime, DateTime> fromDateValidator;
 
         public FormFilter(ITagService tagService,
                           IGroupService groupService,
@@ -57,6 +60,7 @@ namespace Bookmarker.Presentation
             _from = from;
             _to = to;
 
+            SetFormStyle();
             SetTitle();
             SetType();
             SetGroup();
@@ -64,6 +68,14 @@ namespace Bookmarker.Presentation
             SetFrom();
             SetTo();
             SetValidators();
+        }
+
+        private void SetFormStyle()
+        {
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            errorProvider.BlinkStyle = ErrorBlinkStyle.NeverBlink;
         }
 
         private void SetTitle()
@@ -160,6 +172,10 @@ namespace Bookmarker.Presentation
 
         private void SetValidators()
         {
+            titleValidators.AddRange([
+                new ControlValidator<string>(textBoxTitle, new MinLengthValidator(3), "Title must be at least 3 characters long."),
+                new ControlValidator<string>(textBoxTitle, new MaxLengthValidator(100), "Title cannot exceed 45 characters.")
+            ]);
             fromDateValidator = new ControlValidator<DateTime, DateTime>(
                 dateTimePickerFrom,
                 new DateRangeValidator(),
@@ -220,7 +236,7 @@ namespace Bookmarker.Presentation
 
         private void buttonApply_Click(object sender, EventArgs e)
         {
-            if (!ValidateFromDate())
+            if (!ValidateAllFields())
             {
                 MessageBox.Show("Please correct the errors in the form.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -413,6 +429,37 @@ namespace Bookmarker.Presentation
         private void dateTimePickerTo_Validating(object sender, CancelEventArgs e)
         {
             ValidateFromDate();
+        }
+
+        private bool ValidateTitle()
+        {
+            if (string.IsNullOrEmpty(_title)) 
+                return true;
+            else 
+                return ValidateControl(textBoxTitle, titleValidators);
+        }
+
+        private bool ValidateControl(Control control, IEnumerable<IControlValidator<string>> validators)
+        {
+            foreach (var validator in validators)
+            {
+                var validationResult = validator.Validate(control.Text.Trim());
+                if (!validationResult.IsValid)
+                {
+                    errorProvider.SetError(control, validationResult.ErrorMessage);
+                    return false;
+                }
+            }
+            errorProvider.SetError(control, string.Empty);
+            return true;
+        }
+
+        private bool ValidateAllFields()
+        {
+            // Validate all fields before saving
+            // without short-circuiting to ensure all errors are shown at once
+            return ValidateTitle() &
+                   ValidateFromDate();
         }
     }
 }
