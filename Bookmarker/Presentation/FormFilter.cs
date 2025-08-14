@@ -30,7 +30,7 @@ namespace Bookmarker.Presentation
         public string? Type { get => checkBoxType.Checked ? _type : null; }
 
         public string[]? Groups { get => _groups.ToArray(); }
-        public string[]? Tags { get => _tags.Select(t => t.Substring(1)).ToArray(); }
+        public string[]? Tags { get => _tags.ToArray(); }
         public DateTime? From { get => checkBoxFrom.Checked ? _from : null; }
         public DateTime? To { get => checkBoxTo.Checked ? _to : null; }
 
@@ -56,7 +56,7 @@ namespace Bookmarker.Presentation
             _title = title;
             _type = type;
             _groups = new List<string>(groups ?? []);
-            _tags = new List<string>(tags?.Select(t => "#" + t) ?? []);
+            _tags = new List<string>(tags ?? []);
             _from = from;
             _to = to;
 
@@ -106,8 +106,7 @@ namespace Bookmarker.Presentation
 
             foreach (var tag in tagData)
             {
-                var tagName = "#" + tag.Name;
-                checkedListBoxTags.Items.Add(tagName, _tags.Contains(tagName));
+                checkedListBoxTags.Items.Add(tag.Name, _tags.Contains(tag.Name));
             }
         }
 
