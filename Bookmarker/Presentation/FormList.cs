@@ -58,6 +58,7 @@ namespace Bookmarker
             _groupService = groupService;
             textBoxFileDir.Text = sourcePath;
 
+            ClearFilter();
             ReloadBookmarks();
         }
 
@@ -105,6 +106,16 @@ namespace Bookmarker
             bindingSource.DataSource = null;
             bindingSource.Clear();
             dataTable.Clear();
+        }
+
+        private void ClearFilter()
+        {
+            titleFilter = null;
+            typeFilter = null;
+            groupsFilter = null;
+            tagsFilter = null;
+            from = null;
+            to = null;
         }
 
         private void UpdateUI()
