@@ -2,15 +2,9 @@
 using Bookmarker.Domain.Interfaces.Services;
 using Bookmarker.Domain.Interfaces.Validation;
 using Bookmarker.Domain.Interfaces.Validators;
-using System;
-using System.Collections.Generic;
+using Bookmarker.Presentation.ViewModels;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Bookmarker.Presentation
 {
@@ -102,7 +96,7 @@ namespace Bookmarker.Presentation
 
         private async void SetTags()
         {
-            var tagData = await _tagService.GetAllTagDataAsync(TagsDataOrder.Name);
+            var tagData = (await _tagService.GetAllTagDataAsync(TagsDataOrder.Name)).Select(t => new TagDataViewModel(t));
 
             foreach (var tag in tagData)
             {

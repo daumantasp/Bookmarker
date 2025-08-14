@@ -3,6 +3,7 @@ using Bookmarker.Domain.Interfaces.Services;
 using Bookmarker.Domain.Interfaces.Validation;
 using Bookmarker.Domain.Interfaces.Validators;
 using Bookmarker.Domain.Models;
+using Bookmarker.Presentation.ViewModels;
 using System.ComponentModel;
 using System.Data;
 
@@ -60,10 +61,11 @@ namespace Bookmarker.Presentation
 
         private async void LoadTagData()
         {
-            var tagData = await _tagService.GetAllTagDataAsync(order);
+            var tagData = (await _tagService.GetAllTagDataAsync(order))
+                .Select(td => new TagDataViewModel(td));
 
             dataGridViewTagData.DataSource = null;
-            dataGridViewTagData.DataSource = tagData;
+            dataGridViewTagData.DataSource = tagData.ToList();
         }
 
         private async void LoadBookmarkData()
@@ -79,25 +81,27 @@ namespace Bookmarker.Presentation
 
             if (bookmark != null)
             {
-                Text = "Edit Bookmark - " + bookmark.Title;
+                var bookmarkViewModel = new BookmarkViewModel(bookmark);
 
-                textBoxId.Text = bookmark.Id;
-                textBoxUrl.Text = bookmark.Url;
-                textBoxTitle.Text = bookmark.Title;
-                textBoxGroup.Text = bookmark.Group;
-                radioButtonComment.Checked = bookmark.Type.ToLower() == "comment";
-                dateTimePickerCreated.Value = bookmark.Created;
+                Text = "Edit Bookmark - " + bookmarkViewModel.Title;
 
-                if (bookmark.Tags != null)
+                textBoxId.Text = bookmarkViewModel.Id;
+                textBoxUrl.Text = bookmarkViewModel.Url;
+                textBoxTitle.Text = bookmarkViewModel.Title;
+                textBoxGroup.Text = bookmarkViewModel.Group;
+                radioButtonComment.Checked = bookmarkViewModel.Type.ToLower() == "comment";
+                dateTimePickerCreated.Value = bookmarkViewModel.Created;
+
+                if (bookmarkViewModel.Tags != null)
                 {
                     currentTags.Clear();
-                    currentTags.AddRange(bookmark.Tags);
+                    currentTags.AddRange(bookmarkViewModel.Tags);
 
-                    textBoxTags.Text = string.Join(", ", bookmark.Tags.Select(t => "#" + t));
+                    textBoxTags.Text = string.Join(", ", bookmarkViewModel.Tags);
 
                     foreach (DataGridViewRow row in dataGridViewTagData.Rows)
                     {
-                        row.Selected = bookmark.Tags.Contains(row.Cells["Name"].Value);
+                        row.Selected = bookmarkViewModel.Tags.Contains(row.Cells["Name"].Value);
                     }
                 }
                 else
@@ -220,7 +224,8 @@ namespace Bookmarker.Presentation
 
             if (filter.Length > 3)
             {
-                var tagData = await _tagService.GetTagDataAsync(order, filter);
+                var tagData = (await _tagService.GetTagDataAsync(order, filter))
+                    .Select(td => new TagDataViewModel(td));
 
                 dataGridViewTagData.DataSource = null;
                 dataGridViewTagData.DataSource = tagData.ToList();
@@ -249,9 +254,6 @@ namespace Bookmarker.Presentation
 
         private void dataGridViewTagData_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            //if (e.RowIndex < 0 || e.RowIndex >= dataGridViewTagData.Rows.Count)
-            //    return;
-
             var tagName = dataGridViewTagData.Rows[e.RowIndex].Cells["Name"].Value.ToString();
 
             if (!string.IsNullOrEmpty(tagName))
@@ -259,7 +261,7 @@ namespace Bookmarker.Presentation
                 if (!currentTags.Contains(tagName))
                     currentTags.Add(tagName);
 
-                textBoxTags.Text = string.Join(", ", currentTags.Select(t => "#" + t));
+                textBoxTags.Text = string.Join(", ", currentTags);
             }
         }
 

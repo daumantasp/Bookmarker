@@ -1,6 +1,4 @@
-﻿using Bookmarker.Domain.Models;
-
-namespace Bookmarker.Presentation.ViewModels
+﻿namespace Bookmarker.Presentation.ViewModels
 {
     internal class BookmarkGridModel(
         int rowNo,
@@ -12,15 +10,15 @@ namespace Bookmarker.Presentation.ViewModels
         string created,
         string url)
     {
-        public BookmarkGridModel(int rowNo, Bookmark bookmark) : this(
+        public BookmarkGridModel(int rowNo, BookmarkViewModel bookmarkViewModel) : this(
             rowNo,
-            bookmark.Id,
-            bookmark.Title,
-            string.Join(", ", bookmark.Tags.Select(t => "#" + t)),
-            bookmark.Group,
-            bookmark.Type,
-            bookmark.Created.ToString(Constants.DateFormat),
-            bookmark.Url)
+            bookmarkViewModel.Id,
+            bookmarkViewModel.Title,
+            string.Join(", ", bookmarkViewModel.Tags),
+            bookmarkViewModel.Group,
+            bookmarkViewModel.Type,
+            bookmarkViewModel.Created.ToString(Constants.DateFormat),
+            bookmarkViewModel.Url)
         { }
 
         public int RowNo { get; } = rowNo;
@@ -31,6 +29,5 @@ namespace Bookmarker.Presentation.ViewModels
         public string Type { get; } = type;
         public string Created { get; } = created;
         public string Url { get; } = url;
-
     }
 }

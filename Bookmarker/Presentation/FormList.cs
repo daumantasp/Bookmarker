@@ -4,7 +4,6 @@ using Bookmarker.Domain.Interfaces.Services;
 using System.Data;
 using Bookmarker.Infrastructure.SourceSelector;
 using Bookmarker.Presentation.Shared;
-using Bookmarker.Domain.Models;
 
 namespace Bookmarker
 {
@@ -135,14 +134,15 @@ namespace Bookmarker
 
             try
             {
-                IEnumerable<Bookmark> bookmarks;
+                IEnumerable<BookmarkViewModel> bookmarks;
                 if (IsFilterApplied)
                 {
-                    bookmarks = await _bookmarkService.GetAllAsync(titleFilter, typeFilter, groupsFilter, tagsFilter, from, to);
+                    bookmarks = (await _bookmarkService.GetAllAsync(titleFilter, typeFilter, groupsFilter, tagsFilter?.Select(t => t.Substring(1)).ToArray(), from, to))
+                        .Select(b => new BookmarkViewModel(b));
                 }
                 else
                 {
-                    bookmarks = await _bookmarkService.GetAllAsync();
+                    bookmarks = (await _bookmarkService.GetAllAsync()).Select(b => new BookmarkViewModel(b));
                 }
 
                 var counter = 0;
@@ -197,7 +197,7 @@ namespace Bookmarker
             {
                 var bookmarkGridModel = new BookmarkGridModel(
                     dataTable.Rows.Count + 1,
-                    bookmark);
+                    new BookmarkViewModel(bookmark));
 
                 AddBookmarkGridModelToDataTable(bookmarkGridModel);
             }
@@ -214,7 +214,7 @@ namespace Bookmarker
                 {
                     var updatedBookmarkGridModel = new BookmarkGridModel(
                         index + 1,
-                        bookmark);
+                        new BookmarkViewModel(bookmark));
 
                     UpdateBookmarkGridModelToDataTable(updatedBookmarkGridModel);
                 }
