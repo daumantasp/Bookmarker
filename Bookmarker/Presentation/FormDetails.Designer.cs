@@ -220,9 +220,9 @@
             labelSearch.AutoSize = true;
             labelSearch.Location = new Point(382, 393);
             labelSearch.Name = "labelSearch";
-            labelSearch.Size = new Size(90, 15);
+            labelSearch.Size = new Size(88, 15);
             labelSearch.TabIndex = 21;
-            labelSearch.Text = "Search for Tags:";
+            labelSearch.Text = "Search for tags:";
             // 
             // textBoxSearchTags
             // 
@@ -267,9 +267,9 @@
             labelTagsExample.Font = new Font("Segoe UI", 8.25F, FontStyle.Italic, GraphicsUnit.Point, 0);
             labelTagsExample.Location = new Point(65, 338);
             labelTagsExample.Name = "labelTagsExample";
-            labelTagsExample.Size = new Size(135, 13);
+            labelTagsExample.Size = new Size(134, 13);
             labelTagsExample.TabIndex = 27;
-            labelTagsExample.Text = "#būstas, #daiktai, #sportas";
+            labelTagsExample.Text = "#car, #real_estate, #health";
             // 
             // dateTimePickerCreated
             // 
