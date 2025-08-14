@@ -1,4 +1,5 @@
 ﻿using Bookmarker.Infrastructure.SourceSelector;
+using System.Windows.Forms;
 
 namespace Bookmarker.Presentation
 {
@@ -9,6 +10,14 @@ namespace Bookmarker.Presentation
         public DialogStart()
         {
             InitializeComponent();
+            SetFormStyle();
+        }
+
+        private void SetFormStyle()
+        {
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
         }
 
         private void buttonCreate_Click(object sender, EventArgs e)
