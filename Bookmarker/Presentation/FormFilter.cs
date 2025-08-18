@@ -2,6 +2,7 @@
 using Bookmarker.Domain.Interfaces.Services;
 using Bookmarker.Domain.Interfaces.Validation;
 using Bookmarker.Domain.Interfaces.Validators;
+using Bookmarker.Domain.Models;
 using Bookmarker.Presentation.ViewModels;
 using System.ComponentModel;
 using System.Data;
@@ -14,14 +15,14 @@ namespace Bookmarker.Presentation
         private readonly IGroupService _groupService;
 
         private string? _title = null;
-        private string? _type = null;
+        private BookmarkType? _type = null;
         private List<string> _groups;
         private List<string> _tags;
         private DateTime? _from = null;
         private DateTime? _to = null;
 
         public string? Title { get => _title; }
-        public string? Type { get => checkBoxType.Checked ? _type : null; }
+        public BookmarkType? Type { get => checkBoxType.Checked ? _type : null; }
 
         public string[]? Groups { get => _groups.ToArray(); }
         public string[]? Tags { get => _tags.ToArray(); }
@@ -36,7 +37,7 @@ namespace Bookmarker.Presentation
         public FormFilter(ITagService tagService,
                           IGroupService groupService,
                           string? title,
-                          string? type,
+                          BookmarkType? type,
                           string[]? groups,
                           string[]? tags,
                           DateTime? from,
@@ -106,7 +107,7 @@ namespace Bookmarker.Presentation
 
         private void SetType()
         {
-            if (string.IsNullOrEmpty(_type))
+            if (_type == null)
             {
                 checkBoxType.Checked = false;
                 radioButtonPost.Enabled = false;
@@ -118,11 +119,11 @@ namespace Bookmarker.Presentation
                 radioButtonPost.Enabled = true;
                 radioButtonComment.Enabled = true;
             }
-            if (_type == "Post")
+            if (_type == BookmarkType.Post)
             {
                 radioButtonPost.Checked = true;
             }
-            else if (_type == "Comment")
+            else if (_type == BookmarkType.Comment)
             {
                 radioButtonComment.Checked = true;
             }
@@ -383,7 +384,7 @@ namespace Bookmarker.Presentation
         {
             if (radioButtonPost.Checked)
             {
-                _type = "Post";
+                _type = BookmarkType.Post;
             }
         }
 
@@ -391,7 +392,7 @@ namespace Bookmarker.Presentation
         {
             if (radioButtonComment.Checked)
             {
-                _type = "Comment";
+                _type = BookmarkType.Comment;
             }
         }
 

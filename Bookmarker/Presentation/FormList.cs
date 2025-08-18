@@ -4,6 +4,7 @@ using Bookmarker.Domain.Interfaces.Services;
 using System.Data;
 using Bookmarker.Infrastructure.SourceSelector;
 using Bookmarker.Presentation.Shared;
+using Bookmarker.Domain.Models;
 
 namespace Bookmarker
 {
@@ -19,7 +20,7 @@ namespace Bookmarker
         private DataTable dataTable = new DataTable();
 
         private string? titleFilter = null;
-        private string? typeFilter = null;
+        private BookmarkType? typeFilter = null;
         private string[]? groupsFilter = null;
         private string[]? tagsFilter = null;
         private DateTime? from = null;
@@ -28,7 +29,7 @@ namespace Bookmarker
         private bool IsFilterApplied
         {
             get => !string.IsNullOrWhiteSpace(titleFilter)
-                || !string.IsNullOrWhiteSpace(typeFilter)
+                || typeFilter != null
                 || (groupsFilter != null && groupsFilter.Length > 0)
                 || (tagsFilter != null && tagsFilter.Length > 0)
                 || from.HasValue

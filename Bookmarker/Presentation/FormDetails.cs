@@ -89,7 +89,7 @@ namespace Bookmarker.Presentation
                 textBoxUrl.Text = bookmarkViewModel.Url;
                 textBoxTitle.Text = bookmarkViewModel.Title;
                 textBoxGroup.Text = bookmarkViewModel.Group;
-                radioButtonComment.Checked = bookmarkViewModel.Type.ToLower() == "comment";
+                radioButtonComment.Checked = bookmarkViewModel.Type == BookmarkType.Comment;
                 dateTimePickerCreated.Value = bookmarkViewModel.Created;
 
                 if (bookmarkViewModel.Tags != null)
@@ -158,7 +158,7 @@ namespace Bookmarker.Presentation
                 textBoxId.Text = bookmark.Id;
                 textBoxTitle.Text = bookmark.Title;
                 textBoxGroup.Text = bookmark.Group;
-                if (bookmark.Type.ToLower() == "comment")
+                if (bookmark.Type == BookmarkType.Comment)
                     radioButtonComment.Checked = true;
                 else
                     radioButtonPost.Checked = true;
@@ -184,7 +184,7 @@ namespace Bookmarker.Presentation
 
             var bookmark = new Bookmark(
                 Id: id,
-                Type: radioButtonPost.Checked ? "post" : "comment",
+                Type: radioButtonPost.Checked ? BookmarkType.Post : BookmarkType.Comment,
                 Title: textBoxTitle.Text.Trim(),
                 Group: textBoxGroup.Text.Trim(),
                 Url: textBoxUrl.Text.Trim(),

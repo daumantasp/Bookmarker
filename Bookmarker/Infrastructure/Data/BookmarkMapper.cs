@@ -21,7 +21,7 @@ namespace Bookmarker.Infrastructure.Data
 
             return new Bookmark(
                 dto.Id,
-                dto.Type,
+                dto.Type == "P" ? BookmarkType.Post : BookmarkType.Comment,
                 dto.Title,
                 dto.Group,
                 dto.Url,
@@ -34,7 +34,7 @@ namespace Bookmarker.Infrastructure.Data
             return new BookmarkDto
             {
                 Id = bookmark.Id,
-                Type = bookmark.Type,
+                Type = bookmark.Type == BookmarkType.Post ? "P" : "C",
                 Title = bookmark.Title,
                 Group = bookmark.Group,
                 Url = bookmark.Url,

@@ -3,7 +3,7 @@
 namespace Bookmarker.Presentation.ViewModels
 {
     internal class BookmarkViewModel(string Id,
-                          string Type,
+                          BookmarkType Type,
                           string Title,
                           string Group,
                           string Url,
@@ -11,7 +11,7 @@ namespace Bookmarker.Presentation.ViewModels
                           DateTime Created)
     {
         public string Id { get; } = Id;
-        public string Type { get; } = Type;
+        public BookmarkType Type { get; } = Type;
         public string Title { get; } = Title;
         public string Group { get; } = Group;
         public string Url { get; } = Url;

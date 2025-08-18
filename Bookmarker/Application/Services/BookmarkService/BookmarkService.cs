@@ -13,7 +13,7 @@ namespace Bookmarker.Application.Services.BookmarkService
             return _repo.GetAllAsync();
         }
 
-        public Task<IEnumerable<Bookmark>> GetAllAsync(string? title, string? type, string[]? groups, string[]? tags, DateTime? from, DateTime? to)
+        public Task<IEnumerable<Bookmark>> GetAllAsync(string? title, BookmarkType? type, string[]? groups, string[]? tags, DateTime? from, DateTime? to)
         {
             return _repo.GetAllAsync(title, type, groups, tags, from, to);
         }

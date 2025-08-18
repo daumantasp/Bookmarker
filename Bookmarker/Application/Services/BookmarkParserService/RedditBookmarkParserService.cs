@@ -65,13 +65,13 @@ namespace Bookmarker.Application.Services.BookmarkParserService
             return group;
         }
 
-        private static string ParseTypeFromUrl(string[] partsUrl)
+        private static BookmarkType ParseTypeFromUrl(string[] partsUrl)
         {
-            var type = "post";
+            var type = BookmarkType.Post;
 
             if (partsUrl.Length > 7)
             {
-                type = "comment";
+                type = BookmarkType.Comment;
             }
 
             return type;

@@ -46,7 +46,7 @@ namespace Bookmarker.Infrastructure.Repositories.Cached
             return _cachedBookmarks;
         }
 
-        public async Task<IEnumerable<Bookmark>> GetAllAsync(string? title, string? type, string[]? groups, string[]? tags, DateTime? from, DateTime? to)
+        public async Task<IEnumerable<Bookmark>> GetAllAsync(string? title, BookmarkType? type, string[]? groups, string[]? tags, DateTime? from, DateTime? to)
         {
             var bookmarks = await GetAllAsync();
             if (!string.IsNullOrEmpty(title))
@@ -54,10 +54,10 @@ namespace Bookmarker.Infrastructure.Repositories.Cached
                 bookmarks = bookmarks
                     .Where(b => b.Title.Contains(title, StringComparison.OrdinalIgnoreCase));
             }
-            if (!string.IsNullOrEmpty(type))
+            if (type != null)
             {
                 bookmarks = bookmarks
-                    .Where(b => b.Type.Equals(type, StringComparison.OrdinalIgnoreCase));
+                    .Where(b => b.Type == type);
             }
             if (groups != null && groups.Length > 0)
             {

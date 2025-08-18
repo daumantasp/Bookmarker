@@ -1,4 +1,6 @@
-﻿namespace Bookmarker.Presentation.ViewModels
+﻿using Bookmarker.Domain.Models;
+
+namespace Bookmarker.Presentation.ViewModels
 {
     internal class BookmarkGridModel(
         int rowNo,
@@ -6,7 +8,7 @@
         string title,
         string tags,
         string group,
-        string type,
+        BookmarkType type,
         string created,
         string url)
     {
@@ -26,7 +28,7 @@
         public string Title { get; } = title;
         public string Tags { get; } = tags;
         public string Group { get; } = group;
-        public string Type { get; } = type;
+        public BookmarkType Type { get; } = type;
         public string Created { get; } = created;
         public string Url { get; } = url;
     }

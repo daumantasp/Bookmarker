@@ -1,7 +1,7 @@
 ﻿namespace Bookmarker.Domain.Models
 {
     public class Bookmark(string Id,
-                          string Type,
+                          BookmarkType Type,
                           string Title,
                           string Group,
                           string Url,
@@ -9,7 +9,7 @@
                           DateTime Created)
     {
         public string Id { get; } = Id;
-        public string Type { get; } = Type;
+        public BookmarkType Type { get; } = Type;
         public string Title { get; } = Title;
         public string Group { get; } = Group;
         public string Url { get; } = Url;
