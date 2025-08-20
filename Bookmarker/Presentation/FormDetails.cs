@@ -84,6 +84,7 @@ namespace Bookmarker.Presentation
                 var bookmarkViewModel = new BookmarkViewModel(bookmark);
 
                 Text = "Edit Bookmark - " + bookmarkViewModel.Title;
+                textBoxId.Enabled = false;
 
                 textBoxId.Text = bookmarkViewModel.Id;
                 textBoxUrl.Text = bookmarkViewModel.Url;
